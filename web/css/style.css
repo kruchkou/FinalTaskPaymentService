@@ -1,0 +1,45 @@
+.header {
+    margin: 0 auto;
+    padding: 0 15px;
+    max-width: 1600px;
+}
+
+.login_label {
+    font-size: 3em;
+    margin: 0 auto;
+    align-items: center;
+    display: flex;
+    text-align: center;
+}
+
+.login_form {
+    display: flex;
+    align-items: center;
+}
+
+.container {
+    margin: 0 auto;
+    padding: 0 15px;
+    max-width: 1300px;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+table {
+    font-size: 2em;
+    border-spacing: 64px 64px;
+    text-align: center;
+
+}
+
+tr {
+    outline: thin solid;
+}
+
+.login {
+    font-size: 6em;
+}
+
