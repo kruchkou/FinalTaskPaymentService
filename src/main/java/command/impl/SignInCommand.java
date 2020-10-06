@@ -4,10 +4,10 @@ import command.Command;
 import command.CommandProvider;
 import controller.UserController;
 import dao.DAOException;
-import dao.UserDAO;
-import entity.LoginUser;
-import entity.User;
+import dao.entity.LoginUser;
+import dao.entity.User;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,9 +19,6 @@ public class SignInCommand implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserController userController = UserController.getInstance();
-
-        req.setCharacterEncoding("UTF-8");
-        resp.setCharacterEncoding("UTF-8");
 
         User user = null;
         String login = req.getParameter("login");
@@ -44,9 +41,17 @@ public class SignInCommand implements Command {
             req.getRequestDispatcher("login.jsp").include(req,resp);
         }
         else {
-            req.getSession().setAttribute("user", user);
-            resp.getWriter().append(user.getLogin());
-            resp.sendRedirect("personalarea.jsp");
+            ServletContext context = req.getServletContext();
+            context.setAttribute("role",user.getRoleName());
+            context.setAttribute("login",user.getLogin());
+            context.setAttribute("name", user.getName());
+            context.setAttribute("surname", user.getSurname());
+            context.setAttribute("patronymic", user.getPatronymic());
+            context.setAttribute("birth_date", user.getBirthDate());
+            context.setAttribute("phone_number", user.getPhoneNumber());
+
+            resp.getWriter().append(user.getName());
+            req.getRequestDispatcher("personalarea.jsp").forward(req,resp);
         }
     }
 }

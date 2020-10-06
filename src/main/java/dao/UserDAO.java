@@ -1,9 +1,9 @@
 package dao;
 
 import dao.impl.ConnectionPool;
-import entity.LoginUser;
-import entity.SignUpUser;
-import entity.User;
+import dao.entity.LoginUser;
+import dao.entity.SignUpUser;
+import dao.entity.User;
 
 import java.sql.*;
 import java.util.HashMap;
@@ -13,7 +13,6 @@ public class UserDAO {
     private final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     private final String SIGNUP_SQL = "INSERT INTO Users(login,password,role,name,surname,patronymic,birthdate,phone_number) VALUES (?,?,1,?,?,?,?,?)";
-    private final String SIGNIN_SQL = "SELECT id FROM Users WHERE (login = ? AND password = ?)";
     private final String GET_USER_BY_LOGIN_SQL = "SELECT login,role,usersroles.name,users.name,surname,patronymic,birthdate,phone_number FROM Users users JOIN UsersRoles usersroles ON users.role = usersroles.id WHERE (login = ? AND password = ?)";
 
     public User signIn(LoginUser loginUser) throws DAOException {
@@ -51,7 +50,6 @@ public class UserDAO {
     }
 
     public void signUp(SignUpUser signUpUser) throws DAOException {
-        String string = null;
         Connection connection = null;
         PreparedStatement ps = null;
         try {

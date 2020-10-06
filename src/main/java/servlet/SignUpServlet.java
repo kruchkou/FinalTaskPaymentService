@@ -3,10 +3,8 @@ package servlet;
 import command.CommandProvider;
 import controller.UserController;
 import dao.DAOException;
-import dao.UserDAO;
-import entity.SignUpUser;
-import entity.User;
-import util.BuildException;
+import dao.entity.SignUpUser;
+import util.exception.BuildException;
 import util.SignUpUserBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,7 +32,7 @@ public class SignUpServlet extends HttpServlet {
 
         SignUpUserBuilder signUpUserBuilder = new SignUpUserBuilder();
         signUpUserBuilder.setLogin(req.getParameter("login"));
-        signUpUserBuilder.setPassword(req.getParameter("password"));
+        signUpUserBuilder.setPassword(req.getParameter("password")); //спросить, где хранить соли для хэша (в бд поход)
         signUpUserBuilder.setName(req.getParameter("name"));
         signUpUserBuilder.setSurname(req.getParameter("surname"));
         signUpUserBuilder.setPatronymic(req.getParameter("patronymic"));

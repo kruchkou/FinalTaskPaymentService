@@ -1,4 +1,4 @@
-package entity;
+package dao.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;

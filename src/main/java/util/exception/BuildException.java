@@ -1,4 +1,4 @@
-package util;
+package util.exception;
 
 public class BuildException extends Exception {
 

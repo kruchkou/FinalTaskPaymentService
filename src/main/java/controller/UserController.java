@@ -2,14 +2,9 @@ package controller;
 
 import dao.DAOException;
 import dao.UserDAO;
-import entity.LoginUser;
-import entity.SignUpUser;
-import entity.User;
-
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import dao.entity.LoginUser;
+import dao.entity.SignUpUser;
+import dao.entity.User;
 
 public class UserController {
 
@@ -17,7 +12,6 @@ public class UserController {
     private UserDAO userDAO = new UserDAO();
 
     private UserController() {
-
     }
 
     public static UserController getInstance() {

@@ -1,4 +1,4 @@
-package entity;
+package dao.entity;
 
 import java.util.HashMap;
 
@@ -23,4 +23,5 @@ public class LoginUser {
     public void setPassword(String password) { //Должен хешироватся прямо в методе
         this.password = password;
     }
+
 }

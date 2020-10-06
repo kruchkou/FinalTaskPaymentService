@@ -1,11 +1,10 @@
 package util;
 
-import entity.User;
+import dao.entity.User;
+import util.exception.BuildException;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class SignUpUserBuilder {
 

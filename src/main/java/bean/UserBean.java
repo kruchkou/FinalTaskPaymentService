@@ -1,25 +1,23 @@
-package entity;
+package bean;
 
 import java.util.Date;
-import java.util.HashMap;
 
-public class SignUpUser extends LoginUser {
+public class UserBean {
 
+    private String login;
+    private String role;
     private String name;
     private String surname;
     private String patronymic;
     private Date birthDate;
     private String phoneNumber;
 
-    public SignUpUser() {
+    public String getLogin() {
+        return login;
     }
 
-    public SignUpUser(String name, String surname, String patronymic, Date birthDate, String phoneNumber) {
-        this.name = name;
-        this.surname = surname;
-        this.patronymic = patronymic;
-        this.birthDate = birthDate;
-        this.phoneNumber = phoneNumber;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getName() {
@@ -60,5 +58,13 @@ public class SignUpUser extends LoginUser {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
