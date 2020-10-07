@@ -20,6 +20,7 @@ public class CharsetFilter implements Filter {
         req.setCharacterEncoding(encoding);
         resp.setCharacterEncoding(encoding);
 
+        context.log("Encoding set: " + encoding);
         filterChain.doFilter(req,resp);
     }
 }

@@ -29,7 +29,7 @@ public class ConnectionPool implements IConnectionPool {
         Connection connection = null;
         try {
             context = new InitialContext();
-            DataSource ds = (DataSource) context.lookup("java:comp/env/jdbc/dbprops");
+            DataSource ds = (DataSource) context.lookup("java:comp/env/jdbc/dbprops"); //заменить!
             connection = ds.getConnection();
         } catch (NamingException e) {
             throw new DAOException("Can't get configuration file", e);

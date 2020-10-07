@@ -37,8 +37,9 @@ public class SignInCommand implements Command {
         }
 
         if (user == null) {
-            resp.getWriter().append("Неверный логин или пароль!");
+            System.out.println(req.getCharacterEncoding());
             req.getRequestDispatcher("login.jsp").include(req,resp);
+            resp.getWriter().write("Неверный логин или пароль!");
         }
         else {
             ServletContext context = req.getServletContext();
