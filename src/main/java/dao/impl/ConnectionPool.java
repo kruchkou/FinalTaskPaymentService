@@ -8,43 +8,48 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class ConnectionPool implements IConnectionPool {
 
-    private static ConnectionPool instance = null;
+    private static ConnectionPool instance = new ConnectionPool();
 
     private ConnectionPool() {
     }
 
     public static ConnectionPool getInstance() {
-        if (instance == null)
-            instance = new ConnectionPool();
         return instance;
     }
 
     public Connection getConnection() throws DAOException {
-        Context context;
         Connection connection = null;
         try {
-            context = new InitialContext();
-            DataSource ds = (DataSource) context.lookup("java:comp/env/jdbc/dbprops"); //заменить!
-            connection = ds.getConnection();
-        } catch (NamingException e) {
-            throw new DAOException("Can't get configuration file", e);
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            ResourceBundle resourceBundle = ResourceBundle.getBundle("db", Locale.getDefault());
+            String url = resourceBundle.getString("db.url");
+            String user = resourceBundle.getString("db.user");
+            String password = resourceBundle.getString("db.password");
+
+            connection = DriverManager.getConnection(url, user, password);
+
         } catch (SQLException e) {
             throw new DAOException("Can't connect to database", e);
+        } catch (ClassNotFoundException e) {
+            throw new DAOException("Cant' load jdbc driver", e);
         }
         return connection;
     }
 
     public void closeConnection(Connection connection, PreparedStatement ps) throws DAOException {
         try {
-            if (connection != null) {
+            if (ps != null) {
                 ps.close();
             }
-            if (ps != null) {
+            if (connection != null) {
                 connection.close();
             }
         } catch (SQLException e) {

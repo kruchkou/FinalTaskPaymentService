@@ -6,6 +6,7 @@ import dao.DAOException;
 import dao.entity.SignUpUser;
 import util.exception.BuildException;
 import util.SignUpUserBuilder;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,6 @@ public class SignUpServlet extends HttpServlet {
 
     private void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserController userController = UserController.getInstance();
-
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
 
@@ -40,7 +40,7 @@ public class SignUpServlet extends HttpServlet {
         try {
             signUpUserBuilder.setBirthDate(req.getParameter("birthdate"));
         } catch (BuildException e) {
-            CommandProvider.getInstance().getCommand("go_to_error_page_command").execute(req,resp);
+            CommandProvider.getInstance().getCommand("go_to_error_page_command").execute(req, resp);
             //и залогировать
         }
 
@@ -49,11 +49,11 @@ public class SignUpServlet extends HttpServlet {
         try {
             userController.signUp(signUpUser);
         } catch (DAOException e) {
-            CommandProvider.getInstance().getCommand("go_to_error_page_command").execute(req,resp);
+            CommandProvider.getInstance().getCommand("go_to_error_page_command").execute(req, resp);
             //и залогировать
         }
         if (!resp.isCommitted()) {
-            resp.sendRedirect("/personalarea.jsp");
+            resp.sendRedirect("personalarea.jsp");
         }
     }
 }

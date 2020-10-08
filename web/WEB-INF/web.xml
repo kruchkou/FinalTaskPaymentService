@@ -33,6 +33,7 @@
     <filter-mapping>
         <filter-name>CharsetFilter</filter-name>
         <url-pattern>/Controller</url-pattern>
+        <url-pattern>/SignUp</url-pattern>
     </filter-mapping>
 
 

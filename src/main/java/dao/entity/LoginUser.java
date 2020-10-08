@@ -1,10 +1,10 @@
 package dao.entity;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class LoginUser {
 
-    private HashMap<Integer, String> role;
     private String login;
     private String password;
 
@@ -20,8 +20,29 @@ public class LoginUser {
         return password;
     }
 
-    public void setPassword(String password) { //Должен хешироватся прямо в методе
+    public void setPassword(String password) {
         this.password = password;
     }
 
+    @Override
+    public String toString() {
+        return "LoginUser{" +
+                "login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LoginUser)) return false;
+        LoginUser loginUser = (LoginUser) o;
+        return login.equals(loginUser.login) &&
+                password.equals(loginUser.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(login, password);
+    }
 }

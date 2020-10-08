@@ -8,16 +8,13 @@ import dao.entity.User;
 
 public class UserController {
 
-    private static UserController instance;
+    private static UserController instance = new UserController();
     private UserDAO userDAO = new UserDAO();
 
     private UserController() {
     }
 
     public static UserController getInstance() {
-        if (instance == null) {
-            instance = new UserController();
-        }
         return instance;
     }
 
