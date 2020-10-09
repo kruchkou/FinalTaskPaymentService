@@ -1,6 +1,7 @@
 package dao.entity;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class SignUpUser extends LoginUser {
 
@@ -59,5 +60,36 @@ public class SignUpUser extends LoginUser {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SignUpUser)) return false;
+        if (!super.equals(o)) return false;
+        SignUpUser that = (SignUpUser) o;
+        return Objects.equals(name, that.name) &&
+                Objects.equals(surname, that.surname) &&
+                Objects.equals(patronymic, that.patronymic) &&
+                Objects.equals(birthDate, that.birthDate) &&
+                Objects.equals(phoneNumber, that.phoneNumber);
+    }
+
+    @Override
+    public String toString() {
+        return "SignUpUser{" +
+                "login='" + this.getLogin() + '\'' +
+                ", password='" + this.getPassword() + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", patronymic='" + patronymic + '\'' +
+                ", birthDate=" + birthDate +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), name, surname, patronymic, birthDate, phoneNumber);
     }
 }

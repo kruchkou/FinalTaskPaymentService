@@ -4,6 +4,7 @@ import command.CommandProvider;
 import controller.UserController;
 import dao.DAOException;
 import dao.entity.SignUpUser;
+import org.apache.log4j.Logger;
 import util.exception.BuildException;
 import util.SignUpUserBuilder;
 
@@ -12,8 +13,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class SignUpServlet extends HttpServlet {
+
+    private static final Logger logger = Logger.getLogger(SignUpServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,7 +36,7 @@ public class SignUpServlet extends HttpServlet {
 
         SignUpUserBuilder signUpUserBuilder = new SignUpUserBuilder();
         signUpUserBuilder.setLogin(req.getParameter("login"));
-        signUpUserBuilder.setPassword(req.getParameter("password")); //спросить, где хранить соли для хэша (в бд поход)
+        signUpUserBuilder.setPassword(req.getParameter("password"));
         signUpUserBuilder.setName(req.getParameter("name"));
         signUpUserBuilder.setSurname(req.getParameter("surname"));
         signUpUserBuilder.setPatronymic(req.getParameter("patronymic"));
@@ -40,8 +44,8 @@ public class SignUpServlet extends HttpServlet {
         try {
             signUpUserBuilder.setBirthDate(req.getParameter("birthdate"));
         } catch (BuildException e) {
+            logger.error(e.getMessage(),e);
             CommandProvider.getInstance().getCommand("go_to_error_page_command").execute(req, resp);
-            //и залогировать
         }
 
         SignUpUser signUpUser = signUpUserBuilder.build();
@@ -49,8 +53,10 @@ public class SignUpServlet extends HttpServlet {
         try {
             userController.signUp(signUpUser);
         } catch (DAOException e) {
+//            SQLException ex = (SQLException) e.getCause();
+//            ex.getErrorCode()
+            logger.error(e.getMessage(),e);
             CommandProvider.getInstance().getCommand("go_to_error_page_command").execute(req, resp);
-            //и залогировать
         }
         if (!resp.isCommitted()) {
             resp.sendRedirect("personalarea.jsp");

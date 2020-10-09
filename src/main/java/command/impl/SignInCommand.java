@@ -42,15 +42,16 @@ public class SignInCommand implements Command {
             req.getRequestDispatcher("login.jsp").include(req, resp);
         } else {
             //ServletContext context = req.getServletContext();
-            req.setAttribute("role", user.getRoleName());
-            req.setAttribute("login", user.getLogin());
-            req.setAttribute("name", user.getName());
-            req.setAttribute("surname", user.getSurname());
-            req.setAttribute("patronymic", user.getPatronymic());
-            req.setAttribute("birth_date", user.getBirthDate());
-            req.setAttribute("phone_number", user.getPhoneNumber());
+            req.getSession().setAttribute("user",user);
+            System.out.println(user);
+//            req.setAttribute("role", user.getRoleName());
+//            req.setAttribute("login", user.getLogin());
+//            req.setAttribute("name", user.getName());
+//            req.setAttribute("surname", user.getSurname());
+//            req.setAttribute("patronymic", user.getPatronymic());
+//            req.setAttribute("birth_date", user.getBirthDate());
+//            req.setAttribute("phone_number", user.getPhoneNumber());
 
-            resp.getWriter().append(user.getName());
             req.getRequestDispatcher("WEB-INF/personalarea.jsp").forward(req, resp);
         }
     }

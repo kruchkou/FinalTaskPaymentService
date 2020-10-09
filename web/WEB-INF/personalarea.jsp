@@ -13,13 +13,14 @@
 <body>
     <jsp:useBean id="user" scope="request" class="bean.UserBean"/>
 
-    <jsp:setProperty name="user" property="role" value = "${role}"/>
-    <jsp:setProperty name="user" property="login" value ="${login}"/>
-    <jsp:setProperty name="user" property="name" value ="${name}"/>
-    <jsp:setProperty name="user" property="surname" value ="${surname}"/>
-    <jsp:setProperty name="user" property="patronymic" value ="${patronymic}"/>
-    <jsp:setProperty name="user" property="birthDate" value ="${birth_date}"/>
-    <jsp:setProperty name="user" property="phoneNumber" value ="${phone_number}"/>
+
+    <jsp:setProperty name="user" property="role" value = "${sessionScope.user.roleName}"/>
+    <jsp:setProperty name="user" property="login" value ="${sessionScope.user.login}"/>
+    <jsp:setProperty name="user" property="name" value ="${sessionScope.user.name}"/>
+    <jsp:setProperty name="user" property="surname" value ="${sessionScope.user.surname}"/>
+    <jsp:setProperty name="user" property="patronymic" value ="${sessionScope.user.patronymic}"/>
+    <jsp:setProperty name="user" property="birthDate" value ="${sessionScope.user.birthDate}"/>
+    <jsp:setProperty name="user" property="phoneNumber" value ="${sessionScope.user.phoneNumber}"/>
 
     Добро пожаловать, <jsp:getProperty name="user" property="role"/> <br/><br/>
     Ваши данные: <br/>

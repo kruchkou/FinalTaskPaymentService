@@ -1,6 +1,5 @@
 package dao.entity;
 
-import java.util.HashMap;
 import java.util.Objects;
 
 public class LoginUser {

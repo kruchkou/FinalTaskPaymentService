@@ -36,9 +36,9 @@ public class UserDAO {
                 String hashedPassword = rs.getString(UserParamColumn.password);
 
                 if (!stringHasher.checkHash(loginUser.getPassword(), hashedPassword)) {
-                    System.out.println("HEY");
                     return null;
                 }
+
                 user = new User();
                 HashMap<Integer, String> role = new HashMap<>();
                 role.put((rs.getInt(UserParamColumn.role)), rs.getString(UserParamColumn.roleName));
@@ -88,9 +88,9 @@ public class UserDAO {
         private static final String password = "password";
         private static final String role = "role";
         private static final String roleName = "usersroles.name";
-        private static final String name = "name";
+        private static final String name = "users.name";
         private static final String surname = "surname";
-        private static final String patronymic = "login";
+        private static final String patronymic = "patronymic";
         private static final String birthDate = "birthdate";
         private static final String phoneNumber = "phone_number";
     }
