@@ -10,6 +10,7 @@ import java.io.IOException;
 public class GoToSignInCommand implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("login.jsp").include(req, resp);
+        resp.setContentType("text/html");
+        req.getRequestDispatcher("signin.jsp").include(req, resp);
     }
 }

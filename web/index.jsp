@@ -44,8 +44,10 @@
             </tr>
         </table>
 
-        <a href = "login.jsp" class="login center">ВХОД</a>
-
+        <form class="center" action="Controller" method="post">
+            <input type="hidden" name="command" value="go_to_sign_in_command"/>
+            <button class="login" type="submit">ВХОД</button>
+        </form>
     </div>
 
 </div>

@@ -51,7 +51,7 @@ public class SignUpServlet extends HttpServlet {
 
         try {
             userController.signUp(signUpUser);
-            resp.sendRedirect("login.jsp"); //уведомить пользователя об успешной регистрации!
+            resp.sendRedirect("signin.jsp"); //уведомить пользователя об успешной регистрации!
 
         } catch (DAOException e) {
             switch (e.getErrorCode()) {
@@ -60,7 +60,7 @@ public class SignUpServlet extends HttpServlet {
                     logger.error(e.getMessage(), e);
                     resp.setContentType("text/html");
                     resp.getWriter().write("К сожалению, кто-то зарегистрировался под тем же логином перед вами. Пожалуйста, выберите другой логин");
-                    req.getRequestDispatcher("registration.jsp").include(req, resp);
+                    req.getRequestDispatcher("signup.jsp").include(req, resp);
                     break;
 
                 default:

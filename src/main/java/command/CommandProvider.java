@@ -1,6 +1,7 @@
 package command;
 
 import command.impl.GoToErrorPageCommand;
+import command.impl.GoToSignInCommand;
 import command.impl.SignInCommand;
 
 import java.util.HashMap;
@@ -13,6 +14,7 @@ public class CommandProvider {
     public CommandProvider() {
         commands.put(CommandName.SIGN_IN_COMMAND, new SignInCommand());
         commands.put(CommandName.GO_TO_ERROR_PAGE_COMMAND, new GoToErrorPageCommand());
+        commands.put(CommandName.GO_TO_SIGN_IN_COMMAND, new GoToSignInCommand());
     }
 
     public static CommandProvider getInstance() {

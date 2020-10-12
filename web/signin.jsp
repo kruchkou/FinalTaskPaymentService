@@ -19,7 +19,7 @@
         <label>Логин: </label> <input type="text" name="login" value=""/> <br/>
         <label>Пароль: </label> <input type="password" name="password" value=""/> <br/>
         <button class="login_button" type="submit">Войти</button>
-        <input type = "button" class="login _button" onclick="location.href='registration.jsp'" value = "Регистрация"/>
+        <input type = "button" class="login _button" onclick="location.href='signup.jsp'" value = "Регистрация"/>
     </form>
 
 </div>
