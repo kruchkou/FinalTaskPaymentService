@@ -14,7 +14,7 @@ public class UserDAO {
     private final ConnectionPool connectionPool = ConnectionPool.getInstance();
     private final StringHasher stringHasher = StringHasher.getInstance();
 
-    private final String SIGNUP_SQL = "INSERT INTO Users(login,password,role,name,surname,patronymic,birthdate,phone_number) VALUES (?,?,1,?,?,?,?,?)";
+    private final String SIGNUP_SQL = "INSERT INTO Users(login,password,role,name,surname,patronymic,birthdate,phone_number) VALUES (?,?,?,?,?,?,?,?)";
     private final String GET_USER_BY_LOGIN_SQL = "SELECT login,password,role,usersroles.name,users.name,surname,patronymic,birthdate,phone_number FROM Users users JOIN UsersRoles usersroles ON users.role = usersroles.id WHERE (login = ?)";
 
     public UserDAO() {
@@ -59,15 +59,41 @@ public class UserDAO {
         return user;
     }
 
+    public boolean isLoginAvailable(String login) throws DAOException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+
+        try {
+            connection = connectionPool.getConnection();
+            ps = connection.prepareStatement(GET_USER_BY_LOGIN_SQL);
+            ps.setString(UserParamIndex.login, login);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return false;
+            }
+
+        } catch (SQLException e) {
+            throw new DAOException("Can't check login availability", e);
+        } finally {
+            connectionPool.closeConnection(connection, ps);
+        }
+        return true;
+    }
+
     public void signUp(SignUpUser signUpUser) throws DAOException {
+        final int USER_ROLE_VALUE = 1;
+        final int DUBLICATE_LOGIN_ERROR_CODE = 1062;
+
         Connection connection = null;
         PreparedStatement ps = null;
         try {
             connection = connectionPool.getConnection();
             ps = connection.prepareStatement(SIGNUP_SQL);
-
             ps.setString(UserParamIndex.login, signUpUser.getLogin());
             ps.setString(UserParamIndex.password, stringHasher.getHash(signUpUser.getPassword()));
+            ps.setInt(UserParamIndex.role, USER_ROLE_VALUE);
             ps.setString(UserParamIndex.name, signUpUser.getName());
             ps.setString(UserParamIndex.surname, signUpUser.getSurname());
             ps.setString(UserParamIndex.patronymic, signUpUser.getPatronymic());
@@ -76,7 +102,11 @@ public class UserDAO {
             ps.execute();
 
         } catch (SQLException e) {
-            throw new DAOException("Cant handle SignUp request", e); //В базе логин - unique, обработчик ексепшенов отловит и уведомит пользователя
+            DAOException daoException = new DAOException("Can't handle SignUp request", e);
+            if (e.getErrorCode() == DUBLICATE_LOGIN_ERROR_CODE) {
+                daoException.setErrorCode(DUBLICATE_LOGIN_ERROR_CODE);
+            }
+            throw daoException;
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -98,10 +128,11 @@ public class UserDAO {
     private static class UserParamIndex {
         private static final int login = 1;
         private static final int password = 2;
-        private static final int name = 3;
-        private static final int surname = 4;
-        private static final int patronymic = 5;
-        private static final int birthDate = 6;
-        private static final int phoneNumber = 7;
+        private static final int role = 3;
+        private static final int name = 4;
+        private static final int surname = 5;
+        private static final int patronymic = 6;
+        private static final int birthDate = 7;
+        private static final int phoneNumber = 8;
     }
 }

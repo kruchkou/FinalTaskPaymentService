@@ -5,15 +5,14 @@ import controller.UserController;
 import dao.DAOException;
 import dao.entity.SignUpUser;
 import org.apache.log4j.Logger;
-import util.exception.BuildException;
 import util.SignUpUserBuilder;
+import util.exception.BuildException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class SignUpServlet extends HttpServlet {
 
@@ -30,9 +29,9 @@ public class SignUpServlet extends HttpServlet {
     }
 
     private void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        final int DUBLICATE_LOGIN_ERROR_CODE = 1062;
+
         UserController userController = UserController.getInstance();
-        req.setCharacterEncoding("UTF-8");
-        resp.setCharacterEncoding("UTF-8");
 
         SignUpUserBuilder signUpUserBuilder = new SignUpUserBuilder();
         signUpUserBuilder.setLogin(req.getParameter("login"));
@@ -44,7 +43,7 @@ public class SignUpServlet extends HttpServlet {
         try {
             signUpUserBuilder.setBirthDate(req.getParameter("birthdate"));
         } catch (BuildException e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
             CommandProvider.getInstance().getCommand("go_to_error_page_command").execute(req, resp);
         }
 
@@ -52,14 +51,24 @@ public class SignUpServlet extends HttpServlet {
 
         try {
             userController.signUp(signUpUser);
+            resp.sendRedirect("login.jsp"); //уведомить пользователя об успешной регистрации!
+
         } catch (DAOException e) {
-//            SQLException ex = (SQLException) e.getCause();
-//            ex.getErrorCode()
-            logger.error(e.getMessage(),e);
-            CommandProvider.getInstance().getCommand("go_to_error_page_command").execute(req, resp);
+            switch (e.getErrorCode()) {
+                case DUBLICATE_LOGIN_ERROR_CODE:
+
+                    logger.error(e.getMessage(), e);
+                    resp.setContentType("text/html");
+                    resp.getWriter().write("К сожалению, кто-то зарегистрировался под тем же логином перед вами. Пожалуйста, выберите другой логин");
+                    req.getRequestDispatcher("registration.jsp").include(req, resp);
+                    break;
+
+                default:
+
+                    CommandProvider.getInstance().getCommand("go_to_error_page_command").execute(req, resp);
+                    break;
+            }
         }
-        if (!resp.isCommitted()) {
-            resp.sendRedirect("personalarea.jsp");
-        }
+
     }
 }

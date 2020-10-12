@@ -1,6 +1,6 @@
 package util;
 
-import dao.entity.User;
+import dao.entity.SignUpUser;
 import util.exception.BuildException;
 
 import java.text.ParseException;
@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 
 public class SignUpUserBuilder {
 
-    User user = new User();
+    SignUpUser user = new SignUpUser();
 
     public void setLogin(String login) {
         user.setLogin(login);
@@ -35,7 +35,7 @@ public class SignUpUserBuilder {
         try {
             user.setBirthDate(df.parse(birthDate));
         } catch (ParseException e) {
-            throw new BuildException("Cant parse birthdate",e);
+            throw new BuildException("Cant parse birthdate", e);
         }
     }
 
@@ -43,7 +43,7 @@ public class SignUpUserBuilder {
         user.setPhoneNumber(phoneNumber);
     }
 
-    public User build() {
+    public SignUpUser build() {
         return user;
     }
 

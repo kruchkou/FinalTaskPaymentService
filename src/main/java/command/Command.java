@@ -9,7 +9,4 @@ public interface Command {
 
     void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException;
 
-
-
-
 }

@@ -7,7 +7,6 @@ import dao.DAOException;
 import dao.entity.LoginUser;
 import dao.entity.User;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,20 +36,10 @@ public class SignInCommand implements Command {
         if (user == null) {
             resp.setContentType("text/html");
             resp.getWriter().write("Неверный логин или пароль!");
-            System.out.println(req.getCharacterEncoding());
-            System.out.println(resp.getCharacterEncoding());
             req.getRequestDispatcher("login.jsp").include(req, resp);
         } else {
-            //ServletContext context = req.getServletContext();
-            req.getSession().setAttribute("user",user);
+            req.getSession().setAttribute("user", user);
             System.out.println(user);
-//            req.setAttribute("role", user.getRoleName());
-//            req.setAttribute("login", user.getLogin());
-//            req.setAttribute("name", user.getName());
-//            req.setAttribute("surname", user.getSurname());
-//            req.setAttribute("patronymic", user.getPatronymic());
-//            req.setAttribute("birth_date", user.getBirthDate());
-//            req.setAttribute("phone_number", user.getPhoneNumber());
 
             req.getRequestDispatcher("WEB-INF/personalarea.jsp").forward(req, resp);
         }
