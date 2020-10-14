@@ -6,6 +6,7 @@ import controller.UserController;
 import dao.DAOException;
 import dao.entity.LoginUser;
 import dao.entity.User;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import java.io.IOException;
 
 public class SignInCommand implements Command {
 
+    private static final Logger logger = Logger.getLogger(SignInCommand.class);
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,8 +31,8 @@ public class SignInCommand implements Command {
         try {
             user = userController.signIn(loginUser);
         } catch (DAOException e) {
+            logger.error("Error at SignInCommand",e);
             CommandProvider.getInstance().getCommand("go_to_error_page_command").execute(req, resp);
-            //и залогировать
         }
 
         if (user == null) {
@@ -39,8 +41,6 @@ public class SignInCommand implements Command {
             req.getRequestDispatcher("signin.jsp").include(req, resp);
         } else {
             req.getSession().setAttribute("user", user);
-            System.out.println(user);
-
             req.getRequestDispatcher("WEB-INF/personalarea.jsp").forward(req, resp);
         }
     }
