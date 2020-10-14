@@ -1,9 +1,6 @@
 package command;
 
-import command.impl.GoToErrorPageCommand;
-import command.impl.GoToPersonalPageCommand;
-import command.impl.GoToSignInCommand;
-import command.impl.SignInCommand;
+import command.impl.*;
 
 import java.util.HashMap;
 
@@ -13,10 +10,12 @@ public class CommandProvider {
     private final HashMap<CommandName, Command> commands = new HashMap<>();
 
     public CommandProvider() {
-        commands.put(CommandName.SIGN_IN_COMMAND, new SignInCommand());
-        commands.put(CommandName.GO_TO_ERROR_PAGE_COMMAND, new GoToErrorPageCommand());
         commands.put(CommandName.GO_TO_SIGN_IN_COMMAND, new GoToSignInCommand());
+        commands.put(CommandName.GO_TO_SIGN_UP_COMMAND, new GoToSignUpCommand());
+        commands.put(CommandName.GO_TO_ERROR_PAGE_COMMAND, new GoToErrorPageCommand());
         commands.put(CommandName.GO_TO_PERSONAL_PAGE_COMMAND, new GoToPersonalPageCommand());
+        commands.put(CommandName.SIGN_IN_COMMAND, new SignInCommand());
+        commands.put(CommandName.LOG_OUT_COMMAND, new LogOutCommand());
     }
 
     public static CommandProvider getInstance() {

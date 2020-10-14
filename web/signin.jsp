@@ -12,18 +12,42 @@
     <link href="css/login.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<jsp:include page="WEB-INF/header.jsp" />
-<div class="login_form">
-    <p class="login_label">QUICKPAY: ВХОД</p>
-    <form action="Controller" method="post">
-        <input type="hidden" name="command" value="sign_in_command"/>
-        <label>Логин: </label> <input type="text" name="login" value=""/> <br/>
-        <label>Пароль: </label> <input type="password" name="password" value=""/> <br/>
-        <button class="login_button" type="submit">Войти</button>
-        <input type = "button" class="login _button" onclick="location.href='signup.jsp'" value = "Регистрация"/>
-    </form>
+<jsp:include page="WEB-INF/header.jsp"/>
 
+<form id="signUpForm" action="Controller" method="post">
+    <input type="hidden" name="command" value="go_to_sign_up_command"/>
+</form>
+
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-md-6">
+
+            <div class="login_form">
+                <p class="login_label">ВОЙДИТЕ</p>
+
+                <form action="Controller" method="post">
+                    <input type="hidden" name="command" value="sign_in_command"/>
+                    <div class="form-group">
+                        <label for="loginInput">Логин:</label>
+                        <input type="text" class="form-control" name="login" id="loginInput" aria-describedby="emailHelp">
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordInput">Пароль:</label>
+                        <input type="password" class="form-control" name="password" id="passwordInput">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">ВОЙТИ</button>
+                    </div>
+
+                    <div class="form-group">
+                        <button form="signUpForm" type="submit" class="btn btn-warning">РЕГИСТРАЦИЯ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
+
 </body>
-</html>
+
