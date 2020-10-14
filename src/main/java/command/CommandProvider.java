@@ -1,6 +1,7 @@
 package command;
 
 import command.impl.GoToErrorPageCommand;
+import command.impl.GoToPersonalPageCommand;
 import command.impl.GoToSignInCommand;
 import command.impl.SignInCommand;
 
@@ -15,6 +16,7 @@ public class CommandProvider {
         commands.put(CommandName.SIGN_IN_COMMAND, new SignInCommand());
         commands.put(CommandName.GO_TO_ERROR_PAGE_COMMAND, new GoToErrorPageCommand());
         commands.put(CommandName.GO_TO_SIGN_IN_COMMAND, new GoToSignInCommand());
+        commands.put(CommandName.GO_TO_PERSONAL_PAGE_COMMAND, new GoToPersonalPageCommand());
     }
 
     public static CommandProvider getInstance() {

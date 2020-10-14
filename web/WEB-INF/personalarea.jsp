@@ -11,6 +11,7 @@
     <title>О пользователе</title>
 </head>
 <body>
+<jsp:include page="header.jsp" />
     <jsp:useBean id="user" scope="request" class="bean.UserBean"/>
 
 

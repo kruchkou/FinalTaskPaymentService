@@ -12,6 +12,7 @@
     <link href="css/login.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<jsp:include page="WEB-INF/header.jsp" />
 <div class="login_form">
     <p class="login_label">QUICKPAY: ВХОД</p>
     <form action="Controller" method="post">
