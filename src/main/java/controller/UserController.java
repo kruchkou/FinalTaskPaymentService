@@ -9,9 +9,9 @@ import util.validator.SignUpValidator;
 
 public class UserController {
 
-    private static UserController instance = new UserController();
-    private UserDAO userDAO = new UserDAO();
-    private SignUpValidator signUpValidator = SignUpValidator.getInstance();
+    private static final UserController instance = new UserController();
+    private final UserDAO userDAO = new UserDAO();
+    private final SignUpValidator signUpValidator = SignUpValidator.getInstance();
 
     private UserController() {
     }
@@ -29,6 +29,26 @@ public class UserController {
             throw new DAOException("User data didn't passed validation");
         }
         userDAO.signUp(signUpUser);
+    }
+
+    public void setImageSrc(String imageSrc, int id) throws DAOException {
+        userDAO.setImageByLogin(imageSrc, id);
+    }
+
+    public boolean setPassword(String newPassword, LoginUser loginUser) throws DAOException {
+        User user = signIn(loginUser);
+        if (user == null) {
+            return false;
+        }
+        userDAO.setPasswordByLogin(newPassword, user.getId());
+        return true;
+    }
+
+    public User updateUser(User updatedUser) throws DAOException {
+        if (!signUpValidator.validate(updatedUser)) {
+            throw new DAOException("User data didn't passed validation");
+        }
+        return userDAO.updateUser(updatedUser);
     }
 
     public boolean isLoginAvailable(String login) throws DAOException {

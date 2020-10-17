@@ -1,12 +1,29 @@
 package dao.entity;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public class User extends SignUpUser {
 
+    private int id;
     private HashMap<Integer, String> role;
+    private String imageSrc;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getImageSrc() {
+        return imageSrc;
+    }
+
+    public void setImageSrc(String imageSrc) {
+        this.imageSrc = imageSrc;
+    }
 
     public HashMap<Integer, String> getRole() {
         return role;
@@ -27,6 +44,7 @@ public class User extends SignUpUser {
     @Override
     public String toString() {
         return "User{" +
+                "id='" + this.getId() + '\'' +
                 "login='" + this.getLogin() + '\'' +
                 ", password='" + this.getPassword() + '\'' +
                 ", role='" + role + '\'' +
@@ -35,6 +53,7 @@ public class User extends SignUpUser {
                 ", patronymic='" + getPatronymic() + '\'' +
                 ", birthDate=" + getBirthDate() +
                 ", phoneNumber='" + getPhoneNumber() + '\'' +
+                ", imageSrc='" + getImageSrc() + '\'' +
                 '}';
     }
 
@@ -44,7 +63,9 @@ public class User extends SignUpUser {
         if (!(o instanceof User)) return false;
         if (!super.equals(o)) return false;
         User user = (User) o;
-        return Objects.equals(role, user.role);
+        return id == user.id &&
+                Objects.equals(role, user.role) &&
+                Objects.equals(imageSrc, user.imageSrc);
     }
 
     @Override

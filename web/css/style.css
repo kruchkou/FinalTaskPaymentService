@@ -35,3 +35,12 @@ tr {
     font-size: 6em;
 }
 
+.text_block {
+    background-color: #343a40;
+    color: white;
+}
+
+.edit_button {
+    position: absolute;
+    bottom: 0;
+}

@@ -64,7 +64,7 @@ public class SignUpServlet extends HttpServlet {
                     break;
 
                 default:
-
+                    logger.error(e.getMessage(),e);
                     CommandProvider.getInstance().getCommand("go_to_error_page_command").execute(req, resp);
                     break;
             }
