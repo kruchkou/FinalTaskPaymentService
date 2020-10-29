@@ -54,7 +54,7 @@
             <jsp:getProperty name="user" property="phoneNumber"/>
 
             <form action="Controller" method="post">
-                <input type="hidden" name="command" value="go_to_edit_page"/>
+                <input type="hidden" name="command" value="go_to_personal_edit_command"/>
                 <div class="form-group">
                     <button type="submit" class="btn btn-light edit_button">Редактировать</button>
                 </div>

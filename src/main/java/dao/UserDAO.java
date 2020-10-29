@@ -16,11 +16,10 @@ public class UserDAO {
 
     private final String SIGNUP_SQL = "INSERT INTO Users(login,password,role,name,surname,patronymic,birthdate,phone_number) VALUES (?,?,?,?,?,?,?,?)";
     private final String GET_USER_BY_LOGIN_SQL = "SELECT users.id,login,password,role,usersroles.name,users.name,surname,patronymic,birthdate,phone_number,image_src FROM Users users JOIN UsersRoles usersroles ON users.role = usersroles.id WHERE (login = ?)";
-    private final String GET_USER_BY_ID_SQL = "SELECT users.id,login,password,role,usersroles.name,users.name,surname,patronymic,birthdate,phone_number,image_src FROM Users users JOIN UsersRoles usersroles ON users.role = usersroles.id WHERE (users.id = ?)";
     private final String UPDATE_USER_BY_ID_SQL = "UPDATE Users SET login = ?, name = ?, surname = ?, patronymic = ?, birthdate = ?, phone_number = ? WHERE id = ?";
     private final String SET_IMAGE_BY_ID_SQL = "UPDATE Users SET image_src = ? WHERE id = ?";
     private final String SET_PASSWORD_BY_ID_SQL = "UPDATE Users SET password = ? WHERE id = ?";
-
+    private final String SET_ROLE_BY_ID_SQL = "UPDATE Users SET type = ? WHERE id = ?";
 
     public UserDAO() {
     }
@@ -46,7 +45,7 @@ public class UserDAO {
 
                 user = new User();
                 HashMap<Integer, String> role = new HashMap<>();
-                role.put((rs.getInt(ParamColumn.role)), rs.getString(ParamColumn.roleName));
+                role.put((rs.getInt(ParamColumn.roleID)), rs.getString(ParamColumn.roleName));
 
                 user.setId(rs.getInt(ParamColumn.id));
                 user.setLogin(rs.getString(ParamColumn.login));
@@ -59,7 +58,7 @@ public class UserDAO {
                 user.setImageSrc(rs.getString(ParamColumn.imageSrc));
             }
         } catch (SQLException e) {
-            throw new DAOException("Cant handle getUserByLogin request", e);
+            throw new DAOException("Cant handle UserDAO.getUserByLogin request", e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -84,7 +83,7 @@ public class UserDAO {
             ps.execute();
 
         } catch (SQLException e) {
-            DAOException daoException = new DAOException("Can't handle User Update request", e);
+            DAOException daoException = new DAOException("Can't handle UserDAO.updateUser request", e);
             if (e.getErrorCode() == DUBLICATE_LOGIN_ERROR_CODE) {
                 daoException.setErrorCode(DUBLICATE_LOGIN_ERROR_CODE);
             }
@@ -95,7 +94,7 @@ public class UserDAO {
         return user;
     }
 
-    public void setImageByLogin(String imageSrc, int id) throws DAOException {
+    public void setImageByID(String imageSrc, int id) throws DAOException {
         Connection connection = null;
         PreparedStatement ps = null;
 
@@ -106,13 +105,13 @@ public class UserDAO {
             ps.setInt(SetImageIndex.id, id);
             ps.execute();
         } catch (SQLException e) {
-            throw new DAOException("Can't set image src.", e);
+            throw new DAOException("Can't handle UserDAO.setImageByID request", e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
     }
 
-    public void setPasswordByLogin(String password, int id) throws DAOException {
+    public void setPasswordByID(String password, int id) throws DAOException {
         Connection connection = null;
         PreparedStatement ps = null;
 
@@ -123,7 +122,25 @@ public class UserDAO {
             ps.setInt(SetPasswordIndex.id, id);
             ps.execute();
         } catch (SQLException e) {
-            throw new DAOException("Can't set password.", e);
+            throw new DAOException("Can't handle UserDAO.setPasswordByID request", e);
+        } finally {
+            connectionPool.closeConnection(connection, ps);
+        }
+    }
+
+    public void setRoleByID(int role, int id) throws DAOException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+
+        try {
+            connection = connectionPool.getConnection();
+            ps = connection.prepareStatement(SET_ROLE_BY_ID_SQL);
+            ps.setInt(SetRoleIndex.role,role);
+            ps.setInt(SetRoleIndex.id, id);
+
+            ps.execute();
+        } catch (SQLException e) {
+            throw new DAOException("Can't handle UserDAO.setRoleByID request", e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -145,7 +162,7 @@ public class UserDAO {
             }
 
         } catch (SQLException e) {
-            throw new DAOException("Can't check login availability", e);
+            throw new DAOException("Can't handle UserDAO.isLoginAvailable request", e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -153,7 +170,7 @@ public class UserDAO {
     }
 
     public void signUp(SignUpUser signUpUser) throws DAOException {
-        final int USER_ROLE_VALUE = 1;
+        final int USERROLE_USER = 1;
         final int DUBLICATE_LOGIN_ERROR_CODE = 1062;
 
         Connection connection = null;
@@ -163,7 +180,7 @@ public class UserDAO {
             ps = connection.prepareStatement(SIGNUP_SQL);
             ps.setString(SignUpIndex.login, signUpUser.getLogin());
             ps.setString(SignUpIndex.password, stringHasher.getHash(signUpUser.getPassword()));
-            ps.setInt(SignUpIndex.role, USER_ROLE_VALUE);
+            ps.setInt(SignUpIndex.role, USERROLE_USER);
             ps.setString(SignUpIndex.name, signUpUser.getName());
             ps.setString(SignUpIndex.surname, signUpUser.getSurname());
             ps.setString(SignUpIndex.patronymic, signUpUser.getPatronymic());
@@ -172,7 +189,7 @@ public class UserDAO {
             ps.execute();
 
         } catch (SQLException e) {
-            DAOException daoException = new DAOException("Can't handle SignUp request", e);
+            DAOException daoException = new DAOException("Can't handle UserDAO.SignUp request", e);
             if (e.getErrorCode() == DUBLICATE_LOGIN_ERROR_CODE) {
                 daoException.setErrorCode(DUBLICATE_LOGIN_ERROR_CODE);
             }
@@ -187,7 +204,7 @@ public class UserDAO {
         private static final String id = "users.id";
         private static final String login = "login";
         private static final String password = "password";
-        private static final String role = "role";
+        private static final String roleID = "role";
         private static final String roleName = "usersroles.name";
         private static final String name = "users.name";
         private static final String surname = "surname";
@@ -225,6 +242,11 @@ public class UserDAO {
 
     private static class SetPasswordIndex {
         private static final int password = 1;
+        private static final int id = 2;
+    }
+
+    private static class SetRoleIndex {
+        private static final int role = 1;
         private static final int id = 2;
     }
 }

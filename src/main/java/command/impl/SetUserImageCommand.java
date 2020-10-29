@@ -11,7 +11,5 @@ public class SetUserImageCommand implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-
-
     }
 }

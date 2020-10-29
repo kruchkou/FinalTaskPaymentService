@@ -6,15 +6,15 @@ import util.RegexpPropertyUtil;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SignUpValidator {
+public class UserValidator {
 
-    private static final SignUpValidator instance = new SignUpValidator();
+    private static final UserValidator instance = new UserValidator();
     private final RegexpPropertyUtil regexpPropertyUtil = RegexpPropertyUtil.getInstance();
 
-    private SignUpValidator() {
+    private UserValidator() {
     }
 
-    public static SignUpValidator getInstance() {
+    public static UserValidator getInstance() {
         return instance;
     }
 

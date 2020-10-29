@@ -5,7 +5,7 @@ import controller.UserController;
 import dao.DAOException;
 import dao.entity.SignUpUser;
 import org.apache.log4j.Logger;
-import util.SignUpUserBuilder;
+import util.UserBuilder;
 import util.exception.BuildException;
 
 import javax.servlet.ServletException;
@@ -33,25 +33,25 @@ public class SignUpServlet extends HttpServlet {
 
         UserController userController = UserController.getInstance();
 
-        SignUpUserBuilder signUpUserBuilder = new SignUpUserBuilder();
-        signUpUserBuilder.setLogin(req.getParameter("login"));
-        signUpUserBuilder.setPassword(req.getParameter("password"));
-        signUpUserBuilder.setName(req.getParameter("name"));
-        signUpUserBuilder.setSurname(req.getParameter("surname"));
-        signUpUserBuilder.setPatronymic(req.getParameter("patronymic"));
-        signUpUserBuilder.setPhoneNumber(req.getParameter("phone_number"));
+        UserBuilder userBuilder = new UserBuilder();
+        userBuilder.setLogin(req.getParameter("login"));
+        userBuilder.setPassword(req.getParameter("password"));
+        userBuilder.setName(req.getParameter("name"));
+        userBuilder.setSurname(req.getParameter("surname"));
+        userBuilder.setPatronymic(req.getParameter("patronymic"));
+        userBuilder.setPhoneNumber(req.getParameter("phone_number"));
         try {
-            signUpUserBuilder.setBirthDate(req.getParameter("birthdate"));
+            userBuilder.setBirthDate(req.getParameter("birthdate"));
         } catch (BuildException e) {
             logger.error(e.getMessage(), e);
             CommandProvider.getInstance().getCommand("go_to_error_page_command").execute(req, resp);
         }
 
-        SignUpUser signUpUser = signUpUserBuilder.build();
+        SignUpUser signUpUser = userBuilder.build();
 
         try {
             userController.signUp(signUpUser);
-            resp.sendRedirect("signin.jsp"); //уведомить пользователя об успешной регистрации!
+            resp.sendRedirect("sign_in.jsp"); //уведомить пользователя об успешной регистрации!
 
         } catch (DAOException e) {
             switch (e.getErrorCode()) {
@@ -59,8 +59,8 @@ public class SignUpServlet extends HttpServlet {
 
                     logger.error(e.getMessage(), e);
                     resp.setContentType("text/html");
-                    resp.getWriter().write("К сожалению, кто-то зарегистрировался под тем же логином перед вами. Пожалуйста, выберите другой логин");
-                    req.getRequestDispatcher("signup.jsp").include(req, resp);
+                    resp.getWriter().write("К сожалению, кто-то занял этот логин прямо перед вами. Пожалуйста, выберите другой логин");
+                    req.getRequestDispatcher("sign_up.jsp").include(req, resp);
                     break;
 
                 default:

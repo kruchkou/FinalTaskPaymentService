@@ -48,6 +48,7 @@
                             ${current_user_name}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <button form="goToPaymentsForm" class="btn dropdown-item" type="submit">Мои счета</button>
                         <button form="goToPersonalAreaForm" class="btn dropdown-item" type="submit">Мой профиль</button>
                         <div class="dropdown-divider"></div>
                         <button form="logOutForm" class="btn btn-outline-danger dropdown-item" type="submit">Выйти
@@ -75,4 +76,8 @@
 
 <form id="goToPersonalAreaForm" action="Controller" method="post">
     <input type="hidden" name="command" value="go_to_personal_page_command"/>
+</form>
+
+<form id="goToPaymentsForm" action="Controller" method="post">
+    <input type="hidden" name="command" value="go_to_payments_command"/>
 </form>

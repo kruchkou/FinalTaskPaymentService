@@ -1,14 +1,14 @@
 package util;
 
-import dao.entity.SignUpUser;
+import dao.entity.User;
 import util.exception.BuildException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-public class SignUpUserBuilder {
+public class UserBuilder {
 
-    SignUpUser user = new SignUpUser();
+    User user = new User();
 
     public void setLogin(String login) {
         user.setLogin(login);
@@ -30,6 +30,10 @@ public class SignUpUserBuilder {
         user.setPatronymic(patronymic);
     }
 
+    public void setId(int id) {
+        user.setId(id);
+    }
+
     public void setBirthDate(String birthDate) throws BuildException {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -43,7 +47,7 @@ public class SignUpUserBuilder {
         user.setPhoneNumber(phoneNumber);
     }
 
-    public SignUpUser build() {
+    public User build() {
         return user;
     }
 

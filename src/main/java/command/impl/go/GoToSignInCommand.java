@@ -1,4 +1,4 @@
-package command.impl;
+package command.impl.go;
 
 import command.Command;
 
@@ -11,6 +11,6 @@ public class GoToSignInCommand implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
-        req.getRequestDispatcher("signin.jsp").include(req, resp);
+        req.getRequestDispatcher("sign_in.jsp").include(req, resp);
     }
 }

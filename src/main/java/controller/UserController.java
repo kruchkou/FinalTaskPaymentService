@@ -5,13 +5,13 @@ import dao.UserDAO;
 import dao.entity.LoginUser;
 import dao.entity.SignUpUser;
 import dao.entity.User;
-import util.validator.SignUpValidator;
+import util.validator.UserValidator;
 
 public class UserController {
 
     private static final UserController instance = new UserController();
     private final UserDAO userDAO = new UserDAO();
-    private final SignUpValidator signUpValidator = SignUpValidator.getInstance();
+    private final UserValidator userValidator = UserValidator.getInstance();
 
     private UserController() {
     }
@@ -25,14 +25,14 @@ public class UserController {
     }
 
     public void signUp(SignUpUser signUpUser) throws DAOException {
-        if (!signUpValidator.validate(signUpUser)) {
+        if (!userValidator.validate(signUpUser)) {
             throw new DAOException("User data didn't passed validation");
         }
         userDAO.signUp(signUpUser);
     }
 
     public void setImageSrc(String imageSrc, int id) throws DAOException {
-        userDAO.setImageByLogin(imageSrc, id);
+        userDAO.setImageByID(imageSrc, id);
     }
 
     public boolean setPassword(String newPassword, LoginUser loginUser) throws DAOException {
@@ -40,12 +40,15 @@ public class UserController {
         if (user == null) {
             return false;
         }
-        userDAO.setPasswordByLogin(newPassword, user.getId());
+        userDAO.setPasswordByID(newPassword, user.getId());
         return true;
     }
 
     public User updateUser(User updatedUser) throws DAOException {
-        if (!signUpValidator.validate(updatedUser)) {
+        if(signIn(updatedUser) == null) {
+            return null;
+        }
+        if (!userValidator.validate(updatedUser)) {
             throw new DAOException("User data didn't passed validation");
         }
         return userDAO.updateUser(updatedUser);
@@ -53,6 +56,10 @@ public class UserController {
 
     public boolean isLoginAvailable(String login) throws DAOException {
         return userDAO.isLoginAvailable(login);
+    }
+
+    public void setRoleByID(int role, int id) throws DAOException {
+        userDAO.setRoleByID(role, id);
     }
 
 }
