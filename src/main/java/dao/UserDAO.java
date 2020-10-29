@@ -11,15 +11,15 @@ import java.util.HashMap;
 
 public class UserDAO {
 
-    private final ConnectionPool connectionPool = ConnectionPool.getInstance();
-    private final StringHasher stringHasher = StringHasher.getInstance();
+    private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
+    private static final StringHasher stringHasher = StringHasher.getInstance();
 
-    private final String SIGNUP_SQL = "INSERT INTO Users(login,password,role,name,surname,patronymic,birthdate,phone_number) VALUES (?,?,?,?,?,?,?,?)";
-    private final String GET_USER_BY_LOGIN_SQL = "SELECT users.id,login,password,role,usersroles.name,users.name,surname,patronymic,birthdate,phone_number,image_src FROM Users users JOIN UsersRoles usersroles ON users.role = usersroles.id WHERE (login = ?)";
-    private final String UPDATE_USER_BY_ID_SQL = "UPDATE Users SET login = ?, name = ?, surname = ?, patronymic = ?, birthdate = ?, phone_number = ? WHERE id = ?";
-    private final String SET_IMAGE_BY_ID_SQL = "UPDATE Users SET image_src = ? WHERE id = ?";
-    private final String SET_PASSWORD_BY_ID_SQL = "UPDATE Users SET password = ? WHERE id = ?";
-    private final String SET_ROLE_BY_ID_SQL = "UPDATE Users SET type = ? WHERE id = ?";
+    private static final String SIGNUP_SQL = "INSERT INTO Users(login,password,role,name,surname,patronymic,birthdate,phone_number) VALUES (?,?,?,?,?,?,?,?)";
+    private static final String GET_USER_BY_LOGIN_SQL = "SELECT users.id,login,password,role,usersroles.name,users.name,surname,patronymic,birthdate,phone_number,image_src FROM Users users JOIN UsersRoles usersroles ON users.role = usersroles.id WHERE (login = ?)";
+    private static final String UPDATE_USER_BY_ID_SQL = "UPDATE Users SET login = ?, name = ?, surname = ?, patronymic = ?, birthdate = ?, phone_number = ? WHERE id = ?";
+    private static final String SET_IMAGE_BY_ID_SQL = "UPDATE Users SET image_src = ? WHERE id = ?";
+    private static final String SET_PASSWORD_BY_ID_SQL = "UPDATE Users SET password = ? WHERE id = ?";
+    private static final String SET_ROLE_BY_ID_SQL = "UPDATE Users SET type = ? WHERE id = ?";
 
     public UserDAO() {
     }

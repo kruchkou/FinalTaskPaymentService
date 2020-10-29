@@ -20,7 +20,7 @@ public class AccountController {
     }
 
     public void createAccount(int type, int userID) throws DAOException {
-        accountDAO.createAccount(type, userID);
+        accountDAO.addAccount(type, userID);
     }
 
     public void sendMoney(int idFrom, int idTo, BigDecimal amount) throws DAOException {

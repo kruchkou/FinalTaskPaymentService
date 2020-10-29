@@ -12,13 +12,13 @@ import java.util.*;
 
 public class AccountDAO {
 
-    private final ConnectionPool connectionPool = ConnectionPool.getInstance();
+    private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    private final static String GET_BALANCE_FOR_UPDATE_SQL = "SELECT balance FROM Accounts where id = ? FOR UPDATE";
-    private final static String CREATE_NEW_ACCOUNT_SQL = "INSERT INTO Accounts(type,user,status,balance,creation_date) values (?,?,?,?,?)";
-    private final static String SET_STATUS_BY_ID_SQL = "UPDATE Accounts SET status = ? WHERE id = ?";
-    private final static String SET_BALANCE_BY_ID_SQL = "UPDATE Accounts SET balance = ? WHERE id = ?";
-    private final static String GET_ACCOUNT_BY_USER_ID_SQL = "SELECT acc.id,type,types.name,user,status,statuses.name,balance,creation_date FROM Accounts acc " +
+    private static final String ADD_ACCOUNT_SQL = "INSERT INTO Accounts(type,user,status,balance,creation_date) values (?,?,?,?,?)";
+    private static final String SET_STATUS_BY_ID_SQL = "UPDATE Accounts SET status = ? WHERE id = ?";
+    private static final String SET_BALANCE_BY_ID_SQL = "UPDATE Accounts SET balance = ? WHERE id = ?";
+    private static final String GET_BALANCE_FOR_UPDATE_SQL = "SELECT balance FROM Accounts where id = ? FOR UPDATE";
+    private static final String GET_ACCOUNT_BY_USER_ID_SQL = "SELECT acc.id,type,types.name,user,status,statuses.name,balance,creation_date FROM Accounts acc " +
             "JOIN AccountTypes types ON acc.type = types.id " +
             "JOIN AccountStatuses statuses on acc.status = statuses.id " +
             "WHERE user = ? order by creation_date desc";
@@ -65,16 +65,15 @@ public class AccountDAO {
         return accList;
     }
 
-    public Account createAccount(int type, int userID) throws DAOException {
+    public void addAccount(int type, int userID) throws DAOException {
         final int STATUS_OPENED = 1;
 
-        List<Account> accountList;
         Connection connection = null;
         PreparedStatement ps = null;
 
         try {
             connection = connectionPool.getConnection();
-            ps = connection.prepareStatement(CREATE_NEW_ACCOUNT_SQL);
+            ps = connection.prepareStatement(ADD_ACCOUNT_SQL);
 
             ps.setInt(CreateIndex.type, type);
             ps.setInt(CreateIndex.user, userID);
@@ -83,18 +82,11 @@ public class AccountDAO {
             ps.setDate(CreateIndex.creationDate, new java.sql.Date(new Date().getTime()));
             ps.execute();
 
-            accountList = getAccountListByUserID(userID);
-
         } catch (SQLException e) {
-            throw new DAOException("Can't handle AccountDAO.createAccount request", e);
+            throw new DAOException("Can't handle AccountDAO.addAccount request", e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
-
-        if (accountList.size() > 0) {
-            return accountList.get(0);
-        }
-        return null;
     }
 
     public void setStatusByID(int id, int status) throws DAOException {
@@ -128,9 +120,12 @@ public class AccountDAO {
             ps.setInt(GetBalanceIndex.id, idFrom);
             ResultSet rs = ps.executeQuery();
             balanceFrom = rs.getBigDecimal(ParamColumn.balance);
+
             ps.setInt(GetBalanceIndex.id, idTo);
             rs = ps.executeQuery();
             balanceTo = rs.getBigDecimal(ParamColumn.balance);
+
+            ps.close(); //нужно ли?
 
             final boolean ENOUGH_MONEY = balanceFrom.compareTo(balanceTo) > 0;
             if (!ENOUGH_MONEY) {

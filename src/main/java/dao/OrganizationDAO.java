@@ -3,6 +3,7 @@ package dao;
 import dao.entity.*;
 import dao.impl.ConnectionPool;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,11 +11,13 @@ import java.util.List;
 
 public class OrganizationDAO {
 
-    private final ConnectionPool connectionPool = ConnectionPool.getInstance();
+    private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    private final String INSERT_ORGANIZATION_SQL = "INSERT INTO Organizations(name,account,status) VALUES (?,?,?)";
-    private final String SET_STATUS_BY_ID_SQL = "UPDATE Organizations SET status = ? where id = ?";
-    private final String GET_ORGANIZATION_LIST_BY_USER_ID_SQL = "SELECT org.id,org.name,account,org.status,statuses.name FROM Organizations org " +
+    private static final String ADD_ACCOUNT_SQL = "INSERT INTO Accounts(type,user,status,balance,creation_date) values (?,?,?,?,?)";
+
+    private static final String ADD_ORGANIZATION_SQL = "INSERT INTO Organizations(name,account,status) VALUES (?,?,?)";
+    private static final String SET_STATUS_BY_ID_SQL = "UPDATE Organizations SET status = ? where id = ?";
+    private static final String GET_ORGANIZATION_LIST_BY_USER_ID_SQL = "SELECT org.id,org.name,account,org.status,statuses.name FROM Organizations org " +
             "JOIN OrganizationStatuses statuses ON org.status = statuses.id " +
             "JOIN Accounts acc ON org.account = acc.id " +
             "WHERE acc.user = ?";
@@ -54,25 +57,65 @@ public class OrganizationDAO {
         return orgList;
     }
 
-    public void addOrganization(Organization organization) throws DAOException {
+    public void addOrganization(Organization organization, int userID) throws DAOException {
         final int STATUS_OPENED = 1;
 
+        int accountID;
         Connection connection = null;
         PreparedStatement ps = null;
+
         try {
             connection = connectionPool.getConnection();
-            ps = connection.prepareStatement(INSERT_ORGANIZATION_SQL);
+            connection.setAutoCommit(false);
+
+            accountID = createOrgAccount(connection, userID);
+
+            ps = connection.prepareStatement(ADD_ORGANIZATION_SQL);
 
             ps.setString(AddOrganizationIndex.name, organization.getName());
-            ps.setInt(AddOrganizationIndex.account, organization.getAccount());
+            ps.setInt(AddOrganizationIndex.account, accountID);
             ps.setInt(AddOrganizationIndex.status, STATUS_OPENED);
-
             ps.execute();
+
+            connection.commit();
+
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException exception) {
+                throw new DAOException("Can't handle OrgDAO.rollback request", exception);
+            }
+
             throw new DAOException("Can't handle OrgDAO.addOrganization request");
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
+    }
+
+    //Можно ли создавать здесь счет?? Он ведь в АккаунтДАО должен быть
+    //Но мне нужна транзакция
+    private int createOrgAccount(Connection connection, int userID) throws SQLException {
+        final int STATUS_OPENED = 1;
+        final int ACCOUNT_TYPE_ORGANIZATION = 2;
+        final String ADD_ACCOUNT_ID_COLUMN = "id";
+        final String[] ADD_ACCOUNT_RETURN_COLUMN = {ADD_ACCOUNT_ID_COLUMN};
+
+        int accountID;
+
+        PreparedStatement ps = connection.prepareStatement(ADD_ACCOUNT_SQL, ADD_ACCOUNT_RETURN_COLUMN); //нужно ли его закрывать??
+
+        ps.setInt(CreateAccountIndex.type, ACCOUNT_TYPE_ORGANIZATION);
+        ps.setInt(CreateAccountIndex.user, userID);
+        ps.setInt(CreateAccountIndex.status, STATUS_OPENED);
+        ps.setBigDecimal(CreateAccountIndex.balance, new BigDecimal(0));
+        ps.setDate(CreateAccountIndex.creationDate, new java.sql.Date(new java.util.Date().getTime()));
+        ps.execute();
+
+        ResultSet rs = ps.getGeneratedKeys();
+        accountID = rs.getInt(ADD_ACCOUNT_ID_COLUMN);
+        ps.close(); //Нужно ли?
+
+        return accountID;
     }
 
     public void setStatusByID(int id, int status) throws DAOException {
@@ -114,5 +157,14 @@ public class OrganizationDAO {
         private static final int status = 1;
         private static final int id = 2;
     }
+
+    private static class CreateAccountIndex {
+        private static final int type = 1;
+        private static final int user = 2;
+        private static final int status = 3;
+        private static final int balance = 4;
+        private static final int creationDate = 5;
+    }
+
 
 }

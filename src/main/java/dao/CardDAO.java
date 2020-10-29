@@ -10,11 +10,11 @@ import java.util.List;
 
 public class CardDAO {
 
-    private final ConnectionPool connectionPool = ConnectionPool.getInstance();
+    private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    private final String INSERT_CARD_SQL = "INSERT INTO Cards(account,number,owner_name,exp_date,cvv,status) VALUES (?,?,?,?,?,?)";
-    private final String GET_CARD_BY_ACCOUNT_ID_SQL = "SELECT cards.id, account, number, owner_name, exp_date, cvv, status, cardstatus.name FROM Cards cards JOIN CardStatuses cardstatus ON cards.status = cardstatus.id WHERE account = ?";
-    private final String SET_STATUS_BY_ID_SQL = "UPDATE Cards SET status = ? where id = ?";
+    private static final String INSERT_CARD_SQL = "INSERT INTO Cards(account,number,owner_name,exp_date,cvv,status) VALUES (?,?,?,?,?,?)";
+    private static final String GET_CARD_BY_ACCOUNT_ID_SQL = "SELECT cards.id, account, number, owner_name, exp_date, cvv, status, cardstatus.name FROM Cards cards JOIN CardStatuses cardstatus ON cards.status = cardstatus.id WHERE account = ?";
+    private static final String SET_STATUS_BY_ID_SQL = "UPDATE Cards SET status = ? where id = ?";
 
     public CardDAO() {
     }

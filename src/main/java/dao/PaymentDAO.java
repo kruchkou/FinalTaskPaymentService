@@ -10,17 +10,17 @@ import java.util.List;
 
 public class PaymentDAO {
 
-    private final ConnectionPool connectionPool = ConnectionPool.getInstance();
+    private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    private final String INSERT_PAYMENT_SQL = "INSERT INTO Payments(card_from,account_to,amount,datetime,type,comment) VALUES (?,?,?,?,?,?)";
-    private final String GET_PAYMENT_BY_ID_SQL = "SELECT payments.id, card_from, account_to, amount, datetime, payments.type, types.name, comment FROM Payments payments " +
+    private static final String INSERT_PAYMENT_SQL = "INSERT INTO Payments(card_from,account_to,amount,datetime,type,comment) VALUES (?,?,?,?,?,?)";
+    private static final String GET_PAYMENT_BY_ID_SQL = "SELECT payments.id, card_from, account_to, amount, datetime, payments.type, types.name, comment FROM Payments payments " +
             "JOIN PaymentTypes types ON payments.id = types.id " +
             "WHERE payments.id = ?";
-    private final String GET_OUT_PAYMENT_LIST_BY_ACCOUNT_ID = "SELECT payments.id, card_from, account_to, amount, datetime, payments.type, types.name, comment FROM Payments payments " +
+    private static final String GET_OUT_PAYMENT_LIST_BY_ACCOUNT_ID = "SELECT payments.id, card_from, account_to, amount, datetime, payments.type, types.name, comment FROM Payments payments " +
             "JOIN PaymentTypes types ON payments.id = types.id " +
             "JOIN Cards cards ON payments.card_from = cards.id " +
             "WHERE cards.account = ?";
-    private final String GET_IN_PAYMENT_LIST_BY_ACCOUNT_ID = "SELECT payments.id, card_from, account_to, amount, datetime, payments.type, types.name, comment FROM Payments payments " +
+    private static final String GET_IN_PAYMENT_LIST_BY_ACCOUNT_ID = "SELECT payments.id, card_from, account_to, amount, datetime, payments.type, types.name, comment FROM Payments payments " +
             "JOIN PaymentTypes types ON payments.id = types.id " +
             "WHERE account_to = ?";
 
