@@ -1,4 +1,4 @@
-package servlet;
+package controller;
 
 import command.Command;
 import command.CommandProvider;

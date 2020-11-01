@@ -4,9 +4,25 @@
     text-align: center;
 }
 
-.login_form1 {
+.center_box {
     display: flex;
     align-items: center;
+}
+
+.fullfill {
+    width: 100%;
+}
+
+.display_block {
+    display: block;
+}
+
+.control-button {
+    margin-bottom: 5pt;
+}
+
+.fullfill {
+    width: 100%;
 }
 
 .login_button {
@@ -33,5 +49,9 @@
 
 .payment_window {
     background-color: darkgrey;
+}
+
+.account-control-button {
+    margin-bottom: 3pt;
 }
 

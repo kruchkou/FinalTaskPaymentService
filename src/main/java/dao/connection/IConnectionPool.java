@@ -1,4 +1,6 @@
-package dao;
+package dao.connection;
+
+import dao.exception.DAOException;
 
 import java.sql.Connection;
 

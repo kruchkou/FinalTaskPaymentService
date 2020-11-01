@@ -10,6 +10,6 @@ import java.io.IOException;
 public class GoToErrorPageCommand implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            resp.sendRedirect("error.jsp");
+        req.getRequestDispatcher("error.jsp").forward(req,resp);
     }
 }

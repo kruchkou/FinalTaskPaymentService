@@ -1,20 +1,22 @@
-package controller;
+package service;
 
-import dao.DAOException;
+import dao.DAOProvider;
 import dao.PaymentDAO;
+import dao.exception.DAOException;
 import dao.entity.Payment;
 
 import java.util.List;
 
-public class PaymentController {
+public class PaymentService {
 
-    private static final PaymentController instance = new PaymentController();
-    private final PaymentDAO paymentDAO = new PaymentDAO();
+    private static final PaymentService instance = new PaymentService();
+    private final DAOProvider daoProvider = DAOProvider.getInstance();
+    private final PaymentDAO paymentDAO = daoProvider.getPaymentDAO();
 
-    private PaymentController() {
+    private PaymentService() {
     }
 
-    public static PaymentController getInstance() {
+    public static PaymentService getInstance() {
         return instance;
     }
 

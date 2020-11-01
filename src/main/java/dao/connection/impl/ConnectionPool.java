@@ -1,12 +1,8 @@
-package dao.impl;
+package dao.connection.impl;
 
-import dao.DAOException;
-import dao.IConnectionPool;
+import dao.exception.DAOException;
+import dao.connection.IConnectionPool;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;

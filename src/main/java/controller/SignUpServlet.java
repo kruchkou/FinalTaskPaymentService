@@ -1,8 +1,8 @@
-package servlet;
+package controller;
 
 import command.CommandProvider;
-import controller.UserController;
-import dao.DAOException;
+import service.UserService;
+import dao.exception.DAOException;
 import dao.entity.SignUpUser;
 import org.apache.log4j.Logger;
 import util.UserBuilder;
@@ -31,7 +31,7 @@ public class SignUpServlet extends HttpServlet {
     private void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final int DUBLICATE_LOGIN_ERROR_CODE = 1062;
 
-        UserController userController = UserController.getInstance();
+        UserService userService = UserService.getInstance();
 
         UserBuilder userBuilder = new UserBuilder();
         userBuilder.setLogin(req.getParameter("login"));
@@ -50,7 +50,7 @@ public class SignUpServlet extends HttpServlet {
         SignUpUser signUpUser = userBuilder.build();
 
         try {
-            userController.signUp(signUpUser);
+            userService.signUp(signUpUser);
             resp.sendRedirect("sign_in.jsp"); //уведомить пользователя об успешной регистрации!
 
         } catch (DAOException e) {

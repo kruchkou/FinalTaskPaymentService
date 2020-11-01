@@ -1,22 +1,24 @@
-package controller;
+package service;
 
-import dao.DAOException;
+import dao.DAOProvider;
 import dao.UserDAO;
+import dao.exception.DAOException;
 import dao.entity.LoginUser;
 import dao.entity.SignUpUser;
 import dao.entity.User;
 import util.validator.UserValidator;
 
-public class UserController {
+public class UserService {
 
-    private static final UserController instance = new UserController();
-    private final UserDAO userDAO = new UserDAO();
+    private static final UserService instance = new UserService();
     private final UserValidator userValidator = UserValidator.getInstance();
+    private final DAOProvider daoProvider = DAOProvider.getInstance();
+    private final UserDAO userDAO = daoProvider.getUserDAO();
 
-    private UserController() {
+    private UserService() {
     }
 
-    public static UserController getInstance() {
+    public static UserService getInstance() {
         return instance;
     }
 

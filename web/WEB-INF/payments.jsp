@@ -8,13 +8,13 @@
 <body>
 <jsp:include page="header.jsp"/>
 
-<div class="container payment_window">
+<div class="container payment_window mt-5 mb-5 pt-3 pb-5">
 
     <div class="row justify-content-md-center">
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
             <div class="btn-group mr-5" role="group" aria-label="First group">
-                <button type="button" class="btn btn-secondary">Мои счета</button>
-                <button type="button" class="btn btn-secondary">Мои карты</button>
+                <a type="button" class="btn btn-secondary" href="Controller?command=go_to_accounts_command">Мои счета</a>
+                <a type="button" class="btn btn-secondary" href="Controller?command=go_to_cards_command">Мои карты</a>
                 <button type="button" class="btn btn-secondary">Мои платежи</button>
             </div>
             <div class="btn-group" role="group" aria-label="Second group">
@@ -24,11 +24,13 @@
         </div>
     </div>
 
-    <div class="content">
-        <c:forEach var="element" items="${accounts}">
-            <p>${element}</p>
-        </c:forEach>
-    </div>
+    <jsp:include page="${payments_content}"/>
+
+<%--    <div class="content">--%>
+<%--        <c:forEach var="element" items="${accounts}">--%>
+<%--            <p>${element}</p>--%>
+<%--        </c:forEach>--%>
+<%--    </div>--%>
 
 </div>
 

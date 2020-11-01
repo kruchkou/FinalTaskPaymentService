@@ -1,21 +1,23 @@
-package controller;
+package service;
 
 import dao.AccountDAO;
-import dao.DAOException;
+import dao.DAOProvider;
+import dao.exception.DAOException;
 import dao.entity.Account;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-public class AccountController {
+public class AccountService {
 
-    private static final AccountController instance = new AccountController();
-    private final AccountDAO accountDAO = new AccountDAO();
+    private static final AccountService instance = new AccountService();
+    private final DAOProvider daoProvider = DAOProvider.getInstance();
+    private final AccountDAO accountDAO = daoProvider.getAccountDAO();
 
-    private AccountController() {
+    private AccountService() {
     }
 
-    public AccountController getInstance() {
+    public static AccountService getInstance() {
         return instance;
     }
 
@@ -29,6 +31,10 @@ public class AccountController {
 
     public List<Account> getAccountList(int userID) throws DAOException {
         return accountDAO.getAccountListByUserID(userID);
+    }
+
+    public Account getAccount(int accountID) throws DAOException {
+        return accountDAO.getAccountByAccountID(accountID);
     }
 
     public void setStatus(int id, int status) throws DAOException {
