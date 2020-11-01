@@ -11,7 +11,7 @@ public class CardService {
 
     private static final CardService instance = new CardService();
     private final DAOProvider daoProvider = DAOProvider.getInstance();
-    private final CardDAO cardDAO = daoProvider.getCarDAO();
+    private final CardDAO cardDAO = daoProvider.getCardDAO();
 
     private CardService() {
     }

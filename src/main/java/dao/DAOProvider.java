@@ -22,7 +22,7 @@ public class DAOProvider {
         return userDAO;
     }
 
-    public CardDAO getCarDAO() {
+    public CardDAO getCardDAO() {
         return carDAO;
     }
 

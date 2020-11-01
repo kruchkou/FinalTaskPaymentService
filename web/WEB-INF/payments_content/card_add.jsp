@@ -11,7 +11,38 @@
     <title>Add card</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/header.jsp"/>
 
+<div class="col-md-6 mt-3 mx-auto">
+    <div class="card">
+        <div class="card-header">
+            <h1 class="text-center">ПРИВЯЗАТЬ КАРТУ</h1>
+        </div>
+        <div class="card-body display_block">
+            <form action="Controller" method="post">
+                <input type="hidden" name="accountID" value="${accountID}">
+                <input type="hidden" name="command" value="add_card_command">
+                <div class="form-group">
+                    <label for="number">Номер карты:</label>
+                    <input type="number" class="form-control" name="number" id="number">
+                </div>
+                <div class="form-group">
+                    <label for="ownerName">Имя владельца:</label>
+                    <input type="text" class="form-control" name="ownerName" id="ownerName">
+                </div>
+                <div class="form-group">
+                    <label for="expDate">Дата истечения:</label>
+                    <input type="date" class="form-control" name="expDate" id="expDate">
+                </div>
+                <div class="form-group">
+                    <label for="cvv">cvv:</label>
+                    <input type="number" class="form-control" name="cvv" id="cvv">
+                </div>
+                <div class="form-group mt-5">
+                    <button type="submit" class="btn btn-success">Добавить карту</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>

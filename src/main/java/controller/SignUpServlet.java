@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
 
 public class SignUpServlet extends HttpServlet {
 
@@ -42,7 +43,7 @@ public class SignUpServlet extends HttpServlet {
         userBuilder.setPhoneNumber(req.getParameter("phone_number"));
         try {
             userBuilder.setBirthDate(req.getParameter("birthdate"));
-        } catch (BuildException e) {
+        } catch (ParseException e) {
             logger.error(e.getMessage(), e);
             CommandProvider.getInstance().getCommand("go_to_error_page_command").execute(req, resp);
         }

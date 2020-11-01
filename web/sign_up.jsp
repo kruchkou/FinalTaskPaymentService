@@ -38,7 +38,7 @@
                     </div>
                     <div class="form-group">
                         <label for="birthdateInput">Дата рождения:</label>
-                        <input type="date" class="form-control" name="bithdate" id="birthdateInput">
+                        <input type="date" class="form-control" name="birthdate" id="birthdateInput">
                     </div>
                     <div class="form-group">
                         <label for="phoneInput">Номер телефона:</label>

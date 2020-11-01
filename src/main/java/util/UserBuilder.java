@@ -8,7 +8,9 @@ import java.text.SimpleDateFormat;
 
 public class UserBuilder {
 
-    User user = new User();
+    private final DateParser dateParser = DateParser.getInstance();
+
+    private User user = new User();
 
     public void setLogin(String login) {
         user.setLogin(login);
@@ -34,13 +36,8 @@ public class UserBuilder {
         user.setId(id);
     }
 
-    public void setBirthDate(String birthDate) throws BuildException {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            user.setBirthDate(df.parse(birthDate));
-        } catch (ParseException e) {
-            throw new BuildException("Cant parse birthdate", e);
-        }
+    public void setBirthDate(String birthDate) throws ParseException {
+            user.setBirthDate(dateParser.parse(birthDate));
     }
 
     public void setPhoneNumber(String phoneNumber) {

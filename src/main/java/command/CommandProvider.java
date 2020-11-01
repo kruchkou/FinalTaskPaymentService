@@ -24,6 +24,7 @@ public class CommandProvider {
         commands.put(CommandName.GO_TO_ACCOUNTS_COMMAND, new GoToAccountsCommand());
         commands.put(CommandName.GO_TO_ACCOUNT_COMMAND, new GoToAccountCommand());
         commands.put(CommandName.GO_TO_ACCOUNT_HISTORY_COMMAND, new GoToAccountHistoryCommand());
+        commands.put(CommandName.GO_TO_ADD_CARD_COMMAND, new GoToAddCardCommand());
         commands.put(CommandName.GO_TO_CARDS_COMMAND, new GoToCardsCommand());
         commands.put(CommandName.GO_TO_CARD_COMMAND, new GoToCardCommand());
         commands.put(CommandName.GO_TO_CARD_HISTORY_COMMAND, new GoToCardHistoryCommand());

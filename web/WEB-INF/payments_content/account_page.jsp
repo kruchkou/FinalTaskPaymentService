@@ -38,7 +38,7 @@
                     </div>
                     <div>
                         <button name="command" type="submit" class="btn btn-info control-button fullfill"
-                                value="add_card_command">Добавить карту
+                                value="go_to_add_card_command">Добавить карту
                         </button>
                     </div>
                     <div>

@@ -13,5 +13,7 @@
 <body>
 <jsp:include page="WEB-INF/header.jsp" />
 <h1>Извините, у нас технические неполадки</h1>
+<p>${exception.getMessage()}</p>
+<p>${exception.printStackTrace()}</p>
 </body>
 </html>
