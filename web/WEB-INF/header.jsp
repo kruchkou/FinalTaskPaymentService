@@ -78,6 +78,25 @@
 
         </ul>
         <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle cl-white" href="#" id="navLang" role="button"
+                   data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    RU
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="navLang">
+
+                    <button form="headerForm" class="btn dropdown-item" type="submit" name="command"
+                            value="go_to_personal_page_command">RU
+                    </button>
+                    <div class="dropdown-divider"></div>
+                    <button form="headerForm" class="btn btn-outline-danger dropdown-item" type="submit"
+                            name="command" value="log_out_command">EN
+                    </button>
+
+                </div>
+            </li>
             <li class="nav-item ml-auto mr-auto">
                 <a class="nav-link" href="index.jsp">О сервисе</a>
             </li>

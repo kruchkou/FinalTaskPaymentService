@@ -51,6 +51,9 @@
                                 value="revoke_admin_rights_command">Сделать пользователем
                         </button>
                     </c:if>
+                    <button name="command" type="submit" class="btn btn-success control-button fullfill"
+                            value="admin_unlock_user_accounts_command">Разблокировать все счета
+                    </button>
                         <button name="command" type="submit" class="btn btn-warning control-button fullfill"
                                 value="admin_lock_user_accounts_command">Заблокировать все счета
                         </button>
