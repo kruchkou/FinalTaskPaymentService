@@ -23,4 +23,9 @@ public class CharsetFilter implements Filter {
         context.log("Encoding set: " + encoding);
         filterChain.doFilter(req,resp);
     }
+
+    @Override
+    public void destroy() {
+
+    }
 }

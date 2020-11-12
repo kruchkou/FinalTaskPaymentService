@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class GoToSignInCommand implements Command {
+
+    private static final String SIGN_IN_PAGE_URL = "sign_in.jsp";
+
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        req.getRequestDispatcher("sign_in.jsp").include(req, resp);
+        req.getRequestDispatcher(SIGN_IN_PAGE_URL).forward(req, resp);
     }
 }

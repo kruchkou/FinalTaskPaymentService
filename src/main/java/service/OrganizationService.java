@@ -1,35 +1,20 @@
 package service;
 
-import dao.DAOProvider;
-import dao.OrganizationDAO;
-import dao.exception.DAOException;
 import dao.entity.Organization;
+import dao.exception.DAOException;
 
 import java.util.List;
 
-public class OrganizationService {
+public interface OrganizationService {
 
-    private static final OrganizationService instance = new OrganizationService();
-    private final DAOProvider daoProvider = DAOProvider.getInstance();
-    private final OrganizationDAO organizationDAO = daoProvider.getOrganizationDAO();
+//    List<Organization> getOrgList(int userID) throws DAOException;
+    List<Organization> getOrgList() throws DAOException;
+    List<Organization> getOrgList(String name) throws DAOException;
+    List<Organization> getActiveOrgList() throws DAOException;
+    List<Organization> getActiveOrgList(String name) throws DAOException;
+    Organization getOrg(int id) throws DAOException;
+    void addOrganization(String name, int accountID) throws DAOException;
+    void setStatus(int id, int status) throws DAOException;
 
-    private OrganizationService() {
-    }
-
-    public static OrganizationService getInstance() {
-        return instance;
-    }
-
-    public List<Organization> getOrgList(int userID) throws DAOException {
-        return organizationDAO.getOrgListByUserID(userID);
-    }
-
-    public void addOrganization(Organization organization, int userID) throws DAOException {
-        organizationDAO.addOrganization(organization, userID);
-    }
-
-    public void setStatus(int id, int status) throws DAOException {
-        organizationDAO.setStatusByID(id, status);
-    }
 
 }

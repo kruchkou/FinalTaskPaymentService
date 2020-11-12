@@ -10,6 +10,7 @@ import java.io.IOException;
 
 public class ExceptionHandler extends HttpServlet {
 
+    private static final String ERROR_PAGE_COMMAND = "go_to_error_page_command";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -22,7 +23,7 @@ public class ExceptionHandler extends HttpServlet {
     }
 
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        CommandProvider.getInstance().getCommand("go_to_error_page_command").execute(req,resp);
+        CommandProvider.getInstance().getCommand(ERROR_PAGE_COMMAND).execute(req,resp);
     }
 
 }

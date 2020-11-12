@@ -11,15 +11,19 @@ import java.util.Enumeration;
 import java.util.List;
 
 public class GoToErrorPageCommand implements Command {
+
+    private static final String ATTRIBUTE_EXCEPTION = "exception";
+    private static final String ATTRIBUTE_EXCEPTION_CLASS = "javax.servlet.error.exception";
+    private static final String ERROR_PAGE_URL = "error.jsp";
+
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Throwable throwable = (Throwable) req.getAttribute("javax.servlet.error.exception");
+        Throwable throwable = (Throwable) req.getAttribute(ATTRIBUTE_EXCEPTION_CLASS);
 
-        throwable.getMessage();
-        if (throwable != null) {
-            req.setAttribute("exception", throwable);
+        if (throwable != null && req.getAttribute(ATTRIBUTE_EXCEPTION) != null) {
+            req.setAttribute(ATTRIBUTE_EXCEPTION, throwable);
         }
 
-        req.getRequestDispatcher("error.jsp").forward(req,resp);
+        req.getRequestDispatcher(ERROR_PAGE_URL).forward(req,resp);
     }
 }

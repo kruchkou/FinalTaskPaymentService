@@ -1,10 +1,8 @@
 package util;
 
 import dao.entity.User;
-import util.exception.BuildException;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 public class UserBuilder {
 
@@ -17,7 +15,7 @@ public class UserBuilder {
     }
 
     public void setPassword(String password) {
-        user.setPassword(password); //заменить на хэш
+        user.setPassword(password);
     }
 
     public void setName(String name) {

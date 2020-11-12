@@ -3,7 +3,7 @@ package dao.entity;
 import java.util.Date;
 import java.util.Objects;
 
-public class SignUpUser extends LoginUser {
+public class SignUpData extends LoginData {
 
     private String name;
     private String surname;
@@ -11,10 +11,10 @@ public class SignUpUser extends LoginUser {
     private Date birthDate;
     private String phoneNumber;
 
-    public SignUpUser() {
+    public SignUpData() {
     }
 
-    public SignUpUser(String name, String surname, String patronymic, Date birthDate, String phoneNumber) {
+    public SignUpData(String name, String surname, String patronymic, Date birthDate, String phoneNumber) {
         this.name = name;
         this.surname = surname;
         this.patronymic = patronymic;
@@ -65,9 +65,9 @@ public class SignUpUser extends LoginUser {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SignUpUser)) return false;
+        if (!(o instanceof SignUpData)) return false;
         if (!super.equals(o)) return false;
-        SignUpUser that = (SignUpUser) o;
+        SignUpData that = (SignUpData) o;
         return Objects.equals(name, that.name) &&
                 Objects.equals(surname, that.surname) &&
                 Objects.equals(patronymic, that.patronymic) &&
@@ -77,7 +77,7 @@ public class SignUpUser extends LoginUser {
 
     @Override
     public String toString() {
-        return "SignUpUser{" +
+        return "SignUpData{" +
                 "login='" + this.getLogin() + '\'' +
                 ", password='" + this.getPassword() + '\'' +
                 ", name='" + name + '\'' +

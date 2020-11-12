@@ -1,33 +1,43 @@
 package dao.impl;
 
+import dao.entity.Status;
 import dao.exception.DAOException;
 import dao.UserDAO;
 import dao.connection.impl.ConnectionPool;
-import dao.entity.LoginUser;
-import dao.entity.SignUpUser;
+import dao.entity.LoginData;
+import dao.entity.SignUpData;
 import dao.entity.User;
 import util.StringHasher;
 
 import java.sql.*;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
 
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
     private static final StringHasher stringHasher = StringHasher.getInstance();
 
-    private static final String SIGNUP_SQL = "INSERT INTO Users(login,password,role,name,surname,patronymic,birthdate,phone_number) VALUES (?,?,?,?,?,?,?,?)";
-    private static final String GET_USER_BY_LOGIN_SQL = "SELECT users.id,login,password,role,usersroles.name,users.name,surname,patronymic,birthdate,phone_number,image_src FROM Users users JOIN UsersRoles usersroles ON users.role = usersroles.id WHERE (login = ?)";
+    private static final String SIGNUP_SQL = "INSERT INTO Users(login,password,status,name,surname,patronymic,birthdate,phone_number) VALUES (?,?,?,?,?,?,?,?)";
     private static final String UPDATE_USER_BY_ID_SQL = "UPDATE Users SET login = ?, name = ?, surname = ?, patronymic = ?, birthdate = ?, phone_number = ? WHERE id = ?";
     private static final String SET_IMAGE_BY_ID_SQL = "UPDATE Users SET image_src = ? WHERE id = ?";
     private static final String SET_PASSWORD_BY_ID_SQL = "UPDATE Users SET password = ? WHERE id = ?";
-    private static final String SET_ROLE_BY_ID_SQL = "UPDATE Users SET type = ? WHERE id = ?";
+    private static final String SET_STATUS_BY_ID_SQL = "UPDATE Users SET status = ? WHERE id = ?";
+    private static final String GET_USER_BY_LOGIN_SQL = "SELECT users.id,login,password,status,userstatus.name,users.name,surname,patronymic,birthdate,phone_number,image_src FROM Users users " +
+            "JOIN UsersStatuses userstatus ON users.status = userstatus.id " +
+            "WHERE (login = ?)";
+    private static final String GET_USER_BY_ID_SQL = "SELECT users.id,login,password,status,userstatus.name,users.name,surname,patronymic,birthdate,phone_number,image_src FROM Users users " +
+            "JOIN UsersStatuses userstatus ON users.status = userstatus.id " +
+            "WHERE (users.id = ?)";
+    private static final String GET_USER_LIST_SQL = "SELECT users.id,login,password,status,userstatus.name,users.name,surname,patronymic,birthdate,phone_number,image_src FROM Users users " +
+            "JOIN UsersStatuses userstatus ON users.status = userstatus.id " +
+            "WHERE (users.name REGEXP ? OR surname REGEXP ? OR patronymic REGEXP ?)";
 
     public UserDAOImpl() {
     }
 
     @Override
-    public User signIn(LoginUser loginUser) throws DAOException {
+    public User signIn(LoginData loginData) throws DAOException {
         User user = null;
         Connection connection = null;
         PreparedStatement ps = null;
@@ -35,24 +45,25 @@ public class UserDAOImpl implements UserDAO {
             connection = connectionPool.getConnection();
             ps = connection.prepareStatement(GET_USER_BY_LOGIN_SQL);
 
-            ps.setString(SignUpIndex.login, loginUser.getLogin());
+            ps.setString(SignUpIndex.login, loginData.getLogin());
 
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
                 String hashedPassword = rs.getString(ParamColumn.password);
 
-                if (!stringHasher.checkHash(loginUser.getPassword(), hashedPassword)) {
+                if (!stringHasher.checkHash(loginData.getPassword(), hashedPassword)) {
                     return null;
                 }
 
                 user = new User();
-                HashMap<Integer, String> role = new HashMap<>();
-                role.put((rs.getInt(ParamColumn.roleID)), rs.getString(ParamColumn.roleName));
+                Status status = new Status();
+                status.setId(rs.getInt(ParamColumn.statusID));
+                status.setName(rs.getString(ParamColumn.statusName));
 
                 user.setId(rs.getInt(ParamColumn.id));
                 user.setLogin(rs.getString(ParamColumn.login));
-                user.setRole(role);
+                user.setStatus(status);
                 user.setName(rs.getString(ParamColumn.name));
                 user.setSurname(rs.getString(ParamColumn.surname));
                 user.setPatronymic(rs.getString(ParamColumn.patronymic));
@@ -135,19 +146,19 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void setRoleByID(int role, int id) throws DAOException {
+    public void setStatus(int status, int id) throws DAOException {
         Connection connection = null;
         PreparedStatement ps = null;
 
         try {
             connection = connectionPool.getConnection();
-            ps = connection.prepareStatement(SET_ROLE_BY_ID_SQL);
-            ps.setInt(SetRoleIndex.role,role);
-            ps.setInt(SetRoleIndex.id, id);
+            ps = connection.prepareStatement(SET_STATUS_BY_ID_SQL);
+            ps.setInt(SetStatusIndex.status,status);
+            ps.setInt(SetStatusIndex.id, id);
 
             ps.execute();
         } catch (SQLException e) {
-            throw new DAOException("Can't handle UserDAO.setRoleByID request", e);
+            throw new DAOException("Can't handle UserDAO.setStatusByID request", e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -178,8 +189,88 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void signUp(SignUpUser signUpUser) throws DAOException {
-        final int USERROLE_USER = 1;
+    public List<User> getUserList(String fio) throws DAOException {
+        final String SPACE_REGEX_SYMBOL = " ";
+        final String DELIMITER_SYMBOL = "|";
+        fio = fio.replace(SPACE_REGEX_SYMBOL,DELIMITER_SYMBOL);
+
+        final List<User> userList = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement ps = null;
+        try {
+            connection = connectionPool.getConnection();
+            ps = connection.prepareStatement(GET_USER_LIST_SQL);
+
+            ps.setString(GetUserListIndex.name,fio);
+            ps.setString(GetUserListIndex.surname,fio);
+            ps.setString(GetUserListIndex.patronymic,fio);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                User user = new User();
+                Status status = new Status();
+                status.setId(rs.getInt(ParamColumn.statusID));
+                status.setName(rs.getString(ParamColumn.statusName));
+
+                user.setId(rs.getInt(ParamColumn.id));
+                user.setLogin(rs.getString(ParamColumn.login));
+                user.setStatus(status);
+                user.setName(rs.getString(ParamColumn.name));
+                user.setSurname(rs.getString(ParamColumn.surname));
+                user.setPatronymic(rs.getString(ParamColumn.patronymic));
+                user.setBirthDate(rs.getDate(ParamColumn.birthDate));
+                user.setPhoneNumber(rs.getString(ParamColumn.phoneNumber));
+                user.setImageSrc(rs.getString(ParamColumn.imageSrc));
+
+                userList.add(user);
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Cant handle UserDAO.getUserList request", e);
+        } finally {
+            connectionPool.closeConnection(connection, ps);
+        }
+        return userList;
+    }
+
+    @Override
+    public User getUser(int id) throws DAOException {
+        User user = null;
+        Connection connection = null;
+        PreparedStatement ps = null;
+        try {
+            connection = connectionPool.getConnection();
+            ps = connection.prepareStatement(GET_USER_BY_ID_SQL);
+            ps.setInt(GetUserIndex.id, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                user = new User();
+                Status status = new Status();
+                status.setId(rs.getInt(ParamColumn.statusID));
+                status.setName(rs.getString(ParamColumn.statusName));
+
+                user.setId(rs.getInt(ParamColumn.id));
+                user.setLogin(rs.getString(ParamColumn.login));
+                user.setStatus(status);
+                user.setName(rs.getString(ParamColumn.name));
+                user.setSurname(rs.getString(ParamColumn.surname));
+                user.setPatronymic(rs.getString(ParamColumn.patronymic));
+                user.setBirthDate(rs.getDate(ParamColumn.birthDate));
+                user.setPhoneNumber(rs.getString(ParamColumn.phoneNumber));
+                user.setImageSrc(rs.getString(ParamColumn.imageSrc));
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Cant handle UserDAO.getUserByID request", e);
+        } finally {
+            connectionPool.closeConnection(connection, ps);
+        }
+        return user;
+    }
+
+    @Override
+    public void signUp(SignUpData signUpData) throws DAOException {
+        final int STATUS_USER = 1;
         final int DUBLICATE_LOGIN_ERROR_CODE = 1062;
 
         Connection connection = null;
@@ -187,14 +278,14 @@ public class UserDAOImpl implements UserDAO {
         try {
             connection = connectionPool.getConnection();
             ps = connection.prepareStatement(SIGNUP_SQL);
-            ps.setString(SignUpIndex.login, signUpUser.getLogin());
-            ps.setString(SignUpIndex.password, stringHasher.getHash(signUpUser.getPassword()));
-            ps.setInt(SignUpIndex.role, USERROLE_USER);
-            ps.setString(SignUpIndex.name, signUpUser.getName());
-            ps.setString(SignUpIndex.surname, signUpUser.getSurname());
-            ps.setString(SignUpIndex.patronymic, signUpUser.getPatronymic());
-            ps.setDate(SignUpIndex.birthDate, new Date(signUpUser.getBirthDate().getTime()));
-            ps.setString(SignUpIndex.phoneNumber, signUpUser.getPhoneNumber());
+            ps.setString(SignUpIndex.login, signUpData.getLogin());
+            ps.setString(SignUpIndex.password, stringHasher.getHash(signUpData.getPassword()));
+            ps.setInt(SignUpIndex.status, STATUS_USER);
+            ps.setString(SignUpIndex.name, signUpData.getName());
+            ps.setString(SignUpIndex.surname, signUpData.getSurname());
+            ps.setString(SignUpIndex.patronymic, signUpData.getPatronymic());
+            ps.setDate(SignUpIndex.birthDate, new Date(signUpData.getBirthDate().getTime()));
+            ps.setString(SignUpIndex.phoneNumber, signUpData.getPhoneNumber());
             ps.execute();
 
         } catch (SQLException e) {
@@ -213,8 +304,8 @@ public class UserDAOImpl implements UserDAO {
         private static final String id = "users.id";
         private static final String login = "login";
         private static final String password = "password";
-        private static final String roleID = "role";
-        private static final String roleName = "usersroles.name";
+        private static final String statusID = "status";
+        private static final String statusName = "userstatus.name";
         private static final String name = "users.name";
         private static final String surname = "surname";
         private static final String patronymic = "patronymic";
@@ -226,7 +317,7 @@ public class UserDAOImpl implements UserDAO {
     private static class SignUpIndex {
         private static final int login = 1;
         private static final int password = 2;
-        private static final int role = 3;
+        private static final int status = 3;
         private static final int name = 4;
         private static final int surname = 5;
         private static final int patronymic = 6;
@@ -254,8 +345,19 @@ public class UserDAOImpl implements UserDAO {
         private static final int id = 2;
     }
 
-    private static class SetRoleIndex {
-        private static final int role = 1;
+
+    private static class GetUserListIndex {
+        private static final int name = 1;
+        private static final int surname = 2;
+        private static final int patronymic = 3;
+    }
+
+    private static class SetStatusIndex {
+        private static final int status = 1;
         private static final int id = 2;
+    }
+
+    private static class GetUserIndex {
+        private static final int id = 1;
     }
 }

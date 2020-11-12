@@ -4,10 +4,11 @@ import command.CommandProvider;
 import command.impl.auth.AuthCommand;
 import dao.entity.Card;
 import service.AccountService;
+import service.CardService;
+import service.ServiceProvider;
 import dao.exception.DAOException;
 import dao.entity.Account;
 import org.apache.log4j.Logger;
-import service.CardService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,27 +18,39 @@ import java.util.List;
 
 public class GoToAccountCommand extends AuthCommand {
 
-    private static final Logger logger = Logger.getLogger(GoToAccountsCommand.class);
+    private static final Logger logger = Logger.getLogger(GoToAccountCommand.class);
+
+    private static final String ERROR_MESSAGE = "Error at GoToAccountCommand";
+    private static final String ERROR_PAGE_COMMAND = "go_to_error_page_command";
+    private static final String ATTRIBUTE_ACCOUNT_ID = "accountID";
+    private static final String ATTRIBUTE_ACCOUNT = "account";
+    private static final String ATTRIBUTE_CARDS = "cards";
+    private static final String ATTRIBUTE_PAYMENT_FRAGMENT = "payments_content";
+    private static final String FRAGMENT_ACCOUNT_URL = "payments_content/account_page.jsp";
+    private static final String PAYMENT_PAGE_URL = "WEB-INF/payments.jsp";
 
     @Override
     protected void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        AccountService accountService = AccountService.getInstance();
-        CardService cardService = CardService.getInstance();
+        final int accountID = Integer.parseInt(req.getParameter(ATTRIBUTE_ACCOUNT_ID));
 
+        final ServiceProvider serviceProvider = ServiceProvider.getInstance();
+        final AccountService accountServiceImpl = serviceProvider.getAccountService();
+        final CardService cardServiceImpl = serviceProvider.getCardService();
         Account account = null;
         List<Card> cards = null;
-        final int accountID = Integer.parseInt(req.getParameter("accountID"));
+
         try {
-            account = accountService.getAccount(accountID);
-            cards = cardService.getCardListByAccountID(accountID);
+            account = accountServiceImpl.getAccount(accountID);
+            cards = cardServiceImpl.getCardListByAccountID(accountID);
+
         } catch (DAOException e) {
-            logger.error("Error at GoToAccountCommand", e);
-            CommandProvider.getInstance().getCommand("go_to_error_page_command").execute(req, resp);
+            logger.error(ERROR_MESSAGE, e);
+            CommandProvider.getInstance().getCommand(ERROR_PAGE_COMMAND).execute(req, resp);
         }
 
-        req.setAttribute("account", account);
-        req.setAttribute("cards",cards);
-        req.setAttribute("payments_content", "payments_content/account_page.jsp");
-        req.getRequestDispatcher("WEB-INF/payments.jsp").forward(req, resp);
+        req.setAttribute(ATTRIBUTE_ACCOUNT, account);
+        req.setAttribute(ATTRIBUTE_CARDS,cards);
+        req.setAttribute(ATTRIBUTE_PAYMENT_FRAGMENT, FRAGMENT_ACCOUNT_URL);
+        req.getRequestDispatcher(PAYMENT_PAGE_URL).forward(req, resp);
     }
 }

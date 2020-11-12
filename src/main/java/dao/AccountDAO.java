@@ -1,6 +1,7 @@
 package dao;
 
 import dao.entity.Account;
+import dao.entity.AccountInfo;
 import dao.exception.DAOException;
 
 import java.math.BigDecimal;
@@ -8,10 +9,14 @@ import java.util.List;
 
 public interface AccountDAO {
 
-    List<Account> getAccountListByUserID(int userID) throws DAOException;
-    void addAccount(int type, int userID) throws DAOException;
+    List<Account> getAccountListByUserID(int userID, int limit, int offset) throws DAOException;
+    List<Account> getActiveAccountListByUserID(int userID, int limit, int offset) throws DAOException;
     Account getAccountByAccountID(int accountID) throws DAOException;
+    AccountInfo getAccountInfo(int accountID) throws DAOException;
+    List<AccountInfo> getAccountInfoList(int accountID) throws DAOException;
+    int getUserAccountsQuantity(int userID) throws DAOException;
+    void addAccount(int userID) throws DAOException;
+    void topUpAccount(int accountID, BigDecimal amount) throws DAOException;
     void setStatusByID(int id, int status) throws DAOException;
-    void sendMoney(int idFrom, int idTo, BigDecimal amount) throws DAOException;
 
 }

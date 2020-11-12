@@ -15,7 +15,7 @@ public class CardDAOImpl implements CardDAO {
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     private static final String INSERT_CARD_SQL = "INSERT INTO Cards(account,number,owner_name,exp_date,cvv,status) VALUES (?,?,?,?,?,?)";
-    private static final String SET_STATUS_BY_ID_SQL = "UPDATE Cards SET status = ? where id = ?";
+    private static final String SET_STATUS_BY_ID_SQL = "UPDATE Cards SET status = ? WHERE id = ?";
     private static final String GET_CARD_BY_CARD_ID_SQL = "SELECT cards.id, account, number, owner_name, exp_date, cvv, cards.status, cardstatus.name FROM Cards cards " +
             "JOIN CardStatuses cardstatus ON cards.status = cardstatus.id " +
             "WHERE (cards.id = ?)";

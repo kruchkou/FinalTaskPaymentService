@@ -5,7 +5,6 @@
 </head>
 <div class="container mt-3">
     <h1>КАРТЫ</h1>
-
     <form id="cardForm" action="Controller" method="post">
         <input type="hidden" name="command" value="go_to_card_command"/>
     </form>
@@ -14,7 +13,7 @@
 
         <div class="card">
             <div class="card-header">
-                Активные карты:
+                Активная карта:
             </div>
             <div class="card-body center_box">
                 <div>

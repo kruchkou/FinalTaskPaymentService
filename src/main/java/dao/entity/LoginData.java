@@ -2,7 +2,7 @@ package dao.entity;
 
 import java.util.Objects;
 
-public class LoginUser {
+public class LoginData {
 
     private String login;
     private String password;
@@ -25,7 +25,7 @@ public class LoginUser {
 
     @Override
     public String toString() {
-        return "LoginUser{" +
+        return "LoginData{" +
                 "login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 '}';
@@ -34,10 +34,10 @@ public class LoginUser {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof LoginUser)) return false;
-        LoginUser loginUser = (LoginUser) o;
-        return login.equals(loginUser.login) &&
-                password.equals(loginUser.password);
+        if (!(o instanceof LoginData)) return false;
+        LoginData loginData = (LoginData) o;
+        return login.equals(loginData.login) &&
+                password.equals(loginData.password);
     }
 
     @Override

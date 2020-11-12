@@ -1,67 +1,21 @@
 package service;
 
-import dao.DAOProvider;
-import dao.UserDAO;
-import dao.exception.DAOException;
-import dao.entity.LoginUser;
-import dao.entity.SignUpUser;
+import dao.entity.LoginData;
+import dao.entity.SignUpData;
 import dao.entity.User;
-import util.validator.UserValidator;
+import dao.exception.DAOException;
 
-public class UserService {
+import java.util.List;
 
-    private static final UserService instance = new UserService();
-    private final UserValidator userValidator = UserValidator.getInstance();
-    private final DAOProvider daoProvider = DAOProvider.getInstance();
-    private final UserDAO userDAO = daoProvider.getUserDAO();
+public interface UserService {
 
-    private UserService() {
-    }
-
-    public static UserService getInstance() {
-        return instance;
-    }
-
-    public User signIn(LoginUser loginUser) throws DAOException {
-        return userDAO.signIn(loginUser);
-    }
-
-    public void signUp(SignUpUser signUpUser) throws DAOException {
-        if (!userValidator.validate(signUpUser)) {
-            throw new DAOException("User data didn't passed validation");
-        }
-        userDAO.signUp(signUpUser);
-    }
-
-    public void setImageSrc(String imageSrc, int id) throws DAOException {
-        userDAO.setImageByID(imageSrc, id);
-    }
-
-    public boolean setPassword(String newPassword, LoginUser loginUser) throws DAOException {
-        User user = signIn(loginUser);
-        if (user == null) {
-            return false;
-        }
-        userDAO.setPasswordByID(newPassword, user.getId());
-        return true;
-    }
-
-    public User updateUser(User updatedUser) throws DAOException {
-        if(signIn(updatedUser) == null) {
-            return null;
-        }
-        if (!userValidator.validate(updatedUser)) {
-            throw new DAOException("User data didn't passed validation");
-        }
-        return userDAO.updateUser(updatedUser);
-    }
-
-    public boolean isLoginAvailable(String login) throws DAOException {
-        return userDAO.isLoginAvailable(login);
-    }
-
-    public void setRoleByID(int role, int id) throws DAOException {
-        userDAO.setRoleByID(role, id);
-    }
+    User signIn(LoginData loginData) throws DAOException;
+    User updateUser(User updatedUser) throws DAOException;
+    User getUser(int id) throws DAOException;
+    List<User> getUserList(String fio) throws DAOException;
+    void signUp(SignUpData signUpData) throws DAOException;
+    boolean setPassword(String newPassword, LoginData loginData) throws DAOException;
+    boolean isLoginAvailable(String login) throws DAOException;
+    void setStatus(int role, int id) throws DAOException;
 
 }

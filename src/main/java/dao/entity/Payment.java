@@ -2,17 +2,15 @@ package dao.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Objects;
 
 public class Payment {
 
     private int id;
-    private int cardFrom;
+    private int accountFrom;
     private int accountTo;
     private BigDecimal amount;
     private Date datetime;
-    private HashMap<Integer, String> type;
     private String comment;
 
     public int getId() {
@@ -23,14 +21,6 @@ public class Payment {
         this.id = id;
     }
 
-    public HashMap<Integer, String> getType() {
-        return type;
-    }
-
-    public void setType(HashMap<Integer, String> type) {
-        this.type = type;
-    }
-
     public Date getDatetime() {
         return datetime;
     }
@@ -39,12 +29,12 @@ public class Payment {
         this.datetime = datetime;
     }
 
-    public int getCardFrom() {
-        return cardFrom;
+    public int getAccountFrom() {
+        return accountFrom;
     }
 
-    public void setCardFrom(int cardFrom) {
-        this.cardFrom = cardFrom;
+    public void setAccountFrom(int accountFrom) {
+        this.accountFrom = accountFrom;
     }
 
     public int getAccountTo() {
@@ -77,9 +67,8 @@ public class Payment {
         if (!(o instanceof Payment)) return false;
         Payment payment = (Payment) o;
         return id == payment.id &&
-                cardFrom == payment.cardFrom &&
                 accountTo == payment.accountTo &&
-                Objects.equals(type, payment.type) &&
+                accountFrom == payment.accountFrom &&
                 Objects.equals(datetime, payment.datetime) &&
                 Objects.equals(amount, payment.amount) &&
                 Objects.equals(comment, payment.comment);
@@ -87,16 +76,15 @@ public class Payment {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, type, datetime, cardFrom, accountTo, amount, comment);
+        return Objects.hash(id, datetime, accountFrom, accountTo, amount, comment);
     }
 
     @Override
     public String toString() {
         return "Payment{" +
                 "id=" + id +
-                ", type=" + type +
                 ", date=" + datetime +
-                ", cardFrom=" + cardFrom +
+                ", accountFrom=" + accountFrom +
                 ", accountTo=" + accountTo +
                 ", amount=" + amount +
                 ", comment='" + comment + '\'' +

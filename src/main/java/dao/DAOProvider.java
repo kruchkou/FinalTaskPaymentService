@@ -7,7 +7,7 @@ public class DAOProvider {
     private static final DAOProvider instance = new DAOProvider();
 
     private final UserDAO userDAO = new UserDAOImpl();
-    private final CardDAO carDAO = new CardDAOImpl();
+    private final CardDAO cardDAO = new CardDAOImpl();
     private final PaymentDAO paymentDAO = new PaymentDAOImpl();
     private final OrganizationDAO organizationDAO = new OrganizationDAOImpl();
     private final AccountDAO accountDAO = new AccountDAOImpl();
@@ -23,7 +23,7 @@ public class DAOProvider {
     }
 
     public CardDAO getCardDAO() {
-        return carDAO;
+        return cardDAO;
     }
 
     public PaymentDAO getPaymentDAO() {

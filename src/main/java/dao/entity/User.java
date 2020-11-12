@@ -3,10 +3,10 @@ package dao.entity;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class User extends SignUpUser {
+public class User extends SignUpData {
 
     private int id;
-    private HashMap<Integer, String> role;
+    private Status status;
     private String imageSrc;
 
     public int getId() {
@@ -25,29 +25,21 @@ public class User extends SignUpUser {
         this.imageSrc = imageSrc;
     }
 
-    public HashMap<Integer, String> getRole() {
-        return role;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setRole(HashMap<Integer, String> role) {
-        this.role = role;
-    }
-
-    public String getRoleName() {
-        String roleName = null;
-        for (String value : role.values()) {
-            roleName = value;
-        }
-        return roleName;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id='" + this.getId() + '\'' +
-                "login='" + this.getLogin() + '\'' +
-                ", password='" + this.getPassword() + '\'' +
-                ", role='" + role + '\'' +
+                "id='" + getId() + '\'' +
+                "login='" + getLogin() + '\'' +
+                ", password='" + getPassword() + '\'' +
+                ", status='" + getStatus() + '\'' +
                 ", name='" + getName() + '\'' +
                 ", surname='" + getSurname() + '\'' +
                 ", patronymic='" + getPatronymic() + '\'' +
@@ -64,12 +56,12 @@ public class User extends SignUpUser {
         if (!super.equals(o)) return false;
         User user = (User) o;
         return id == user.id &&
-                Objects.equals(role, user.role) &&
+                Objects.equals(status, user.status) &&
                 Objects.equals(imageSrc, user.imageSrc);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), role);
+        return Objects.hash(super.hashCode(), status);
     }
 }

@@ -4,8 +4,7 @@
     <title>QUICKPAY: CARD</title>
 </head>
 <div class="container mt-3">
-    <h1>КАРТА: УПРАВЛЕНИЕ</h1>
-
+        <h1>КАРТА: УПРАВЛЕНИЕ</h1>
     <div class="card-group">
         <div class="card">
             <div class="card-header">
@@ -23,10 +22,11 @@
             </div>
             <div class="card-body center_box btn-group-vertical">
                 <form class="fullfill mb-0" id="accountControl" action="Controller" method="post">
-                    <input type="hidden" name="accountID" value="${card.getId()}"/>
+                    <input type="hidden" name="cardID" value="${card.getId()}"/>
+                    <input type="hidden" name="accountID" value="${card.getAccount()}"/>
                     <div>
-                        <button name="command" type="submit" class="btn btn-primary control-button fullfill"
-                                value="go_to_card_history_command">История операций
+                        <button name="command" type="submit" class="btn btn-info control-button fullfill"
+                                value="go_to_account_command">Перейти к счету
                         </button>
                     </div>
                     <div>

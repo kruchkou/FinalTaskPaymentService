@@ -1,12 +1,12 @@
 package controller;
 
 import command.CommandProvider;
-import service.UserService;
+import dao.entity.SignUpData;
 import dao.exception.DAOException;
-import dao.entity.SignUpUser;
 import org.apache.log4j.Logger;
+import service.ServiceProvider;
+import service.UserService;
 import util.UserBuilder;
-import util.exception.BuildException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,6 +19,21 @@ public class SignUpServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(SignUpServlet.class);
 
+    private static final String ERROR_MESSAGE = "Error at SignUpServlet";
+    private static final String ERROR_PAGE_COMMAND = "go_to_error_page_command";
+    private static final String ATTRIBUTE_LOGIN = "login";
+    private static final String ATTRIBUTE_NAME = "name";
+    private static final String ATTRIBUTE_SURNAME = "surname";
+    private static final String ATTRIBUTE_PATRONYMIC = "patronymic";
+    private static final String ATTRIBUTE_PHONE_NUMBER = "phone_number";
+    private static final String ATTRIBUTE_BIRTHDATE = "birthdate";
+    private static final String ATTRIBUTE_PASSWORD = "password";
+    private static final String ATTRIBUTE_EXCEPTION = "exception";
+    private static final String ATTRIBUTE_MESSAGE = "message";
+    private static final String MESSAGE_LOGIN_JUST_GET_OWNED = "Логин заняли перед вами. Выберите новый";
+    private static final String PERSONAL_EDIT_PAGE_URL = "WEB-INF/personal_edit.jsp";
+    private static final String SUCCESS_PAGE_REDIRECT_URL = "Controller?command=go_to_success_page_command";
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         process(req, resp);
@@ -30,44 +45,47 @@ public class SignUpServlet extends HttpServlet {
     }
 
     private void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        final int DUBLICATE_LOGIN_ERROR_CODE = 1062;
+        final String login = req.getParameter(ATTRIBUTE_LOGIN);
+        final String password = req.getParameter(ATTRIBUTE_PASSWORD);
+        final String name = req.getParameter(ATTRIBUTE_NAME);
+        final String surname = req.getParameter(ATTRIBUTE_SURNAME);
+        final String patronymic = req.getParameter(ATTRIBUTE_PATRONYMIC);
+        final String phoneNumber = req.getParameter(ATTRIBUTE_PHONE_NUMBER);
+        final String birthdate = req.getParameter(ATTRIBUTE_BIRTHDATE);
 
-        UserService userService = UserService.getInstance();
+        final int DUBLICATE_LOGIN_ERROR_CODE = 1062;
+        final ServiceProvider serviceProvider = ServiceProvider.getInstance();
+        final UserService userService = serviceProvider.getUserService();
 
         UserBuilder userBuilder = new UserBuilder();
-        userBuilder.setLogin(req.getParameter("login"));
-        userBuilder.setPassword(req.getParameter("password"));
-        userBuilder.setName(req.getParameter("name"));
-        userBuilder.setSurname(req.getParameter("surname"));
-        userBuilder.setPatronymic(req.getParameter("patronymic"));
-        userBuilder.setPhoneNumber(req.getParameter("phone_number"));
+        userBuilder.setLogin(login);
+        userBuilder.setPassword(password);
+        userBuilder.setName(name);
+        userBuilder.setSurname(surname);
+        userBuilder.setPatronymic(patronymic);
+        userBuilder.setPhoneNumber(phoneNumber);
         try {
-            userBuilder.setBirthDate(req.getParameter("birthdate"));
+            userBuilder.setBirthDate(birthdate);
         } catch (ParseException e) {
-            logger.error(e.getMessage(), e);
-            CommandProvider.getInstance().getCommand("go_to_error_page_command").execute(req, resp);
+            logger.error(ERROR_MESSAGE, e);
+            req.setAttribute(ATTRIBUTE_EXCEPTION,e);
+            CommandProvider.getInstance().getCommand(ERROR_PAGE_COMMAND).execute(req, resp);
         }
 
-        SignUpUser signUpUser = userBuilder.build();
+        SignUpData signUpData = userBuilder.build();
 
         try {
-            userService.signUp(signUpUser);
-            resp.sendRedirect("sign_in.jsp"); //уведомить пользователя об успешной регистрации!
+            userService.signUp(signUpData);
+            resp.sendRedirect(SUCCESS_PAGE_REDIRECT_URL);
 
         } catch (DAOException e) {
-            switch (e.getErrorCode()) {
-                case DUBLICATE_LOGIN_ERROR_CODE:
-
-                    logger.error(e.getMessage(), e);
-                    resp.setContentType("text/html");
-                    resp.getWriter().write("К сожалению, кто-то занял этот логин прямо перед вами. Пожалуйста, выберите другой логин");
-                    req.getRequestDispatcher("sign_up.jsp").include(req, resp);
-                    break;
-
-                default:
-                    logger.error(e.getMessage(),e);
-                    CommandProvider.getInstance().getCommand("go_to_error_page_command").execute(req, resp);
-                    break;
+            if (e.getErrorCode() == DUBLICATE_LOGIN_ERROR_CODE) {
+                req.setAttribute(ATTRIBUTE_MESSAGE, MESSAGE_LOGIN_JUST_GET_OWNED);
+                req.getRequestDispatcher(PERSONAL_EDIT_PAGE_URL).forward(req, resp);
+            } else {
+                logger.error(ERROR_MESSAGE, e);
+                req.setAttribute(ATTRIBUTE_EXCEPTION, e);
+                CommandProvider.getInstance().getCommand(ERROR_PAGE_COMMAND).execute(req, resp);
             }
         }
 

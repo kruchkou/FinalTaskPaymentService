@@ -10,15 +10,20 @@ import java.io.IOException;
 
 public abstract class AuthCommand implements Command {
 
+    private static final String ATTRIBUTE_USER = "user";
+    private static final String ATTRIBUTE_MESSAGE = "message";
+    private static final String MESSAGE_LOG_IN_TO_CONTINUE = "Войдите, чтобы продолжить";
+    private static final String SIGN_IN_PAGE_URL = "sign_in.jsp";
+
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public final void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         checkAuthAndProcess(req, resp);
     }
 
     private void checkAuthAndProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getSession().getAttribute("user") == null) {
-            req.setAttribute("message","Войдите, чтобы продолжить");
-            req.getRequestDispatcher("sign_in.jsp").forward(req, resp);
+        if (req.getSession().getAttribute(ATTRIBUTE_USER) == null) {
+            req.setAttribute(ATTRIBUTE_MESSAGE,MESSAGE_LOG_IN_TO_CONTINUE);
+            req.getRequestDispatcher(SIGN_IN_PAGE_URL).forward(req, resp);
 
         } else {
             process(req,resp);

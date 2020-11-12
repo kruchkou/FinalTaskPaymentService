@@ -9,8 +9,12 @@
     align-items: center;
 }
 
-.fullfill {
-    width: 100%;
+.cl-white {
+    color: white !important;
+}
+
+.cl-white:hover {
+    color: gray !important;
 }
 
 .display_block {

@@ -15,7 +15,7 @@
 <body>
 <jsp:include page="header.jsp"/>
 <jsp:useBean id="user" scope="request" class="bean.UserBean"/>
-<jsp:setProperty name="user" property="role" value="${sessionScope.user.roleName}"/>
+<jsp:setProperty name="user" property="role" value="${sessionScope.user.status.name}"/>
 <jsp:setProperty name="user" property="login" value="${sessionScope.user.login}"/>
 <jsp:setProperty name="user" property="name" value="${sessionScope.user.name}"/>
 <jsp:setProperty name="user" property="surname" value="${sessionScope.user.surname}"/>

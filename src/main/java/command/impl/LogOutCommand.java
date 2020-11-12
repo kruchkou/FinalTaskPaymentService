@@ -9,9 +9,11 @@ import java.io.IOException;
 
 public class LogOutCommand implements Command {
 
+    private static final String INDEX_PAGE_URL = "index.jsp";
+
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getSession().invalidate();
-        resp.sendRedirect("index.jsp");
+        resp.sendRedirect(INDEX_PAGE_URL);
     }
 }

@@ -41,17 +41,14 @@
             </form>
 
             <c:if test="${message != null}">
-
                 <div class="mt-5">
                     <p class="message_label">${message}</p>
                 </div>
-
             </c:if>
 
         </div>
     </div>
 </div>
-
 
 </body>
 

@@ -8,7 +8,7 @@ public class Organization {
     private int id;
     private String name;
     private int account;
-    private HashMap<Integer, String> status;
+    private Status status;
 
     public int getId() {
         return id;
@@ -34,11 +34,11 @@ public class Organization {
         this.account = account;
     }
 
-    public HashMap<Integer, String> getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(HashMap<Integer, String> status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

@@ -3,11 +3,11 @@ package dao.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Account {
 
     private int id;
-    private HashMap<Integer, String> type;
     private int user;
     private HashMap<Integer, String> status;
     private BigDecimal balance;
@@ -19,14 +19,6 @@ public class Account {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public HashMap<Integer, String> getType() {
-        return type;
-    }
-
-    public void setType(HashMap<Integer, String> type) {
-        this.type = type;
     }
 
     public int getUser() {
@@ -59,5 +51,33 @@ public class Account {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", user=" + user +
+                ", status=" + status +
+                ", balance=" + balance +
+                ", creationDate=" + creationDate +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Account)) return false;
+        Account account = (Account) o;
+        return id == account.id &&
+                user == account.user &&
+                Objects.equals(status, account.status) &&
+                Objects.equals(balance, account.balance) &&
+                Objects.equals(creationDate, account.creationDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, user, status, balance, creationDate);
     }
 }
