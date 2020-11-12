@@ -1,7 +1,6 @@
 # Project exclude paths
 /out/
 /target/
-/src/test
 /web
-PaymentService.iml
-pom.xml
+/src/test
+/src/main/resources
