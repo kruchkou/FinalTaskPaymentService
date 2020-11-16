@@ -59,7 +59,7 @@
             <form action="Controller" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="command" value="upload_user_image_command" />
                 <input type="file" id="image" name="file" accept=".jpg" />
-                <input type="submit" value="LoadPhoto" name="Uload" />
+                <input type="submit" value="Загрузить фотографию" name="Uload" />
             </form>
         </div>
     </div>
