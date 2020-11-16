@@ -1,9 +1,0 @@
-# Project exclude paths
-/out/
-/target/
-/web
-/src/test
-/src/main/resources
-/PaymentService.iml
-/web/
-/src/test/
