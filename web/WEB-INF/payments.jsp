@@ -28,14 +28,9 @@
         </div>
     </div>
     <jsp:include page="${payments_content}"/>
-
-<%--    <div class="content">--%>
-<%--        <c:forEach var="element" items="${accounts}">--%>
-<%--            <p>${element}</p>--%>
-<%--        </c:forEach>--%>
-<%--    </div>--%>
-
 </div>
+
+<jsp:include page="footer.jsp"/>
 
 </body>
 </html>

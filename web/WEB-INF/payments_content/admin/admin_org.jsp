@@ -3,6 +3,7 @@
 <head>
     <title>QUICKPAY: Org</title>
 </head>
+
 <div class="container mt-3">
     <h1>ОРГАНИЗАЦИЯ: УПРАВЛЕНИЕ</h1>
     <div class="card-group">
@@ -14,9 +15,9 @@
                 <div>
                 </div>
                 <div>
-                    <p class="card-text mb-3 m-0">${organization.name}</p>
+                    <p class="card-text m-0">${organization.name}</p>
                 </div>
-                <p class="card-text m-0">Статус:
+                <p class="card-text mt-3 m-0">Статус:
                     <c:if test="${organization.status.id == 1}">
                         активна
                     </c:if>
@@ -25,16 +26,25 @@
                     </c:if>
                 </p>
                 <div>
-                    <p class="card-text m-0">Cчёт №: 
-                        <c:choose>
-                            <c:when test="${organization.account != null}">
-                                ${organization.account}
-                            </c:when>
-                            <c:otherwise>
-                                не привязан
-                            </c:otherwise>
-                        </c:choose>
-                    </p>
+                    <p class="card-text mt-3 m-0">Привязанный счёт: </p>
+                    <c:choose>
+                        <c:when test="${accountInfo != null}">
+                            <p class="card-text m-0">Cчёт №: ${accountInfo.id}</p>
+                            <p class="card-text m-0">Владелец: ${accountInfo.userName} ${accountInfo.userSurname} ${accountInfo.userPatronymic}</p>
+                            <c:if test="${accountInfo.status.id == 1}">
+                                <p class="card-text m-0">Статус: активный</p>
+                            </c:if>
+                            <c:if test="${accountInfo.status.id == 2}">
+                                <p class="card-text m-0">Статус: заблокирован</p>
+                            </c:if>
+                            <c:if test="${accountInfo.status.id == 3}">
+                                <p class="card-text m-0">Статус: удалён</p>
+                            </c:if>
+                        </c:when>
+                        <c:otherwise>
+                            <p class="card-text m-0">не привязан</p>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>
@@ -45,8 +55,12 @@
             <div class="card-body center_box btn-group-vertical">
                 <form class="fullfill mb-0" id="accountControl" action="Controller" method="post">
                     <input type="hidden" name="orgID" value="${organization.id}"/>
+                    <input type="hidden" name="accountID" value="${accountInfo.id}"/>
                     <button name="command" type="submit" class="btn btn-primary control-button fullfill"
-                            value="set_org_account_account">Присвоить счёт
+                            value="go_to_admin_account_command">Управление счётом
+                    </button>
+                    <button name="command" type="submit" class="btn btn-info control-button fullfill"
+                            value="go_to_edit_org_command">Редактировать организацию
                     </button>
                     <c:if test="${organization.status.id == 1}">
                         <button name="command" type="submit" class="btn btn-warning control-button fullfill"
@@ -65,4 +79,9 @@
             </div>
         </div>
     </div>
+    <c:if test="${message != null}">
+        <div class="mt-2">
+            <p class="message_label">${message}</p>
+        </div>
+    </c:if>
 </div>

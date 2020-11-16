@@ -18,23 +18,23 @@
                     <input type="hidden" name="command" value="sign"/>
                     <div class="form-group">
                         <label for="loginInput">Логин:</label>
-                        <input type="text" class="form-control" name="login" id="loginInput">
+                        <input type="text" class="form-control" name="login" id="loginInput" required pattern="${attribute_regexp_login}" placeholder="От 6 до 16 букв и '_'">
                     </div>
                     <div class="form-group">
                         <label for="passwordInput">Пароль:</label>
-                        <input type="password" class="form-control" name="password" id="passwordInput">
+                        <input type="password" class="form-control" name="password" id="passwordInput" required pattern="${attribute_regexp_password}"  placeholder="От 6 до 18 символов">
                     </div>
                     <div class="form-group">
                         <label for="nameInput">Имя:</label>
-                        <input type="text" class="form-control" name="name" id="nameInput">
+                        <input type="text" class="form-control" name="name" id="nameInput" required pattern="${attribute_regexp_fio}" placeholder="От 2 до 20 букв">
                     </div>
                     <div class="form-group">
                         <label for="surnameInput">Фамилия:</label>
-                        <input type="text" class="form-control" name="surname" id="surnameInput">
+                        <input type="text" class="form-control" name="surname" id="surnameInput" required pattern="${attribute_regexp_fio}" placeholder="От 2 до 20 букв">
                     </div>
                     <div class="form-group">
                         <label for="patromymicInput">Отчество:</label>
-                        <input type="text" class="form-control" name="patronymic" id="patromymicInput">
+                        <input type="text" class="form-control" name="patronymic" id="patromymicInput" required pattern="${attribute_regexp_fio}" placeholder="От 2 до 20 букв">
                     </div>
                     <div class="form-group">
                         <label for="birthdateInput">Дата рождения:</label>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="form-group">
                         <label for="phoneInput">Номер телефона:</label>
-                        <input type="tel" class="form-control" name="phone_number" id="phoneInput">
+                        <input type="tel" class="form-control" name="phone_number" id="phoneInput" required pattern="${attribute_regexp_phone_number}" placeholder="В формате +111111111111">
                     </div>
                     <div class="form-group pt-3">
                         <button type="submit" class="btn btn-warning">ЗАРЕГИСТРИРОВАТЬСЯ</button>
@@ -53,5 +53,6 @@
     </div>
 </div>
 
+<jsp:include page="WEB-INF/footer.jsp"/>
 </body>
 </html>

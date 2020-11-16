@@ -8,18 +8,18 @@
 <body>
 <jsp:include page="WEB-INF/header.jsp"/>
 
-<div class="container payment_window mt-5 mb-5 pt-3 pb-5">
-
-    <div class="container mt-5">
-        <h1>НЕДОСТАТОЧНО ПРАВ</h1>
+    <div class="container bg-dark py-2 mt-5 label_window">
+        <h3 class="mb-0 ml-3" style="color: white">Ошибка!</h3>
     </div>
 
-    <div class="mt-5">
-        <p>К сожалению, у вас отсутсвуют права на доступ к этой комманде.</p>
-        <p>Если произошла ошибка - обратитесь к администратору.</p>
+    <div class="container payment_window mb-5 pt-3 pb-5">
+        <div class="container mt-5">
+            <h1 class="ml-5">НЕДОСТАТОЧНО ПРАВ</h1>
+            <h2 class="mt-5">К сожалению, у вас отсутсвуют права на доступ к этой комманде.</h2>
+            <p>Если произошла ошибка - обратитесь к администратору.</p>
+        </div>
     </div>
 
-</div>
-
+<jsp:include page="WEB-INF/footer.jsp"/>
 </body>
 </html>

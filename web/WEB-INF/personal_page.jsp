@@ -1,10 +1,5 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: kruchkou
-  Date: 29.09.2020
-  Time: 3:18
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="/WEB-INF/tld/custom_tags.tld" prefix="mytag" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <html>
 
@@ -14,7 +9,7 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
-<jsp:useBean id="user" scope="request" class="bean.UserBean"/>
+<jsp:useBean id="user" scope="request" class="by.epamtc.PaymentService.bean.UserBean"/>
 <jsp:setProperty name="user" property="role" value="${sessionScope.user.status.name}"/>
 <jsp:setProperty name="user" property="login" value="${sessionScope.user.login}"/>
 <jsp:setProperty name="user" property="name" value="${sessionScope.user.name}"/>
@@ -22,12 +17,13 @@
 <jsp:setProperty name="user" property="patronymic" value="${sessionScope.user.patronymic}"/>
 <jsp:setProperty name="user" property="birthDate" value="${sessionScope.user.birthDate}"/>
 <jsp:setProperty name="user" property="phoneNumber" value="${sessionScope.user.phoneNumber}"/>
+<jsp:setProperty name="user" property="imageSrc" value="${sessionScope.user.imageSrc}"/>
 
 <div class="container">
 
     <div class="row justify-content-md-center mt-5 pt-5 pb-5 pl-3 pr-3 text_block">
         <div class="col-md-4">
-            <img src="img/chest.jpg" width="200" height="300" alt="фотография профиля">
+            <img src="<mytag:userImageTag imageURL="${sessionScope.user.imageSrc}"/>" width="200" height="300" alt="фотография профиля">
         </div>
 
         <div class="col-md-6">
@@ -59,10 +55,16 @@
                     <button type="submit" class="btn btn-light edit_button">Редактировать</button>
                 </div>
             </form>
+
+            <form action="Controller" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="command" value="upload_user_image_command" />
+                <input type="file" id="image" name="file" accept=".jpg" />
+                <input type="submit" value="LoadPhoto" name="Uload" />
+            </form>
         </div>
     </div>
-
 </div>
 
+<jsp:include page="footer.jsp"/>
 </body>
 </html>

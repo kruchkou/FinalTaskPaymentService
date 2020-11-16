@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="/WEB-INF/tld/custom_tags.tld" prefix="mytag" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
     <title>Pay from card</title>
@@ -23,7 +24,7 @@
         </div>
         <div class="card-body center_box">
             <div class="d-flex">
-                <p class="mb-0 mr-3">Номер карты: ${card.number}</p>
+                <p class="mb-0 mr-3">Номер карты: <mytag:cardNumberTag cardNumber="${card.number}"/></p>
                 <p class="mb-0 mr-3">Владелец: ${card.ownerName}</p>
             </div>
         </div>

@@ -55,7 +55,7 @@
                             value="admin_unlock_user_accounts_command">Разблокировать все счета
                     </button>
                         <button name="command" type="submit" class="btn btn-warning control-button fullfill"
-                                value="admin_lock_user_accounts_command">Заблокировать все счета
+                    value="admin_lock_user_accounts_command">Заблокировать все счета
                         </button>
                 </form>
             </div>

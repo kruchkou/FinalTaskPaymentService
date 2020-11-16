@@ -40,7 +40,7 @@
 
                 <li class="nav-item">
                     <button form="headerForm" class="btn cl-white mr-5" type="submit" name="command"
-                            value="go_to_accounts_command">Мои счета
+                            value="go_to_accounts_command">Панель пользователя
                     </button>
                 </li>
 

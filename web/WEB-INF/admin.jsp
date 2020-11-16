@@ -18,19 +18,21 @@
     <div class="row justify-content-md-center">
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
             <div class="btn-group mr-5" role="group" aria-label="First group">
-                <a type="button" class="btn btn-secondary" href="Controller?command=go_to_admin_accounts_command">Поиск счета</a>
+                <a type="button" class="btn btn-secondary" href="Controller?command=go_to_admin_accounts_command">Управление счетами</a>
             </div>
             <div class="btn-group mr-5" role="group" aria-label="Second group">
-                <a type="button" class="btn btn-secondary" href="Controller?command=go_to_admin_users_command">Поиск пользователя</a>
+                <a type="button" class="btn btn-secondary" href="Controller?command=go_to_admin_users_command">Управление пользователями</a>
             </div>
             <div class="btn-group mr-5" role="group" aria-label="Third group">
-                <a type="button" class="btn btn-secondary" href="Controller?command=go_to_admin_orgs_command">Поиск организации</a>
+                <a type="button" class="btn btn-secondary" href="Controller?command=go_to_admin_orgs_command">Управление организациями</a>
             </div>
         </div>
     </div>
     <jsp:include page="${admin_content}"/>
 
 </div>
+
+<jsp:include page="footer.jsp"/>
 
 </body>
 </html>

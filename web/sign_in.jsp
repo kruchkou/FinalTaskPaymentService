@@ -23,11 +23,11 @@
                 <input type="hidden" name="command" value="sign_in_command"/>
                 <div class="form-group">
                     <label for="loginInput">Логин:</label>
-                    <input type="text" class="form-control" name="login" id="loginInput" aria-describedby="emailHelp">
+                    <input type="text" class="form-control" name="login" id="loginInput" aria-describedby="emailHelp" required pattern="${attribute_regexp_login}" placeholder="От 6 до 16 букв и '_'">
                 </div>
                 <div class="form-group">
                     <label for="passwordInput">Пароль:</label>
-                    <input type="password" class="form-control" name="password" id="passwordInput">
+                    <input type="password" class="form-control" name="password" id="passwordInput" required pattern="${attribute_regexp_password}"  placeholder="От 6 до 18 символов">
                 </div>
 
                 <div class="form-group mt-5">
@@ -50,5 +50,6 @@
     </div>
 </div>
 
+<jsp:include page="WEB-INF/footer.jsp"/>
 </body>
 

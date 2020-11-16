@@ -16,8 +16,7 @@
 <body>
 <jsp:include page="header.jsp"/>
 
-<jsp:useBean id="user" scope="request" class="bean.UserBean"/>
-<jsp:setProperty name="user" property="role" value="${sessionScope.user.roleName}"/>
+<jsp:useBean id="user" scope="request" class="by.epamtc.PaymentService.bean.UserBean"/>
 <jsp:setProperty name="user" property="login" value="${sessionScope.user.login}"/>
 <jsp:setProperty name="user" property="name" value="${sessionScope.user.name}"/>
 <jsp:setProperty name="user" property="surname" value="${sessionScope.user.surname}"/>
@@ -36,21 +35,19 @@
                     <input type="hidden" name="command" value="personal_edit_command"/>
                     <div class="form-group">
                         <label for="loginInput">Логин:</label>
-                        <input type="text" class="form-control" name="login" id="loginInput" value="${user.login}">
+                        <input type="text" class="form-control" name="login" id="loginInput" value="${user.login}" required pattern="${attribute_regexp_login}" placeholder="От 6 до 16 букв и '_'">
                     </div>
                     <div class="form-group">
                         <label for="nameInput">Имя:</label>
-                        <input type="text" class="form-control" name="name" id="nameInput" value="${user.name}">
+                        <input type="text" class="form-control" name="name" id="nameInput" value="${user.name}" required pattern="${attribute_regexp_fio}" placeholder="От 2 до 20 букв">
                     </div>
                     <div class="form-group">
                         <label for="surnameInput">Фамилия:</label>
-                        <input type="text" class="form-control" name="surname" id="surnameInput"
-                               value="${user.surname}">
+                        <input type="text" class="form-control" name="surname" id="surnameInput" value="${user.surname}" required pattern="${attribute_regexp_fio}" placeholder="От 2 до 20 букв">
                     </div>
                     <div class="form-group">
                         <label for="patromymicInput">Отчество:</label>
-                        <input type="text" class="form-control" name="patronymic" id="patromymicInput"
-                               value="${user.patronymic}">
+                        <input type="text" class="form-control" name="patronymic" id="patromymicInput" value="${user.patronymic}" required pattern="${attribute_regexp_fio}" placeholder="От 2 до 20 букв">
                     </div>
                     <div class="form-group">
                         <label for="birthdateInput">Дата рождения:</label>
@@ -59,14 +56,13 @@
                     </div>
                     <div class="form-group">
                         <label for="phoneInput">Номер телефона:</label>
-                        <input type="tel" class="form-control" name="phone_number" id="phoneInput"
-                               value="${user.phoneNumber}">
+                        <input type="tel" class="form-control" name="phone_number" id="phoneInput" value="${user.phoneNumber}" required pattern="${attribute_regexp_phone_number}" placeholder="В формате +111111111111">
                     </div>
                     <hr class="separator" style="background-color: white">
 <%--                    Разделитель сделать--%>
                     <div class="form-group">
                         <label for="passwordInput">Пароль для подтверждения:</label>
-                        <input type="password" class="form-control" name="password" id="passwordInput">
+                        <input type="password" class="form-control" name="password" id="passwordInput" required pattern="${attribute_regexp_password}"  placeholder="От 6 до 18 символов">
                     </div>
                     <div class="form-group pt-3">
                         <button type="submit" class="btn btn-success">СОХРАНИТЬ</button>
@@ -81,6 +77,6 @@
     </div>
 </div>
 
-
+<jsp:include page="footer.jsp"/>
 </body>
 </html>

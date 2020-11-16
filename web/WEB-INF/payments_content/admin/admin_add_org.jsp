@@ -17,14 +17,14 @@
         <div class="card">
             <div class="card-body d-flex">
                 <label class="my-auto" for="accountToInput">Введите название организации</label>
-                <input form="payForm" style="width: 80%" type="text" class="mx-3 form-control" name="name" id="accountToInput">
+                <input form="payForm" style="width: 80%" type="text" class="mx-3 form-control" name="name" id="accountToInput" required pattern="${attribute_regexp_org_name}" placeholder="От 5 до 45 символов">
             </div>
         </div>
 
         <div class="card mt-2">
             <div class="card-body d-flex">
                 <label class="my-auto" for="amountInput">Введите номер счёта для поступления средств</label>
-                <input form="payForm" style="width: 80%" type="number" class="mx-3 form-control" name="accountID" id="amountInput">
+                <input form="payForm" style="width: 80%" type="number" class="mx-3 form-control" name="accountID" id="amountInput" required>
             </div>
         </div>
 

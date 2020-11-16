@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="/WEB-INF/tld/custom_tags.tld" prefix="mytag" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
     <title>My accounts</title>
@@ -17,7 +18,7 @@
             </div>
             <div class="card-body center_box">
                 <div>
-                    <p style="margin: 0">Номер: <c:out value="${card.getNumber()}"/></p>
+                    <p style="margin: 0">Номер: <mytag:cardNumberTag cardNumber="${card.number}"/></p>
                     <p style="margin: 0">Счет №: <c:out value="${card.getAccount()}"/></p>
                 </div>
                 <button form="cardForm" name="cardID" type="submit" class="btn btn-info ml-auto mr-2" value="${card.getId()}">Управление</button>

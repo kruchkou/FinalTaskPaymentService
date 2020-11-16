@@ -23,11 +23,11 @@
                 <input type="hidden" name="command" value="add_card_command">
                 <div class="form-group">
                     <label for="number">Номер карты:</label>
-                    <input type="number" class="form-control" name="number" id="number">
+                    <input type="number" class="form-control" name="number" id="number" required pattern="${attribute_regexp_card_number}" placeholder="В формате 1234567891234567">
                 </div>
                 <div class="form-group">
                     <label for="ownerName">Имя владельца:</label>
-                    <input type="text" class="form-control" name="ownerName" id="ownerName">
+                    <input type="text" class="form-control" name="ownerName" id="ownerName" required pattern="${attribute_regexp_ownername}" placeholder="От 3 до 45 букв">
                 </div>
                 <div class="form-group">
                     <label for="expDate">Дата истечения:</label>
@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-group">
                     <label for="cvv">cvv:</label>
-                    <input type="number" class="form-control" name="cvv" id="cvv">
+                    <input type="number" class="form-control" name="cvv" id="cvv" required pattern="${attribute_regexp_cvv}" placeholder="от 2-х до 3-х цифр">
                 </div>
                 <div class="form-group mt-5">
                     <button type="submit" class="btn btn-success">Добавить карту</button>
