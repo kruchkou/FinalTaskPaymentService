@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <link href="css/login.css" rel="stylesheet" type="text/css">
+    <link href="css/core.css" rel="stylesheet" type="text/css">
     <title>QuickPAY</title>
 </head>
 <body>

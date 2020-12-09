@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
@@ -12,9 +13,23 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
             crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/login.css">
-    <title>Header</title>
+    <link rel="stylesheet" href="css/core.css">
 </head>
+
+<c:if test="${not empty sessionScope.locale}">
+    <fmt:setLocale value="${sessionScope.locale}"/>
+</c:if>
+<fmt:setBundle basename="locale"/>
+
+<fmt:message key="header.button.current_lang" var="button_current_lang"/>
+<fmt:message key="header.button.ru" var="button_ru"/>
+<fmt:message key="header.button.en" var="button_en"/>
+<fmt:message key="header.about_page" var="about_page"/>
+<fmt:message key="header.my_profile" var="my_profile"/>
+<fmt:message key="header.exit" var="exit"/>
+<fmt:message key="admin_panel" var="locale_admin_panel"/>
+<fmt:message key="user_panel" var="user_panel"/>
+<fmt:message key="sign_in" var="log_in"/>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <a class="navbar-brand" href="Controller?command=go_to_accounts_command" style="font-size: 3ex">QUICKPAY</a>
@@ -31,7 +46,7 @@
             <c:if test="${user.name == null}">
                 <li class="nav-item">
                     <button form="headerForm" class="btn cl-white" type="submit" name="command"
-                            value="go_to_sign_in_command">Войти
+                            value="go_to_sign_in_command">${log_in}
                     </button>
                 </li>
             </c:if>
@@ -40,7 +55,7 @@
 
                 <li class="nav-item">
                     <button form="headerForm" class="btn cl-white mr-5" type="submit" name="command"
-                            value="go_to_accounts_command">Панель пользователя
+                            value="go_to_accounts_command">${user_panel}
                     </button>
                 </li>
 
@@ -48,7 +63,7 @@
 
                     <li class="nav-item">
                         <button form="headerForm" class="btn cl-white mr-5" type="submit" name="command"
-                                value="go_to_admin_accounts_command">Панель администратора
+                                value="go_to_admin_accounts_command">${locale_admin_panel}
                         </button>
                     </li>
 
@@ -65,11 +80,11 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
                         <button form="headerForm" class="btn dropdown-item" type="submit" name="command"
-                                value="go_to_personal_page_command">Мой профиль
+                                value="go_to_personal_page_command">${my_profile}
                         </button>
                         <div class="dropdown-divider"></div>
                         <button form="headerForm" class="btn btn-outline-danger dropdown-item" type="submit"
-                                name="command" value="log_out_command">Выйти
+                                name="command" value="log_out_command">${exit}
                         </button>
 
                     </div>
@@ -82,26 +97,31 @@
                 <a class="nav-link dropdown-toggle cl-white" href="#" id="navLang" role="button"
                    data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
-                    RU
+                    ${button_current_lang}
+
                 </a>
 
                 <div class="dropdown-menu" aria-labelledby="navLang">
 
-                    <button form="headerForm" class="btn dropdown-item" type="submit" name="command"
-                            value="go_to_personal_page_command">RU
+                    <button form="localeForm" class="btn dropdown-item" type="submit" name="locale"
+                            value="ru">${button_ru}
                     </button>
                     <div class="dropdown-divider"></div>
-                    <button form="headerForm" class="btn btn-outline-danger dropdown-item" type="submit"
-                            name="command" value="log_out_command">EN
+                    <button form="localeForm" class="btn btn-outline-danger dropdown-item" type="submit"
+                            name="locale" value="en">${button_en}
                     </button>
 
                 </div>
             </li>
             <li class="nav-item ml-auto mr-auto">
-                <a class="nav-link" href="index.jsp">О сервисе</a>
+                <a class="nav-link" href="index.jsp">${about_page}</a>
             </li>
         </ul>
     </div>
 </nav>
+
+<form id="localeForm" action="Controller" method="post">
+    <input type="hidden" name="command" value="change_locale_command">
+</form>
 
 <form id="headerForm" action="Controller" method="post"></form>

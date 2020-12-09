@@ -45,14 +45,14 @@
     <div class="card mt-2">
         <div class="card-body d-flex">
             <label class="my-auto" for="amountInput">Введите сумму, BYN:</label>
-            <input form="transferForm" style="width: 30%" type="number" class="mx-3 form-control" name="amount" id="amountInput">
+            <input form="transferForm" style="width: 30%" type="number" class="mx-3 form-control" name="amount" id="amountInput" min="1" required>
         </div>
     </div>
 
     <div class="card mt-2">
         <div class="card-body d-flex">
             <label class="my-auto" for="passwordInput">Введите пароль:</label>
-            <input form="transferForm" style="width: 50%" type="password" class="mx-3 form-control" name="password" id="passwordInput">
+            <input form="transferForm" style="width: 50%" type="password" class="mx-3 form-control" name="password" id="passwordInput" required>
             <input form="transferForm" style="width: 30%" type="submit" class="btn ml-auto btn-success" value="ПОПОЛНИТЬ">
         </div>
     </div>

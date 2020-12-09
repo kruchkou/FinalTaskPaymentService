@@ -7,7 +7,7 @@
 
     <servlet>
         <servlet-name>Controller</servlet-name>
-        <servlet-class>by.epamtc.PaymentService.controller.Controller</servlet-class>
+        <servlet-class>by.epamtc.paymentservice.controller.Controller</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Controller</servlet-name>
@@ -15,7 +15,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>SignUpServlet</servlet-name>
-        <servlet-class>by.epamtc.PaymentService.controller.SignUpServlet</servlet-class>
+        <servlet-class>by.epamtc.paymentservice.controller.SignUpServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>SignUpServlet</servlet-name>
@@ -23,7 +23,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>ExceptionHandler</servlet-name>
-        <servlet-class>by.epamtc.PaymentService.controller.ExceptionHandler</servlet-class>
+        <servlet-class>by.epamtc.paymentservice.controller.ExceptionHandler</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ExceptionHandler</servlet-name>
@@ -33,7 +33,7 @@
     <filter>
         <display-name>CharsetFilter</display-name>
         <filter-name>CharsetFilter</filter-name>
-        <filter-class>by.epamtc.PaymentService.controller.filter.CharsetFilter</filter-class>
+        <filter-class>by.epamtc.paymentservice.controller.filter.CharsetFilter</filter-class>
         <init-param>
             <param-name>characterEncoding</param-name>
             <param-value>UTF-8</param-value>
