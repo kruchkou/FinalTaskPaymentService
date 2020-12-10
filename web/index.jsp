@@ -1,9 +1,26 @@
-<%-- Created by IntelliJ IDEA. --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+
+<c:if test="${not empty sessionScope.locale}">
+    <fmt:setLocale value="${sessionScope.locale}"/>
+</c:if>
+<fmt:setBundle basename="locale"/>
+
+<fmt:message key="about_service" var="locale_about_service"/>
+<fmt:message key="about_desc" var="locale_about_desc"/>
+<fmt:message key="instant_payments" var="locale_instant_payments"/>
+<fmt:message key="instant_payments_desc" var="locale_instant_payments_desc"/>
+<fmt:message key="eazy_top_up" var="locale_eazy_top_up"/>
+<fmt:message key="eazy_top_up_desc" var="locale_eazy_top_up_desc"/>
+<fmt:message key="no_coms" var="locale_no_coms"/>
+<fmt:message key="no_coms_desc" var="locale_no_coms_desc"/>
+
+
 <html>
 <head>
-    <title>Welcome page!</title>
+    <title>QUICKPAY: ${locale_about_service}</title>
     <link href="css/core.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -11,7 +28,7 @@
 <jsp:include page="WEB-INF/header.jsp"/>
 
 <div class="container bg-dark py-2 mt-5 label_window">
-    <h3 class="mb-0 ml-3" style="color: white">О СИСТЕМЕ</h3>
+    <h3 class="mb-0 ml-3" style="color: white">${locale_about_service.toUpperCase()}</h3>
 </div>
 
 <div class="container payment_window mb-5 pt-3 pb-3">
@@ -19,33 +36,32 @@
     <div class="mx-3 justify-content-md-center">
 
 
-        <h3 style="text-align: center">Система платежей QUICKPAY создана для упрощения рутинных процедур оплаты и
-            переводов между пользователями</h3>
+        <h3 style="text-align: center">${locale_about_desc}</h3>
 
         <div class="card mt-3">
             <div class="card-header">
-               Моментальные платежи
+                ${locale_instant_payments}
             </div>
             <div class="card-body">
-                Система QUICKPAY позволяет вам совершать моментальные переводы. Больше не нужно ождать, пока средства дойдут до получателя.
+                ${locale_instant_payments_desc}
             </div>
         </div>
 
         <div class="card mt-3">
             <div class="card-header">
-                Легкое пополнение
+                ${locale_eazy_top_up}
             </div>
             <div class="card-body">
-                Пополнить счёт в системе можно с помощью карты любого банка. Комиссия на пополнение так же отсуствует.
+                ${locale_eazy_top_up_desc}
             </div>
         </div>
 
         <div class="card mt-3">
             <div class="card-header">
-                Отсутсвие комиссий
+                ${locale_no_coms}
             </div>
             <div class="card-body">
-                Отсутсвие любых видов комиссий. Сервис абсолютно бесплатный для пользователей.
+                ${locale_no_coms_desc}
             </div>
         </div>
 

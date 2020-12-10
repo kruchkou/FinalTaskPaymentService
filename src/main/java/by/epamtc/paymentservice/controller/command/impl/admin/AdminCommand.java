@@ -13,7 +13,7 @@ public abstract class AdminCommand implements Command {
 
     private static final String ATTRIBUTE_USER = "user";
     private static final String ATTRIBUTE_MESSAGE = "message";
-    private static final String MESSAGE_LOG_IN_TO_CONTINUE = "Войдите, чтобы продолжить";
+    private static final String MESSAGE_LOG_IN_TO_CONTINUE_LOCALE = "sign_in_to_continue";
     private static final String NO_RIGHTS_PAGE_URL = "no_rights.jsp";
     private static final String COMMAND_SIGN_IN = "go_to_sign_in_command";
 
@@ -31,7 +31,7 @@ public abstract class AdminCommand implements Command {
                 req.getRequestDispatcher(NO_RIGHTS_PAGE_URL).forward(req, resp);
             }
         } else {
-            req.setAttribute(ATTRIBUTE_MESSAGE,MESSAGE_LOG_IN_TO_CONTINUE);
+            req.setAttribute(ATTRIBUTE_MESSAGE, MESSAGE_LOG_IN_TO_CONTINUE_LOCALE);
             CommandProvider.getInstance().getCommand(COMMAND_SIGN_IN).execute(req,resp);
         }
     }

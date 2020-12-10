@@ -21,7 +21,6 @@
 </form>
 
 <form id="selectOrg" action="Controller" method="post">
-    <%--    Ващета другая команда--%>
     <input type="hidden" name="command" value="go_to_payment_confirm_command">
     <input type="hidden" name="accountFromID" value="${accountFromID}">
 </form>

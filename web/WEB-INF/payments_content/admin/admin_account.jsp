@@ -20,7 +20,7 @@
 <fmt:message key="account.status_blocked" var="locale_account_status_blocked"/>
 <fmt:message key="account.status_deleted" var="locale_account_status_deleted"/>
 <fmt:message key="account.block" var="locale_account_block"/>
-<fmt:message key="account.unblock" var="locale_account_unblock"/>
+<fmt:message key="account.unlock" var="locale_account_unblock"/>
 
 <div class="container mt-3">
     <h1>${locale_account_control.toUpperCase()}</h1>

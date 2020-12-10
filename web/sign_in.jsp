@@ -14,6 +14,10 @@
 <fmt:message key="user.login" var="locale_user_login"/>
 <fmt:message key="user.password" var="locale_user_password"/>
 
+<c:if test="${not empty message}">
+    <fmt:message key="${message}" var="locale_message"/>
+</c:if>
+
 <fmt:message key="from" var="locale_from"/>
 <fmt:message key="to" var="locale_to"/>
 <fmt:message key="letters" var="locale_letters"/>
@@ -66,7 +70,7 @@
 
             <c:if test="${message != null}">
                 <div class="mt-5">
-                    <p class="message_label">${message}</p>
+                    <p class="message_label">${locale_message}</p>
                 </div>
             </c:if>
 

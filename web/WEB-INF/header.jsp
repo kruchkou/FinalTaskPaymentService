@@ -21,15 +21,15 @@
 </c:if>
 <fmt:setBundle basename="locale"/>
 
-<fmt:message key="header.button.current_lang" var="button_current_lang"/>
-<fmt:message key="header.button.ru" var="button_ru"/>
-<fmt:message key="header.button.en" var="button_en"/>
-<fmt:message key="header.about_page" var="about_page"/>
-<fmt:message key="header.my_profile" var="my_profile"/>
-<fmt:message key="header.exit" var="exit"/>
+<fmt:message key="header.button.current_lang" var="locale_button_current_lang"/>
+<fmt:message key="header.button.ru" var="locale_button_ru"/>
+<fmt:message key="header.button.en" var="locale_button_en"/>
+<fmt:message key="header.about_page" var="locale_about_page"/>
+<fmt:message key="header.my_profile" var="locale_my_profile"/>
+<fmt:message key="header.exit" var="locale_exit"/>
 <fmt:message key="admin_panel" var="locale_admin_panel"/>
-<fmt:message key="user_panel" var="user_panel"/>
-<fmt:message key="sign_in" var="log_in"/>
+<fmt:message key="user_panel" var="locale_user_panel"/>
+<fmt:message key="sign_in" var="locale_log_in"/>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <a class="navbar-brand" href="Controller?command=go_to_accounts_command" style="font-size: 3ex">QUICKPAY</a>
@@ -45,30 +45,25 @@
             <c:set var="user" value="${sessionScope.user}"/>
             <c:if test="${user.name == null}">
                 <li class="nav-item">
-                    <button form="headerForm" class="btn cl-white" type="submit" name="command"
-                            value="go_to_sign_in_command">${log_in}
-                    </button>
+
+                    <a type="button" class="btn cl-white" href="Controller?command=go_to_sign_in_command">${locale_log_in}</a>
+
                 </li>
             </c:if>
 
             <c:if test="${user.name != null}">
 
                 <li class="nav-item">
-                    <button form="headerForm" class="btn cl-white mr-5" type="submit" name="command"
-                            value="go_to_accounts_command">${user_panel}
-                    </button>
+                    <a type="button" class="btn cl-white" href="Controller?command=go_to_accounts_command">${locale_user_panel}</a>
                 </li>
 
                 <c:if test="${user.status.id == 2}">
 
                     <li class="nav-item">
-                        <button form="headerForm" class="btn cl-white mr-5" type="submit" name="command"
-                                value="go_to_admin_accounts_command">${locale_admin_panel}
-                        </button>
+                        <a type="button" class="btn cl-white" href="Controller?command=go_to_admin_accounts_command">${locale_admin_panel}</a>
                     </li>
 
                 </c:if>
-
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle cl-white" href="#" id="navbarDropdown" role="button"
@@ -79,12 +74,12 @@
 
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                        <button form="headerForm" class="btn dropdown-item" type="submit" name="command"
-                                value="go_to_personal_page_command">${my_profile}
-                        </button>
+                        <a type="button" class="btn dropdown-item" href="Controller?command=go_to_personal_page_command">${locale_my_profile}</a>
+
                         <div class="dropdown-divider"></div>
+
                         <button form="headerForm" class="btn btn-outline-danger dropdown-item" type="submit"
-                                name="command" value="log_out_command">${exit}
+                                name="command" value="log_out_command">${locale_exit}
                         </button>
 
                     </div>
@@ -97,24 +92,24 @@
                 <a class="nav-link dropdown-toggle cl-white" href="#" id="navLang" role="button"
                    data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
-                    ${button_current_lang}
+                    ${locale_button_current_lang}
 
                 </a>
 
                 <div class="dropdown-menu" aria-labelledby="navLang">
 
                     <button form="localeForm" class="btn dropdown-item" type="submit" name="locale"
-                            value="ru">${button_ru}
+                            value="ru">${locale_button_ru}
                     </button>
                     <div class="dropdown-divider"></div>
                     <button form="localeForm" class="btn btn-outline-danger dropdown-item" type="submit"
-                            name="locale" value="en">${button_en}
+                            name="locale" value="en">${locale_button_en}
                     </button>
 
                 </div>
             </li>
             <li class="nav-item ml-auto mr-auto">
-                <a class="nav-link" href="index.jsp">${about_page}</a>
+                <a class="nav-link" href="index.jsp">${locale_about_page}</a>
             </li>
         </ul>
     </div>

@@ -6,7 +6,7 @@ import by.epamtc.paymentservice.dao.CardDAO;
 import by.epamtc.paymentservice.dao.DAOProvider;
 import by.epamtc.paymentservice.service.CardService;
 import by.epamtc.paymentservice.service.exception.ServiceException;
-import by.epamtc.paymentservice.util.validator.CardValidator;
+import by.epamtc.paymentservice.service.validator.CardValidator;
 
 import java.util.List;
 

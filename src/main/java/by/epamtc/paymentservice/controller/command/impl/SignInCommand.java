@@ -25,7 +25,7 @@ public class SignInCommand implements Command {
     private static final String ATTRIBUTE_EXCEPTION = "exception";
     private static final String ATTRIBUTE_PASSWORD = "password";
     private static final String ATTRIBUTE_MESSAGE = "message";
-    private static final String MESSAGE_WRONG_LOGIN_OR_PASSWORD = "Неверный логин или пароль!";
+    private static final String MESSAGE_WRONG_LOGIN_OR_PASSWORD_LOCALE = "wrong_login_or_password";
     private static final String SIGN_IN_PAGE_URL = "sign_in.jsp";
     private static final String COMMAND_GO_TO_ACCOUNTS = "go_to_accounts_command";
 
@@ -36,17 +36,16 @@ public class SignInCommand implements Command {
 
         final ServiceProvider serviceProvider = ServiceProvider.getInstance();
         final UserService userService = serviceProvider.getUserService();
-        User user = null;
 
         SignInData signInData = new SignInData();
         signInData.setLogin(login);
         signInData.setPassword(password);
 
         try {
-            user = userService.signIn(signInData);
+            User user = userService.signIn(signInData);
 
             if (user == null) {
-                req.setAttribute(ATTRIBUTE_MESSAGE,MESSAGE_WRONG_LOGIN_OR_PASSWORD);
+                req.setAttribute(ATTRIBUTE_MESSAGE, MESSAGE_WRONG_LOGIN_OR_PASSWORD_LOCALE);
                 req.getRequestDispatcher(SIGN_IN_PAGE_URL).forward(req, resp);
             } else {
                 req.getSession().setAttribute(ATTRIBUTE_USER, user);

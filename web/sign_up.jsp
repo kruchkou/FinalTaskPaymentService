@@ -16,6 +16,7 @@
 <fmt:message key="user.password" var="locale_user_password"/>
 <fmt:message key="user.birthdate" var="locale_user_birthdate"/>
 <fmt:message key="user.phone_number" var="locale_user_phone_number"/>
+<fmt:message key="${message}" var="locale_message"/>
 
 <fmt:message key="from" var="locale_from"/>
 <fmt:message key="to" var="locale_to"/>
@@ -87,7 +88,7 @@
                     </div>
                 </form>
                 <c:if test="${message != null}">
-                    <p class="message_label">${message}</p>
+                    <p class="message_label">${locale_message}</p>
                 </c:if>
             </div>
         </div>

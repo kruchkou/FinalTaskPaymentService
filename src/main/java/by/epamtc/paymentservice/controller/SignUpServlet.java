@@ -31,7 +31,7 @@ public class SignUpServlet extends HttpServlet {
     private static final String ATTRIBUTE_PASSWORD = "password";
     private static final String ATTRIBUTE_EXCEPTION = "exception";
     private static final String ATTRIBUTE_MESSAGE = "message";
-    private static final String MESSAGE_DUPLICATE_LOGIN = "Логин заняли перед вами. Выберите новый";
+    private static final String MESSAGE_DUPLICATE_LOGIN_LOCALE = "login_already_taken";
     private static final String SIGN_UP_PAGE_URL = "sign_up.jsp";
     private static final String SUCCESS_PAGE_REDIRECT_URL = "Controller?command=go_to_success_page_command";
 
@@ -54,7 +54,6 @@ public class SignUpServlet extends HttpServlet {
         final String phoneNumber = req.getParameter(ATTRIBUTE_PHONE_NUMBER);
         final String birthdate = req.getParameter(ATTRIBUTE_BIRTHDATE);
 
-        final int DUBLICATE_LOGIN_ERROR_CODE = 1062;
         final ServiceProvider serviceProvider = ServiceProvider.getInstance();
         final UserService userService = serviceProvider.getUserService();
 
@@ -74,7 +73,7 @@ public class SignUpServlet extends HttpServlet {
 
             switch (resultCode) {
                 case RESULT_ERROR_DUPLICATE_LOGIN:
-                    req.setAttribute(ATTRIBUTE_MESSAGE, MESSAGE_DUPLICATE_LOGIN);
+                    req.setAttribute(ATTRIBUTE_MESSAGE, MESSAGE_DUPLICATE_LOGIN_LOCALE);
                     req.getRequestDispatcher(SIGN_UP_PAGE_URL).forward(req, resp);
                     break;
                 case RESULT_SUCCESS:

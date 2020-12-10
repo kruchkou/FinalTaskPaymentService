@@ -9,7 +9,7 @@ import by.epamtc.paymentservice.dao.DAOProvider;
 import by.epamtc.paymentservice.dao.UserDAO;
 import by.epamtc.paymentservice.service.UserService;
 import by.epamtc.paymentservice.service.exception.ServiceException;
-import by.epamtc.paymentservice.util.validator.UserValidator;
+import by.epamtc.paymentservice.service.validator.UserValidator;
 
 import java.util.List;
 

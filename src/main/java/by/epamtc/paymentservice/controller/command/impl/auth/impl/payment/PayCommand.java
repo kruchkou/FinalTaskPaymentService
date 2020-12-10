@@ -61,11 +61,12 @@ public class PayCommand extends AuthCommand {
             }
 
             paymentService.transferMoney(accountFromID,accountToID,amount,comment);
+
+            resp.sendRedirect(SUCCESS_PAGE_REDIRECT_URL);
         } catch (ServiceException e) {
             logger.error(ERROR_MESSAGE, e);
             req.setAttribute(ATTRIBUTE_EXCEPTION,e);
             CommandProvider.getInstance().getCommand(ERROR_PAGE_COMMAND).execute(req, resp);
         }
-        resp.sendRedirect(SUCCESS_PAGE_REDIRECT_URL);
     }
 }

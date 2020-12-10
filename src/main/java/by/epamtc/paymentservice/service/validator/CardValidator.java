@@ -1,4 +1,4 @@
-package by.epamtc.paymentservice.util.validator;
+package by.epamtc.paymentservice.service.validator;
 
 import by.epamtc.paymentservice.bean.Card;
 import by.epamtc.paymentservice.util.RegexpPropertyUtil;

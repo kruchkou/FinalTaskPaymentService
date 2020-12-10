@@ -6,8 +6,7 @@ import by.epamtc.paymentservice.dao.DAOProvider;
 import by.epamtc.paymentservice.dao.PaymentDAO;
 import by.epamtc.paymentservice.service.PaymentService;
 import by.epamtc.paymentservice.service.exception.ServiceException;
-import by.epamtc.paymentservice.util.validator.PaymentValidator;
-import by.epamtc.paymentservice.util.validator.UserValidator;
+import by.epamtc.paymentservice.service.validator.PaymentValidator;
 
 import java.math.BigDecimal;
 import java.util.List;

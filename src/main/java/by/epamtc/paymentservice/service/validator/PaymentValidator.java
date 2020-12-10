@@ -1,4 +1,4 @@
-package by.epamtc.paymentservice.util.validator;
+package by.epamtc.paymentservice.service.validator;
 
 import java.math.BigDecimal;
 
