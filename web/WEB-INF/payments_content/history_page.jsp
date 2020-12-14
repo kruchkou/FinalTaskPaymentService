@@ -19,12 +19,12 @@
 <fmt:message key="date" var="locale_date"/>
 <fmt:message key="payments.amount" var="locale_payment_amount"/>
 <fmt:message key="payments.comment" var="locale_payment_comment"/>
-
+<fmt:message key="${history_scope}" var="locale_history_scope"/>
 
 <div class="container mt-3">
     <div style="flex-direction: column;">
         <h1>${locale_payment_history.toUpperCase()}</h1>
-        <h5 class="fullfill">${payment_view_scope}</h5>
+        <h5 class="fullfill">${locale_history_scope}: ${history_scope_value}</h5>
     </div>
     <div class="card-group">
         <div class="card">

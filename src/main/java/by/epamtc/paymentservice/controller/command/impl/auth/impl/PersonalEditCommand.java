@@ -1,14 +1,16 @@
 package by.epamtc.paymentservice.controller.command.impl.auth.impl;
 
-import by.epamtc.paymentservice.bean.ResultCode;
+import by.epamtc.paymentservice.dao.ResultCode;
+import by.epamtc.paymentservice.bean.SignInData;
+import by.epamtc.paymentservice.bean.SignUpData;
 import by.epamtc.paymentservice.controller.command.CommandProvider;
 import by.epamtc.paymentservice.controller.command.impl.auth.AuthCommand;
 import by.epamtc.paymentservice.bean.User;
 import by.epamtc.paymentservice.service.exception.ServiceException;
+import by.epamtc.paymentservice.util.DateParser;
 import org.apache.log4j.Logger;
 import by.epamtc.paymentservice.service.ServiceProvider;
 import by.epamtc.paymentservice.service.UserService;
-import by.epamtc.paymentservice.util.UserBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -48,23 +50,24 @@ public class PersonalEditCommand extends AuthCommand {
         final String phoneNumber = req.getParameter(ATTRIBUTE_PHONE_NUMBER);
         final String birthdate = req.getParameter(ATTRIBUTE_BIRTHDATE);
 
+        final DateParser dateParser = DateParser.getInstance();
         final ServiceProvider serviceProvider = ServiceProvider.getInstance();
         final UserService userService = serviceProvider.getUserService();
-        final UserBuilder userBuilder = new UserBuilder();
 
-        userBuilder.setId(user.getId());
-        userBuilder.setLogin(login);
-        userBuilder.setPassword(password);
-        userBuilder.setName(name);
-        userBuilder.setSurname(surname);
-        userBuilder.setPatronymic(patronymic);
-        userBuilder.setPhoneNumber(phoneNumber);
+        final SignInData signInData = new SignUpData();
+        signInData.setLogin(login);
+        signInData.setPassword(password);
+
+        user.setLogin(login);
+        user.setName(name);
+        user.setSurname(surname);
+        user.setPatronymic(patronymic);
+        user.setPhoneNumber(phoneNumber);
 
         try {
-            userBuilder.setBirthDate(birthdate);
-            User updatedUser = userBuilder.build();
+            user.setBirthDate(dateParser.parse(birthdate));
 
-            ResultCode resultCode = userService.updateUser(updatedUser);
+            ResultCode resultCode = userService.updateUser(signInData, user);
 
                 switch (resultCode) {
 
@@ -79,7 +82,7 @@ public class PersonalEditCommand extends AuthCommand {
                         break;
                     }
                     case RESULT_SUCCESS: {
-                        req.getSession().setAttribute(ATTRIBUTE_USER, updatedUser);
+                        req.getSession().setAttribute(ATTRIBUTE_USER, user);
                         resp.sendRedirect(PERSONAL_PAGE_URL);
                         break;
                     }

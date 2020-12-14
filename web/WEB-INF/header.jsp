@@ -109,7 +109,7 @@
                 </div>
             </li>
             <li class="nav-item ml-auto mr-auto">
-                <a class="nav-link" href="index.jsp">${locale_about_page}</a>
+                <a class="nav-link" href="Controller?command=go_to_about_page_command">${locale_about_page}</a>
             </li>
         </ul>
     </div>

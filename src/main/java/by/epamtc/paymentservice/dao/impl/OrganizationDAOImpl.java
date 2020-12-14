@@ -1,7 +1,7 @@
 package by.epamtc.paymentservice.dao.impl;
 
-import by.epamtc.paymentservice.dao.UserDAO;
-import by.epamtc.paymentservice.dao.connection.impl.ConnectionPool;
+import by.epamtc.paymentservice.dao.connection.ConnectionPool;
+import by.epamtc.paymentservice.dao.connection.impl.ConnectionPoolImpl;
 import by.epamtc.paymentservice.bean.Organization;
 import by.epamtc.paymentservice.bean.Status;
 import by.epamtc.paymentservice.dao.exception.DAOException;
@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * Implementation of {@link OrganizationDAO}. Provides methods to interact with Users data from database.
- * Methods connect to database using {@link Connection} from {@link ConnectionPool} and manipulate with data(save, edit, etc.).
+ * Methods connect to database using {@link Connection} from {@link ConnectionPoolImpl} and manipulate with data(save, edit, etc.).
  */
 public class OrganizationDAOImpl implements OrganizationDAO {
 
@@ -24,9 +24,9 @@ public class OrganizationDAOImpl implements OrganizationDAO {
     private static final OrganizationDAOImpl instance = new OrganizationDAOImpl();
 
     /**
-     * An object of {@link ConnectionPool}
+     * An object of {@link ConnectionPoolImpl}
      */
-    private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
+    private static final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
 
     /**
      * Query for database to add an organization
@@ -90,6 +90,37 @@ public class OrganizationDAOImpl implements OrganizationDAO {
             "WHERE (org.name like ? AND org.status = ?) " +
             "ORDER BY org.name";
 
+    /** Message, that is putted in Exception if there are get org lsit by user ID problem */
+    private static final String MESSAGE_GET_ORG_LIST_BY_USER_ID_PROBLEM = "Cant handle OrgDAO.getOrgListByUserID request";
+
+    /** Message, that is putted in Exception if there are get org problem */
+    private static final String MESSAGE_GET_ORG_PROBLEM = "Cant handle OrgDAO.getOrg request";
+
+    /** Message, that is putted in Exception if there are get org list by name problem */
+    private static final String MESSAGE_GET_ORG_LIST_BY_NAME_PROBLEM = "Cant handle OrgDAO.getOrgListByName request";
+
+    /** Message, that is putted in Exception if there are get active org list by name problem */
+    private static final String MESSAGE_GET_ACTIVE_ORG_LIST_BY_NAME_PROBLEM = "Cant handle OrgDAO.getActiveOrgListByName request";
+
+    /** Message, that is putted in Exception if there are get org list problem */
+    private static final String MESSAGE_GET_ORG_LIST_PROBLEM = "Cant handle OrgDAO.getOrgList request";
+
+    /** Message, that is putted in Exception if there are get active org list problem */
+    private static final String MESSAGE_GET_ACTIVE_ORG_LIST_PROBLEM = "Cant handle OrgDAO.getActiveOrgList request";
+
+    /** Message, that is putted in Exception if there are edit organization rollback problem */
+    private static final String MESSAGE_EDIT_ORGANIZATION_ROLLBACK_PROBLEM = "Can't handle OrgDAO.EditOrganization.rollback request";
+
+    /** Message, that is putted in Exception if there are edit organization problem */
+    private static final String MESSAGE_EDIT_ORGANIZATION_PROBLEM = "Can't handle OrgDAO.editOrganization request";
+
+    /** Message, that is putted in Exception if there are add organization problem */
+    private static final String MESSAGE_ADD_ORGANIZATION_PROBLEM = "Can't handle OrgDAO.addOrganization request";
+
+    /** Message, that is putted in Exception if there are set status by ID problem */
+    private static final String MESSAGE_SET_STATUS_BY_ID_PROBLEM = "Can't handle OrgDAO.setStatusByID request";
+
+
     /**
      * Returns the instance of the class
      *
@@ -140,7 +171,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
                 orgList.add(organization);
             }
         } catch (SQLException e) {
-            throw new DAOException("Cant handle OrgDAO.getOrgListByUserID request", e);
+            throw new DAOException(MESSAGE_GET_ORG_LIST_BY_USER_ID_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -178,7 +209,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
                 organization.setStatus(status);
             }
         } catch (SQLException e) {
-            throw new DAOException("Cant handle OrgDAO.getOrg request", e);
+            throw new DAOException(MESSAGE_GET_ORG_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -221,7 +252,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
                 orgList.add(organization);
             }
         } catch (SQLException e) {
-            throw new DAOException("Cant handle OrgDAO.getOrgListByName request", e);
+            throw new DAOException(MESSAGE_GET_ORG_LIST_BY_NAME_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -265,7 +296,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
                 orgList.add(organization);
             }
         } catch (SQLException e) {
-            throw new DAOException("Cant handle OrgDAO.getOrgListByName request", e);
+            throw new DAOException(MESSAGE_GET_ACTIVE_ORG_LIST_BY_NAME_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -306,7 +337,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
                 orgList.add(organization);
             }
         } catch (SQLException e) {
-            throw new DAOException("Cant handle OrgDAO.getOrgList request", e);
+            throw new DAOException(MESSAGE_GET_ORG_LIST_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -347,7 +378,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
                 orgList.add(organization);
             }
         } catch (SQLException e) {
-            throw new DAOException("Cant handle OrgDAO.getOrgList request", e);
+            throw new DAOException(MESSAGE_GET_ACTIVE_ORG_LIST_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -386,15 +417,14 @@ public class OrganizationDAOImpl implements OrganizationDAO {
             try {
                 connection.rollback();
             } catch (SQLException exception) {
-                throw new DAOException("Can't handle OrgDAO.rollback request", exception);
+                throw new DAOException(MESSAGE_EDIT_ORGANIZATION_ROLLBACK_PROBLEM, exception);
             }
 
-            throw new DAOException("Can't handle OrgDAO.editOrganization request");
+            throw new DAOException(MESSAGE_EDIT_ORGANIZATION_PROBLEM);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
     }
-
 
     /**
      * Connects to database, creates new organization by name and links it to an account to receive payments.
@@ -411,7 +441,6 @@ public class OrganizationDAOImpl implements OrganizationDAO {
 
         try {
             connection = connectionPool.getConnection();
-            connection.setAutoCommit(false);
             ps = connection.prepareStatement(ADD_ORGANIZATION_SQL);
 
             ps.setString(AddOrganizationIndex.NAME, name);
@@ -422,18 +451,11 @@ public class OrganizationDAOImpl implements OrganizationDAO {
             connection.commit();
 
         } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException exception) {
-                throw new DAOException("Can't handle OrgDAO.rollback request", exception);
-            }
-
-            throw new DAOException("Can't handle OrgDAO.addOrganization request");
+            throw new DAOException(MESSAGE_ADD_ORGANIZATION_PROBLEM);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
     }
-
 
     /**
      * Connects to database and set organization status to organization by ID.
@@ -454,7 +476,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
             ps.setInt(SetStatusByIDIndex.ID, id);
             ps.execute();
         } catch (SQLException e) {
-            throw new DAOException("Can't handle OrgDAO.setStatusByID request", e);
+            throw new DAOException(MESSAGE_SET_STATUS_BY_ID_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }

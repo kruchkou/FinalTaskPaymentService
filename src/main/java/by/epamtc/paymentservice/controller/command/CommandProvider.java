@@ -9,10 +9,7 @@ import by.epamtc.paymentservice.controller.command.impl.auth.impl.PersonalEditCo
 import by.epamtc.paymentservice.controller.command.impl.auth.impl.UploadUserImageCommand;
 import by.epamtc.paymentservice.controller.command.impl.auth.impl.go.*;
 import by.epamtc.paymentservice.controller.command.impl.auth.impl.payment.*;
-import by.epamtc.paymentservice.controller.command.impl.go.GoToErrorPageCommand;
-import by.epamtc.paymentservice.controller.command.impl.go.GoToSignInCommand;
-import by.epamtc.paymentservice.controller.command.impl.go.GoToSignUpCommand;
-import by.epamtc.paymentservice.controller.command.impl.go.GoToSuccessPageCommand;
+import by.epamtc.paymentservice.controller.command.impl.go.*;
 import by.epamtc.paymentservice.controller.command.impl.auth.impl.go.GoToPaySelectOrgCommand;
 
 import java.util.HashMap;
@@ -25,6 +22,7 @@ public class CommandProvider {
     public CommandProvider() {
         commands.put(CommandName.GO_TO_SIGN_IN_COMMAND, new GoToSignInCommand());
         commands.put(CommandName.GO_TO_SIGN_UP_COMMAND, new GoToSignUpCommand());
+        commands.put(CommandName.GO_TO_ABOUT_PAGE_COMMAND, new GoToAboutPageCommand());
         commands.put(CommandName.GO_TO_ERROR_PAGE_COMMAND, new GoToErrorPageCommand());
         commands.put(CommandName.GO_TO_PERSONAL_PAGE_COMMAND, new GoToPersonalPageCommand());
         commands.put(CommandName.GO_TO_PERSONAL_EDIT_COMMAND, new GoToPersonalEditCommand());

@@ -1,7 +1,7 @@
 package by.epamtc.paymentservice.service.impl;
 
 import by.epamtc.paymentservice.bean.SignInData;
-import by.epamtc.paymentservice.bean.ResultCode;
+import by.epamtc.paymentservice.dao.ResultCode;
 import by.epamtc.paymentservice.bean.SignUpData;
 import by.epamtc.paymentservice.bean.User;
 import by.epamtc.paymentservice.dao.exception.DAOException;
@@ -74,8 +74,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResultCode updateUser(User updatedUser) throws ServiceException {
-        if(signIn(updatedUser) == null) {
+    public ResultCode updateUser(SignInData signInData, User updatedUser) throws ServiceException {
+        if(signIn(signInData) == null) {
             return ResultCode.RESULT_WRONG_PASSWORD;
         }
         if (!userValidator.validate(updatedUser)) {

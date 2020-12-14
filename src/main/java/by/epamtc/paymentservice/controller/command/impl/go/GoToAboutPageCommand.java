@@ -1,4 +1,4 @@
-package by.epamtc.paymentservice.controller.command.impl;
+package by.epamtc.paymentservice.controller.command.impl.go;
 
 import by.epamtc.paymentservice.controller.command.Command;
 
@@ -7,13 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class LogOutCommand implements Command {
+public class GoToAboutPageCommand implements Command {
 
-    private static final String GO_TO_ABOUT_PAGE_COMMAND_URL = "Controller?command=go_to_about_page_command";
+    private static final String INDEX_PAGE_URL = "about_page.jsp";
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getSession().invalidate();
-        resp.sendRedirect(GO_TO_ABOUT_PAGE_COMMAND_URL);
+        req.getRequestDispatcher(INDEX_PAGE_URL).forward(req,resp);
     }
 }

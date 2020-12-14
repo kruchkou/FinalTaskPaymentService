@@ -1,6 +1,7 @@
 package by.epamtc.paymentservice.service.validator;
 
 import by.epamtc.paymentservice.bean.SignUpData;
+import by.epamtc.paymentservice.bean.User;
 import by.epamtc.paymentservice.util.RegexpPropertyUtil;
 
 import java.util.regex.Matcher;
@@ -24,6 +25,28 @@ public class UserValidator {
         String surname = signUpData.getSurname();
         String patronymic = signUpData.getPatronymic();
         String phoneNumber = signUpData.getPhoneNumber();
+
+        if (!validateLogin(login)) {
+            return false;
+        }
+        if (!validateFIO(name)) {
+            return false;
+        }
+        if (!validateFIO(surname)) {
+            return false;
+        }
+        if (!validateFIO(patronymic)) {
+            return false;
+        }
+        return validatePhoneNumber(phoneNumber);
+    }
+
+    public boolean validate(User user) {
+        String login = user.getLogin();
+        String name = user.getName();
+        String surname = user.getSurname();
+        String patronymic = user.getPatronymic();
+        String phoneNumber = user.getPhoneNumber();
 
         if (!validateLogin(login)) {
             return false;

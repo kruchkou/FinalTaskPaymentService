@@ -25,15 +25,16 @@ public class GoToAccountHistoryCommand extends AuthCommand {
     private static final String ATTRIBUTE_EXCEPTION = "exception";
     private static final String ATTRIBUTE_IN_PAYMENTS = "inPayments";
     private static final String ATTRIBUTE_OUT_PAYMENTS = "outPayments";
+    private static final String ATTRIBUTE_HISTORY_SCOPE_VALUE = "history_scope_value";
+    private static final String ATTRIBUTE_HISTORY_SCOPE = "history_scope";
+    private static final String HISTORY_SCOPE = "account_history";
     private static final String ATTRIBUTE_PAYMENT_FRAGMENT = "payments_content";
-    private static final String ATTRIBUTE_PAYMENT_VIEW_MESSAGE = "payment_view_scope";
     private static final String FRAGMENT_HISTORY_URL = "payments_content/history_page.jsp";
     private static final String PAYMENT_PAGE_URL = "WEB-INF/payments.jsp";
 
     @Override
     protected void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final int accountID = Integer.parseInt(req.getParameter(ATTRIBUTE_ACCOUNT_ID));
-        final String PAYMENT_VIEW_MESSAGE = "Счет №: " + accountID;
 
         final ServiceProvider serviceProvider = ServiceProvider.getInstance();
         final PaymentService paymentService = serviceProvider.getPaymentService();
@@ -46,7 +47,8 @@ public class GoToAccountHistoryCommand extends AuthCommand {
 
             req.setAttribute(ATTRIBUTE_IN_PAYMENTS, inPaymentList);
             req.setAttribute(ATTRIBUTE_OUT_PAYMENTS, outPaymentList);
-            req.setAttribute(ATTRIBUTE_PAYMENT_VIEW_MESSAGE,PAYMENT_VIEW_MESSAGE);
+            req.setAttribute(ATTRIBUTE_HISTORY_SCOPE,HISTORY_SCOPE);
+            req.setAttribute(ATTRIBUTE_HISTORY_SCOPE_VALUE,accountID);
             req.setAttribute(ATTRIBUTE_PAYMENT_FRAGMENT, FRAGMENT_HISTORY_URL);
             req.getRequestDispatcher(PAYMENT_PAGE_URL).forward(req, resp);
 

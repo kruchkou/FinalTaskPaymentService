@@ -16,6 +16,7 @@
 <fmt:message key="eazy_top_up_desc" var="locale_eazy_top_up_desc"/>
 <fmt:message key="no_coms" var="locale_no_coms"/>
 <fmt:message key="no_coms_desc" var="locale_no_coms_desc"/>
+<fmt:message key="sign_in" var="locale_sign_in"/>
 
 
 <html>
@@ -67,7 +68,7 @@
 
         <form class="center" action="Controller" method="post">
             <input type="hidden" name="command" value="go_to_sign_in_command"/>
-            <button class="mt-4 index_login_button btn btn-success" type="submit">ВХОД</button>
+            <button class="mt-4 index_login_button btn btn-success" type="submit">${locale_sign_in}</button>
         </form>
     </div>
 

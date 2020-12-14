@@ -2,6 +2,7 @@ package by.epamtc.paymentservice.controller.command;
 
 public enum CommandName {
 
+    GO_TO_ABOUT_PAGE_COMMAND,
     GO_TO_ERROR_PAGE_COMMAND,
     GO_TO_PERSONAL_PAGE_COMMAND,
     GO_TO_ACCOUNTS_COMMAND,

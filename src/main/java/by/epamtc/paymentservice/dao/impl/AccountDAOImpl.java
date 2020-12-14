@@ -1,8 +1,7 @@
 package by.epamtc.paymentservice.dao.impl;
 
-import by.epamtc.paymentservice.dao.DAOProvider;
-import by.epamtc.paymentservice.dao.UserDAO;
-import by.epamtc.paymentservice.dao.connection.impl.ConnectionPool;
+import by.epamtc.paymentservice.dao.connection.ConnectionPool;
+import by.epamtc.paymentservice.dao.connection.impl.ConnectionPoolImpl;
 import by.epamtc.paymentservice.bean.Account;
 import by.epamtc.paymentservice.bean.AccountInfo;
 import by.epamtc.paymentservice.bean.Status;
@@ -20,7 +19,7 @@ import java.util.*;
 
 /**
  * Implementation of {@link AccountDAO}. Provides methods to interact with Users data from database.
- * Methods connect to database using {@link Connection} from {@link ConnectionPool} and manipulate with data(save, edit, etc.).
+ * Methods connect to database using {@link Connection} from {@link ConnectionPoolImpl} and manipulate with data(save, edit, etc.).
  *
  */
 public class AccountDAOImpl implements AccountDAO {
@@ -28,8 +27,8 @@ public class AccountDAOImpl implements AccountDAO {
     /** Instance of the class */
     private static final AccountDAOImpl instance = new AccountDAOImpl();
 
-    /** An object of {@link ConnectionPool} */
-    private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
+    /** An object of {@link ConnectionPoolImpl} */
+    private static final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
 
     /** Query for database to set organization status by account ID */
     private static final String SET_ORG_STATUS_BY_ACCOUNT_ID_SQL = "UPDATE Organizations SET status = ? WHERE account = ?";
@@ -79,6 +78,42 @@ public class AccountDAOImpl implements AccountDAO {
             "JOIN AccountStatuses statuses ON acc.status = statuses.id " +
             "WHERE (acc.id like ? and acc.status = ?)";
 
+    /** Message, that is putted in Exception if there are get active account list by user ID problem */
+    private static final String MESSAGE_GET_ACCOUNT_LIST_BY_USER_ID_PROBLEM = "Cant handle AccountDAO.getAccountListByUserID request";
+
+    /** Message, that is putted in Exception if there are get active account list by user ID problem */
+    private static final String MESSAGE_GET_ACTIVE_ACCOUNT_LIST_BY_USER_ID_PROBLEM = "Cant handle AccountDAO.getActiveAccountListByUserID request";
+
+    /** Message, that is putted in Exception if there are top up account (get balance) problem */
+    private static final String MESSAGE_TOP_UP_ACCOUNT_GET_BALANCE_PROBLEM = "Can't handle AccountDAO.topUpAccount.getBalance request";
+
+    /** Message, that is putted in Exception if there are top up account problem */
+    private static final String MESSAGE_ROLLBACK_TOP_UP_ACCOUNT_PROBLEM = "Can't rollback at UserDAO.updateUser request";
+
+    /** Message, that is putted in Exception if there are top up account (set balance) problem */
+    private static final String MESSAGE_TOP_UP_ACCOUNT_SET_BALANCE_PROBLEM = "Can't handle AccountDAO.topUpAccount.setBalance request";
+
+    /** Message, that is putted in Exception if there are add account problem */
+    private static final String MESSAGE_ADD_ACCOUNT_PROBLEM = "Can't handle AccountDAO.addAccount request";
+
+    /** Message, that is putted in Exception if there are get account info problem */
+    private static final String MESSAGE_GET_ACCOUNT_INFO_PROBLEM = "Cant handle AccountDAO.getAccountInfo request";
+
+    /** Message, that is putted in Exception if there are get account info list problem */
+    private static final String MESSAGE_GET_ACCOUNT_INFO_LIST_PROBLEM = "Cant handle AccountDAO.getAccountInfoList request";
+
+    /** Message, that is putted in Exception if there are get active account info list problem */
+    private static final String MESSAGE_GET_ACTIVE_ACCOUNT_INFO_LIST_PROBLEM = "Cant handle AccountDAO.getActiveAccountInfoList request";
+
+    /** Message, that is putted in Exception if there are get account problem */
+    private static final String MESSAGE_GET_ACCOUNT_PROBLEM = "Cant handle AccountDAO.getAccount request";
+
+    /** Message, that is putted in Exception if there are set status by ID problem */
+    private static final String MESSAGE_ROLLBACK_SET_STATUS_BY_ID_PROBLEM = "Can't rollback at UserDAO.setStatusByID request";
+
+    /** Message, that is putted in Exception if there are set status by ID problem */
+    private static final String MESSAGE_SET_STATUS_BY_ID_PROBLEM = "Can't handle UserDAO.setStatusByID request";
+
     /**
      * Returns the instance of the class
      * @return Object of {@link AccountDAOImpl}
@@ -120,7 +155,7 @@ public class AccountDAOImpl implements AccountDAO {
             }
 
         } catch (SQLException e) {
-            throw new DAOException("Cant handle AccountDAO.getUserByLogin request", e);
+            throw new DAOException(MESSAGE_GET_ACCOUNT_LIST_BY_USER_ID_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -156,7 +191,7 @@ public class AccountDAOImpl implements AccountDAO {
             }
 
         } catch (SQLException e) {
-            throw new DAOException("Cant handle AccountDAO.getUserByLogin request", e);
+            throw new DAOException(MESSAGE_GET_ACTIVE_ACCOUNT_LIST_BY_USER_ID_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -187,7 +222,7 @@ public class AccountDAOImpl implements AccountDAO {
             ResultSet rs = ps.executeQuery();
 
             if(!rs.next()) {
-                throw new DAOException("Can't handle AccountDAO.topUpAccount.getBalance request");
+                throw new DAOException(MESSAGE_TOP_UP_ACCOUNT_GET_BALANCE_PROBLEM);
             }
 
             BigDecimal balance = rs.getBigDecimal(ParamColumn.BALANCE);
@@ -204,9 +239,9 @@ public class AccountDAOImpl implements AccountDAO {
             try {
                 connection.rollback();
             } catch (SQLException throwables) {
-                throw new DAOException("Can't rollback at AccountDAO.topUpAccount",throwables);
+                throw new DAOException(MESSAGE_ROLLBACK_TOP_UP_ACCOUNT_PROBLEM,throwables);
             }
-            throw new DAOException("Can't handle AccountDAO.topUpAccount.setBalance request", e);
+            throw new DAOException(MESSAGE_TOP_UP_ACCOUNT_SET_BALANCE_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -237,7 +272,7 @@ public class AccountDAOImpl implements AccountDAO {
             ps.execute();
 
         } catch (SQLException e) {
-            throw new DAOException("Can't handle AccountDAO.addAccount request", e);
+            throw new DAOException(MESSAGE_ADD_ACCOUNT_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -269,7 +304,7 @@ public class AccountDAOImpl implements AccountDAO {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            throw new DAOException("Cant handle AccountDAO.getAccountInfo request", e);
+            throw new DAOException(MESSAGE_GET_ACCOUNT_INFO_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -304,7 +339,7 @@ public class AccountDAOImpl implements AccountDAO {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            throw new DAOException("Cant handle AccountDAO.getAccountInfoList request", e);
+            throw new DAOException(MESSAGE_GET_ACCOUNT_INFO_LIST_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -338,7 +373,7 @@ public class AccountDAOImpl implements AccountDAO {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            throw new DAOException("Cant handle AccountDAO.getAccountInfoList request", e);
+            throw new DAOException(MESSAGE_GET_ACTIVE_ACCOUNT_INFO_LIST_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -410,7 +445,7 @@ public class AccountDAOImpl implements AccountDAO {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            throw new DAOException("Cant handle AccountDAO.getUserByLogin request", e);
+            throw new DAOException(MESSAGE_GET_ACCOUNT_PROBLEM,e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -476,9 +511,9 @@ public class AccountDAOImpl implements AccountDAO {
             try {
                 connection.rollback();
             } catch (SQLException throwables) {
-                throw new DAOException("Can't rollback at AccountDAO.setStatusByID request.", throwables);
+                throw new DAOException(MESSAGE_ROLLBACK_SET_STATUS_BY_ID_PROBLEM, throwables);
             }
-            throw new DAOException("Can't handle AccountDAO.setStatusByID request.", e);
+            throw new DAOException(MESSAGE_SET_STATUS_BY_ID_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }

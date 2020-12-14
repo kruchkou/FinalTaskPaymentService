@@ -1,9 +1,11 @@
 package by.epamtc.paymentservice.dao.impl;
 
 import by.epamtc.paymentservice.bean.*;
+import by.epamtc.paymentservice.dao.ResultCode;
+import by.epamtc.paymentservice.dao.connection.ConnectionPool;
+import by.epamtc.paymentservice.dao.connection.impl.ConnectionPoolImpl;
 import by.epamtc.paymentservice.dao.exception.DAOException;
 import by.epamtc.paymentservice.dao.UserDAO;
-import by.epamtc.paymentservice.dao.connection.impl.ConnectionPool;
 import by.epamtc.paymentservice.util.StringHasher;
 
 import java.sql.*;
@@ -12,7 +14,7 @@ import java.util.List;
 
 /**
  * Implementation of {@link UserDAO}. Provides methods to interact with Users data from database.
- * Methods connect to database using {@link Connection} from {@link ConnectionPool} and manipulate with data(save, edit, etc.).
+ * Methods connect to database using {@link Connection} from {@link ConnectionPoolImpl} and manipulate with data(save, edit, etc.).
  *
  */
 public class UserDAOImpl implements UserDAO {
@@ -20,8 +22,8 @@ public class UserDAOImpl implements UserDAO {
     /** A single instance of the class (pattern Singleton) */
     private static final UserDAOImpl instance = new UserDAOImpl();
 
-    /** An object of {@link ConnectionPool} */
-    private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
+    /** An object of {@link ConnectionPoolImpl} */
+    private static final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
 
     /** An object of {@link StringHasher} */
     private static final StringHasher stringHasher = StringHasher.getInstance();
@@ -56,6 +58,32 @@ public class UserDAOImpl implements UserDAO {
             "JOIN UsersStatuses userstatus ON users.status = userstatus.id " +
             "WHERE (users.name REGEXP ? OR surname REGEXP ? OR patronymic REGEXP ?)";
 
+    /** Message, that is putted in Exception if there are sign ip problem */
+    private static final String MESSAGE_SIGN_IN_PROBLEM = "Can't handle UserDAO.signIn request";
+
+    /** Message, that is putted in Exception if there are sign up problem */
+    private static final String MESSAGE_SIGN_UP_PROBLEM = "Can't handle UserDAO.signUp request";
+
+    /** Message, that is putted in Exception if there are update user problem */
+    private static final String MESSAGE_UPDATE_USER_PROBLEM = "Can't handle UserDAO.updateUser request";
+
+    /** Message, that is putted in Exception if there are set image src problem */
+    private static final String MESSAGE_SET_IMAGE_SRC_PROBLEM = "Can't handle UserDAO.setImageByID request";
+
+    /** Message, that is putted in Exception if there are set password problem */
+    private static final String MESSAGE_SET_PASSWORD_PROBLEM = "Can't handle UserDAO.setPasswordByID request";
+
+    /** Message, that is putted in Exception if there are set status problem */
+    private static final String MESSAGE_SET_STATUS_PROBLEM = "Can't handle UserDAO.setStatusByID request";
+
+    /** Message, that is putted in Exception if there are is login available problem */
+    private static final String MESSAGE_IS_LOGIN_AVAILABLE_PROBLEM = "Can't handle UserDAO.isLoginAvailable request";
+
+    /** Message, that is putted in Exception if there are is get user list problem */
+    private static final String MESSAGE_GET_USER_LIST_PROBLEM = "Cant handle UserDAO.getUserList request";
+
+    /** Message, that is putted in Exception if there are is get user list problem */
+    private static final String MESSAGE_GET_USER_BY_ID_PROBLEM = "Cant handle UserDAO.getUserByID request";
 
     /**
      * Returns the instance of the class
@@ -82,6 +110,7 @@ public class UserDAOImpl implements UserDAO {
         User user = null;
         Connection connection = null;
         PreparedStatement ps = null;
+
         try {
             connection = connectionPool.getConnection();
             ps = connection.prepareStatement(GET_USER_BY_LOGIN_SQL);
@@ -113,7 +142,7 @@ public class UserDAOImpl implements UserDAO {
                 user.setImageSrc(rs.getString(ParamColumn.IMAGE_SRC));
             }
         } catch (SQLException e) {
-            throw new DAOException("Cant handle UserDAO.getUserByLogin request", e);
+            throw new DAOException(MESSAGE_SIGN_IN_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -152,7 +181,7 @@ public class UserDAOImpl implements UserDAO {
             if (e.getErrorCode() == DUPLICATE_LOGIN_ERROR_CODE) {
                 return ResultCode.RESULT_ERROR_DUPLICATE_LOGIN;
             } else {
-                throw new DAOException("Can't handle UserDAO.updateUser request", e);
+                throw new DAOException(MESSAGE_UPDATE_USER_PROBLEM, e);
             }
         } finally {
             connectionPool.closeConnection(connection, ps);
@@ -179,7 +208,7 @@ public class UserDAOImpl implements UserDAO {
             ps.setInt(SetImageIndex.ID, id);
             ps.execute();
         } catch (SQLException e) {
-            throw new DAOException("Can't handle UserDAO.setImageByID request", e);
+            throw new DAOException(MESSAGE_SET_IMAGE_SRC_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -205,7 +234,7 @@ public class UserDAOImpl implements UserDAO {
             ps.setInt(SetPasswordIndex.ID, id);
             ps.execute();
         } catch (SQLException e) {
-            throw new DAOException("Can't handle UserDAO.setPasswordByID request", e);
+            throw new DAOException(MESSAGE_SET_PASSWORD_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -231,7 +260,7 @@ public class UserDAOImpl implements UserDAO {
 
             ps.execute();
         } catch (SQLException e) {
-            throw new DAOException("Can't handle UserDAO.setStatusByID request", e);
+            throw new DAOException(MESSAGE_SET_STATUS_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -261,7 +290,7 @@ public class UserDAOImpl implements UserDAO {
             }
 
         } catch (SQLException e) {
-            throw new DAOException("Can't handle UserDAO.isLoginAvailable request", e);
+            throw new DAOException(MESSAGE_IS_LOGIN_AVAILABLE_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -313,7 +342,7 @@ public class UserDAOImpl implements UserDAO {
                 userList.add(user);
             }
         } catch (SQLException e) {
-            throw new DAOException("Cant handle UserDAO.getUserList request", e);
+            throw new DAOException(MESSAGE_GET_USER_LIST_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -355,7 +384,7 @@ public class UserDAOImpl implements UserDAO {
                 user.setImageSrc(rs.getString(ParamColumn.IMAGE_SRC));
             }
         } catch (SQLException e) {
-            throw new DAOException("Cant handle UserDAO.getUserByID request", e);
+            throw new DAOException(MESSAGE_GET_USER_BY_ID_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -395,7 +424,7 @@ public class UserDAOImpl implements UserDAO {
             if (e.getErrorCode() == DUBLICATE_LOGIN_ERROR_CODE) {
                 return ResultCode.RESULT_ERROR_DUPLICATE_LOGIN;
             } else {
-                throw new DAOException("Can't handle UserDAO.SignUp request", e);
+                throw new DAOException(MESSAGE_SIGN_UP_PROBLEM, e);
             }
         } finally {
             connectionPool.closeConnection(connection, ps);

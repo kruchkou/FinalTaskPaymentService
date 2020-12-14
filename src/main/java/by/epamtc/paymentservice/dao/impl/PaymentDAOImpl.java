@@ -1,8 +1,7 @@
 package by.epamtc.paymentservice.dao.impl;
 
-import by.epamtc.paymentservice.bean.Card;
-import by.epamtc.paymentservice.dao.UserDAO;
-import by.epamtc.paymentservice.dao.connection.impl.ConnectionPool;
+import by.epamtc.paymentservice.dao.connection.ConnectionPool;
+import by.epamtc.paymentservice.dao.connection.impl.ConnectionPoolImpl;
 import by.epamtc.paymentservice.bean.Payment;
 import by.epamtc.paymentservice.dao.exception.DAOException;
 import by.epamtc.paymentservice.dao.PaymentDAO;
@@ -14,7 +13,7 @@ import java.util.List;
 
 /**
  * Implementation of {@link PaymentDAO}. Provides methods to interact with Users data from database.
- * Methods connect to database using {@link Connection} from {@link ConnectionPool} and manipulate with data(save, edit, etc.).
+ * Methods connect to database using {@link Connection} from {@link ConnectionPoolImpl} and manipulate with data(save, edit, etc.).
  *
  */
 public class PaymentDAOImpl implements PaymentDAO {
@@ -22,8 +21,8 @@ public class PaymentDAOImpl implements PaymentDAO {
     /** Instance of the class */
     private static final PaymentDAOImpl instance = new PaymentDAOImpl();
 
-    /** An object of {@link ConnectionPool} */
-    private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
+    /** An object of {@link ConnectionPoolImpl} */
+    private static final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
 
     /** Query for database to set account balance by account ID */
     private static final String SET_ACC_BALANCE_BY_ID_SQL = "UPDATE Accounts SET balance = ? WHERE (id = ? AND status = ?)";
@@ -52,6 +51,29 @@ public class PaymentDAOImpl implements PaymentDAO {
     private static final String GET_IN_PAYMENT_LIST_BY_USER_ID = "SELECT payments.id, account_from, account_to, amount, datetime, comment FROM Payments payments " +
             "JOIN Accounts accounts ON payments.account_to = accounts.id " +
             "WHERE accounts.user = ?";
+
+
+    /** Message, that is putted in Exception if there are get payment list by account ID problem */
+    private static final String MESSAGE_GET_PAYMENT_LIST_BY_ACCOUNT_ID_PROBLEM = "Cant handle PaymentDAO.getPaymentListByAccountID request";
+
+    /** Message, that is putted in Exception if there are get payment by ID problem */
+    private static final String MESSAGE_GET_PAYMENT_BY_ID_PROBLEM = "Can't handle PaymentDAO.getPaymentByID request";
+
+    /** Message, that is putted in Exception if there are get accountFrom balance problem */
+    private static final String MESSAGE_GET_ACCOUNT_FROM_BALANCE_PROBLEM = "Can't get accountFrom balance";
+
+    /** Message, that is putted in Exception if there are not enough balance problem problem */
+    private static final String MESSAGE_NOT_ENOUGH_BALANCE_PROBLEM = "Not enough balance to make a transfer";
+
+    /** Message, that is putted in Exception if there are get accountTo balance problem */
+    private static final String MESSAGE_GET_ACCOUNT_TO_BALANCE_PROBLEM = "Can't get accountTo balance";
+
+    /** Message, that is putted in Exception if there are transfer money rollback problem */
+    private static final String MESSAGE_TRANSFER_MONEY_ROLLBACK_PROBLEM = "Can't handle TransactionDAO.transferMoney.rollback request";
+
+    /** Message, that is putted in Exception if there are transfer money problem */
+    private static final String MESSAGE_TRANSFER_MONEY_PROBLEM = "Can't handle TransfactionDAO.transferMoney request";
+
 
     /**
      * Returns the instance of the class
@@ -147,7 +169,7 @@ public class PaymentDAOImpl implements PaymentDAO {
                 paymentList.add(payment);
             }
         } catch (SQLException e) {
-            throw new DAOException("Cant handle PaymentDAO.getPaymentListByAccountID request", e);
+            throw new DAOException(MESSAGE_GET_PAYMENT_LIST_BY_ACCOUNT_ID_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -182,7 +204,7 @@ public class PaymentDAOImpl implements PaymentDAO {
                 payment.setComment(rs.getString(ParamColumn.COMMENT));
             }
         } catch (SQLException e) {
-            throw new DAOException("Can't handle PaymentDAO.getPaymentByID request", e);
+            throw new DAOException(MESSAGE_GET_PAYMENT_BY_ID_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -216,7 +238,7 @@ public class PaymentDAOImpl implements PaymentDAO {
             ps.setInt(GetAccBalanceIndex.STATUS, ACCOUNT_STATUS_OPEN);
             ResultSet rs = ps.executeQuery();
             if(!rs.next()) {
-                throw new DAOException("Can't get accountFrom balance");
+                throw new DAOException(MESSAGE_GET_ACCOUNT_FROM_BALANCE_PROBLEM);
             }
             balanceFrom = rs.getBigDecimal(AccParamColumn.BALANCE);
 
@@ -225,7 +247,7 @@ public class PaymentDAOImpl implements PaymentDAO {
 
             final boolean ENOUGH_MONEY = balanceFrom.compareTo(amount) > 0;
             if (!ENOUGH_MONEY) {
-                throw new DAOException("Not enough balance to make a transfer");
+                throw new DAOException(MESSAGE_NOT_ENOUGH_BALANCE_PROBLEM);
             }
 
             ps = connection.prepareStatement(SET_ACC_BALANCE_BY_ID_SQL);
@@ -241,7 +263,7 @@ public class PaymentDAOImpl implements PaymentDAO {
             ps.setInt(GetAccBalanceIndex.STATUS, ACCOUNT_STATUS_OPEN);
             rs = ps.executeQuery();
             if (!rs.next()) {
-                throw new DAOException("Can't get accountTo balance");
+                throw new DAOException(MESSAGE_GET_ACCOUNT_TO_BALANCE_PROBLEM);
             }
             balanceTo = rs.getBigDecimal(AccParamColumn.BALANCE);
 
@@ -271,9 +293,9 @@ public class PaymentDAOImpl implements PaymentDAO {
             try {
                 connection.rollback();
             } catch (SQLException exception) {
-                throw new DAOException("Can't handle TransactionDAO.rollback request", exception);
+                throw new DAOException(MESSAGE_TRANSFER_MONEY_ROLLBACK_PROBLEM, exception);
             }
-            throw new DAOException("Can't handle TransfactionDAO.transferMoney request", e);
+            throw new DAOException(MESSAGE_TRANSFER_MONEY_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
 

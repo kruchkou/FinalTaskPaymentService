@@ -1,8 +1,8 @@
 package by.epamtc.paymentservice.dao.impl;
 
 import by.epamtc.paymentservice.bean.User;
-import by.epamtc.paymentservice.dao.UserDAO;
-import by.epamtc.paymentservice.dao.connection.impl.ConnectionPool;
+import by.epamtc.paymentservice.dao.connection.ConnectionPool;
+import by.epamtc.paymentservice.dao.connection.impl.ConnectionPoolImpl;
 import by.epamtc.paymentservice.bean.Card;
 import by.epamtc.paymentservice.dao.exception.DAOException;
 import by.epamtc.paymentservice.dao.CardDAO;
@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * Implementation of {@link CardDAO}. Provides methods to interact with Users data from database.
- * Methods connect to database using {@link Connection} from {@link ConnectionPool} and manipulate with data(save, edit, etc.).
+ * Methods connect to database using {@link Connection} from {@link ConnectionPoolImpl} and manipulate with data(save, edit, etc.).
  *
  */
 public class CardDAOImpl implements CardDAO {
@@ -23,8 +23,8 @@ public class CardDAOImpl implements CardDAO {
     /** Instance of the class */
     private static final CardDAOImpl instance = new CardDAOImpl();
 
-    /** An object of {@link ConnectionPool} */
-    private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
+    /** An object of {@link ConnectionPoolImpl} */
+    private static final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
 
     /** Query for database to add an card */
     private static final String INSERT_CARD_SQL = "INSERT INTO Cards(account,number,owner_name,exp_date,cvv,status) VALUES (?,?,?,?,?,?)";
@@ -47,6 +47,16 @@ public class CardDAOImpl implements CardDAO {
             "JOIN Accounts accounts ON cards.account = accounts.id " +
             "JOIN CardStatuses cardstatus ON cards.status = cardstatus.id " +
             "WHERE (accounts.user = ? AND cards.status = ?)";
+
+    /** Message, that is putted in Exception if there are get card problem */
+    private static final String MESSAGE_GET_CARD_PROBLEM = "Cant handle CardDAO.getCard request";
+
+    /** Message, that is putted in Exception if there are add card problem */
+    private static final String MESSAGE_ADD_CARD_PROBLEM = "Can't handle CardDAO.addCard request";
+
+    /** Message, that is putted in Exception if there are set status by ID problem */
+    private static final String MESSAGE_SET_STATUS_BY_ID_PROBLEM = "Can't handle CardDAO.setStatusByID request";
+
 
     /**
      * Returns the instance of the class
@@ -120,7 +130,7 @@ public class CardDAOImpl implements CardDAO {
                 card.setStatus(status);
             }
         } catch (SQLException e) {
-            throw new DAOException("Cant handle CardDAO.getCard request", e);
+            throw new DAOException(MESSAGE_GET_CARD_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -165,7 +175,7 @@ public class CardDAOImpl implements CardDAO {
                 cardList.add(card);
             }
         } catch (SQLException e) {
-            throw new DAOException("Cant handle CardDAO.getCardListByID request", e);
+            throw new DAOException(MESSAGE_GET_CARD_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -199,7 +209,7 @@ public class CardDAOImpl implements CardDAO {
             ps.execute();
 
         } catch (SQLException e) {
-            throw new DAOException("Can't handle CardDAO.addCard request");
+            throw new DAOException(MESSAGE_ADD_CARD_PROBLEM);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }
@@ -225,7 +235,7 @@ public class CardDAOImpl implements CardDAO {
             ps.setInt(SetStatusByIDIndex.ID, id);
             ps.execute();
         } catch (SQLException e) {
-            throw new DAOException("Can't handle setStatusByID request", e);
+            throw new DAOException(MESSAGE_SET_STATUS_BY_ID_PROBLEM, e);
         } finally {
             connectionPool.closeConnection(connection, ps);
         }

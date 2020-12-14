@@ -1,13 +1,13 @@
 package by.epamtc.paymentservice.controller;
 
-import by.epamtc.paymentservice.bean.ResultCode;
+import by.epamtc.paymentservice.dao.ResultCode;
 import by.epamtc.paymentservice.controller.command.CommandProvider;
 import by.epamtc.paymentservice.bean.SignUpData;
 import by.epamtc.paymentservice.service.exception.ServiceException;
+import by.epamtc.paymentservice.util.DateParser;
 import org.apache.log4j.Logger;
 import by.epamtc.paymentservice.service.ServiceProvider;
 import by.epamtc.paymentservice.service.UserService;
-import by.epamtc.paymentservice.util.UserBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -52,22 +52,22 @@ public class SignUpServlet extends HttpServlet {
         final String surname = req.getParameter(ATTRIBUTE_SURNAME);
         final String patronymic = req.getParameter(ATTRIBUTE_PATRONYMIC);
         final String phoneNumber = req.getParameter(ATTRIBUTE_PHONE_NUMBER);
-        final String birthdate = req.getParameter(ATTRIBUTE_BIRTHDATE);
+        final String birthrate = req.getParameter(ATTRIBUTE_BIRTHDATE);
 
+        final DateParser dateParser = DateParser.getInstance();
         final ServiceProvider serviceProvider = ServiceProvider.getInstance();
         final UserService userService = serviceProvider.getUserService();
 
-        UserBuilder userBuilder = new UserBuilder();
-        userBuilder.setLogin(login);
-        userBuilder.setPassword(password);
-        userBuilder.setName(name);
-        userBuilder.setSurname(surname);
-        userBuilder.setPatronymic(patronymic);
-        userBuilder.setPhoneNumber(phoneNumber);
-        try {
-            userBuilder.setBirthDate(birthdate);
+        SignUpData signUpData = new SignUpData();
 
-            SignUpData signUpData = userBuilder.build();
+        signUpData.setLogin(login);
+        signUpData.setPassword(password);
+        signUpData.setName(name);
+        signUpData.setSurname(surname);
+        signUpData.setPatronymic(patronymic);
+        signUpData.setPhoneNumber(phoneNumber);
+        try {
+            signUpData.setBirthDate(dateParser.parse(birthrate));
 
             ResultCode resultCode = userService.signUp(signUpData);
 
