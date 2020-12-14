@@ -1,13 +1,16 @@
 package by.epamtc.paymentservice.dao.connection.impl;
 
-import java.sql.*;
+import by.epamtc.paymentservice.dao.exception.ConnectionPoolInitError;
+import by.epamtc.paymentservice.dao.exception.DAOException;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-
-import by.epamtc.paymentservice.dao.exception.ConnectionPoolInitError;
-import by.epamtc.paymentservice.dao.exception.DAOException;
 
 public class ConnectionPoolImpl implements by.epamtc.paymentservice.dao.connection.ConnectionPool {
 

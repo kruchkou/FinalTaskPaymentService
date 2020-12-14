@@ -2,7 +2,6 @@ package by.epamtc.paymentservice.controller.command.impl.auth.impl.go;
 
 import by.epamtc.paymentservice.bean.AccountInfo;
 import by.epamtc.paymentservice.controller.command.CommandProvider;
-import by.epamtc.paymentservice.controller.command.impl.admin.impl.go.GoToAdminAccountsCommand;
 import by.epamtc.paymentservice.controller.command.impl.auth.AuthCommand;
 import by.epamtc.paymentservice.service.AccountService;
 import by.epamtc.paymentservice.service.ServiceProvider;
@@ -13,7 +12,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
 
 public class GoToPayTransferToCommand extends AuthCommand {

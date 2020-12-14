@@ -2,7 +2,6 @@ package by.epamtc.paymentservice.controller.command.impl.admin.impl;
 
 import by.epamtc.paymentservice.controller.command.CommandProvider;
 import by.epamtc.paymentservice.controller.command.impl.auth.AuthCommand;
-import by.epamtc.paymentservice.dao.exception.DAOException;
 import by.epamtc.paymentservice.service.AccountService;
 import by.epamtc.paymentservice.service.ServiceProvider;
 import by.epamtc.paymentservice.service.exception.ServiceException;

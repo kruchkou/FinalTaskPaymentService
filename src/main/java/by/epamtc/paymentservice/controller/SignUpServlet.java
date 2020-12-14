@@ -1,13 +1,13 @@
 package by.epamtc.paymentservice.controller;
 
-import by.epamtc.paymentservice.dao.ResultCode;
-import by.epamtc.paymentservice.controller.command.CommandProvider;
 import by.epamtc.paymentservice.bean.SignUpData;
+import by.epamtc.paymentservice.controller.command.CommandProvider;
+import by.epamtc.paymentservice.dao.ResultCode;
+import by.epamtc.paymentservice.service.ServiceProvider;
+import by.epamtc.paymentservice.service.UserService;
 import by.epamtc.paymentservice.service.exception.ServiceException;
 import by.epamtc.paymentservice.util.DateParser;
 import org.apache.log4j.Logger;
-import by.epamtc.paymentservice.service.ServiceProvider;
-import by.epamtc.paymentservice.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

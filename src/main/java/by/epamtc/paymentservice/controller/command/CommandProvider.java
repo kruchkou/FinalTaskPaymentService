@@ -10,7 +10,6 @@ import by.epamtc.paymentservice.controller.command.impl.auth.impl.UploadUserImag
 import by.epamtc.paymentservice.controller.command.impl.auth.impl.go.*;
 import by.epamtc.paymentservice.controller.command.impl.auth.impl.payment.*;
 import by.epamtc.paymentservice.controller.command.impl.go.*;
-import by.epamtc.paymentservice.controller.command.impl.auth.impl.go.GoToPaySelectOrgCommand;
 
 import java.util.HashMap;
 

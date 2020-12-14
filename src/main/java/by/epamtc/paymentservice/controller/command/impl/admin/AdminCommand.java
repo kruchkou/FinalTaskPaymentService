@@ -1,8 +1,8 @@
 package by.epamtc.paymentservice.controller.command.impl.admin;
 
+import by.epamtc.paymentservice.bean.User;
 import by.epamtc.paymentservice.controller.command.Command;
 import by.epamtc.paymentservice.controller.command.CommandProvider;
-import by.epamtc.paymentservice.bean.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

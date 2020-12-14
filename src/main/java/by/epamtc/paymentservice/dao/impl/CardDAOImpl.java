@@ -1,11 +1,11 @@
 package by.epamtc.paymentservice.dao.impl;
 
+import by.epamtc.paymentservice.bean.Card;
 import by.epamtc.paymentservice.bean.User;
+import by.epamtc.paymentservice.dao.CardDAO;
 import by.epamtc.paymentservice.dao.connection.ConnectionPool;
 import by.epamtc.paymentservice.dao.connection.impl.ConnectionPoolImpl;
-import by.epamtc.paymentservice.bean.Card;
 import by.epamtc.paymentservice.dao.exception.DAOException;
-import by.epamtc.paymentservice.dao.CardDAO;
 
 import java.sql.*;
 import java.util.ArrayList;

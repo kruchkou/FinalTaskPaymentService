@@ -1,9 +1,9 @@
 package by.epamtc.paymentservice.controller.command.impl.auth.impl.payment;
 
-import by.epamtc.paymentservice.controller.command.CommandProvider;
-import by.epamtc.paymentservice.controller.command.impl.auth.AuthCommand;
 import by.epamtc.paymentservice.bean.SignInData;
 import by.epamtc.paymentservice.bean.User;
+import by.epamtc.paymentservice.controller.command.CommandProvider;
+import by.epamtc.paymentservice.controller.command.impl.auth.AuthCommand;
 import by.epamtc.paymentservice.service.AccountService;
 import by.epamtc.paymentservice.service.ServiceProvider;
 import by.epamtc.paymentservice.service.UserService;

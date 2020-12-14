@@ -2,7 +2,6 @@ package by.epamtc.paymentservice.service;
 
 import by.epamtc.paymentservice.bean.Account;
 import by.epamtc.paymentservice.bean.AccountInfo;
-import by.epamtc.paymentservice.dao.exception.DAOException;
 import by.epamtc.paymentservice.service.exception.ServiceException;
 
 import java.math.BigDecimal;

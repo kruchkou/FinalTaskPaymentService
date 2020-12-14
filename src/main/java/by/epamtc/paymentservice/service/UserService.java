@@ -1,9 +1,9 @@
 package by.epamtc.paymentservice.service;
 
 import by.epamtc.paymentservice.bean.SignInData;
-import by.epamtc.paymentservice.dao.ResultCode;
 import by.epamtc.paymentservice.bean.SignUpData;
 import by.epamtc.paymentservice.bean.User;
+import by.epamtc.paymentservice.dao.ResultCode;
 import by.epamtc.paymentservice.service.exception.ServiceException;
 
 import java.util.List;

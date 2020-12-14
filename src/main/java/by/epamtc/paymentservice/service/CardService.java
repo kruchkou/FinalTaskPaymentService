@@ -1,7 +1,6 @@
 package by.epamtc.paymentservice.service;
 
 import by.epamtc.paymentservice.bean.Card;
-import by.epamtc.paymentservice.dao.exception.DAOException;
 import by.epamtc.paymentservice.service.exception.ServiceException;
 
 import java.util.List;

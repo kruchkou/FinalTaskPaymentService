@@ -1,11 +1,14 @@
 package by.epamtc.paymentservice.dao.impl;
 
-import by.epamtc.paymentservice.bean.*;
+import by.epamtc.paymentservice.bean.SignInData;
+import by.epamtc.paymentservice.bean.SignUpData;
+import by.epamtc.paymentservice.bean.Status;
+import by.epamtc.paymentservice.bean.User;
 import by.epamtc.paymentservice.dao.ResultCode;
+import by.epamtc.paymentservice.dao.UserDAO;
 import by.epamtc.paymentservice.dao.connection.ConnectionPool;
 import by.epamtc.paymentservice.dao.connection.impl.ConnectionPoolImpl;
 import by.epamtc.paymentservice.dao.exception.DAOException;
-import by.epamtc.paymentservice.dao.UserDAO;
 import by.epamtc.paymentservice.util.StringHasher;
 
 import java.sql.*;

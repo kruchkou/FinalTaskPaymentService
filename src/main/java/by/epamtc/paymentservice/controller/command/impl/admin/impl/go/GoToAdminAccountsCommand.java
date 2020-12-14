@@ -1,11 +1,10 @@
 package by.epamtc.paymentservice.controller.command.impl.admin.impl.go;
 
-import by.epamtc.paymentservice.controller.command.CommandProvider;
 import by.epamtc.paymentservice.bean.AccountInfo;
-import by.epamtc.paymentservice.dao.exception.DAOException;
+import by.epamtc.paymentservice.controller.command.CommandProvider;
+import by.epamtc.paymentservice.controller.command.impl.admin.AdminCommand;
 import by.epamtc.paymentservice.service.AccountService;
 import by.epamtc.paymentservice.service.ServiceProvider;
-import by.epamtc.paymentservice.controller.command.impl.admin.AdminCommand;
 import by.epamtc.paymentservice.service.exception.ServiceException;
 import org.apache.log4j.Logger;
 
