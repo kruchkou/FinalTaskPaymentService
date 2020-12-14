@@ -1,16 +1,16 @@
 package by.epamtc.paymentservice.controller.command.impl.auth.impl;
 
-import by.epamtc.paymentservice.dao.ResultCode;
 import by.epamtc.paymentservice.bean.SignInData;
 import by.epamtc.paymentservice.bean.SignUpData;
+import by.epamtc.paymentservice.bean.User;
 import by.epamtc.paymentservice.controller.command.CommandProvider;
 import by.epamtc.paymentservice.controller.command.impl.auth.AuthCommand;
-import by.epamtc.paymentservice.bean.User;
+import by.epamtc.paymentservice.dao.ResultCode;
+import by.epamtc.paymentservice.service.ServiceProvider;
+import by.epamtc.paymentservice.service.UserService;
 import by.epamtc.paymentservice.service.exception.ServiceException;
 import by.epamtc.paymentservice.util.DateParser;
 import org.apache.log4j.Logger;
-import by.epamtc.paymentservice.service.ServiceProvider;
-import by.epamtc.paymentservice.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +37,7 @@ public class PersonalEditCommand extends AuthCommand {
     private static final String MESSAGE_WRONG_PASSWORD = "Неверный пароль";
     private static final String MESSAGE_DUPLICATE_LOGIN = "Логин заняли перед вами. Выберите новый";
     private static final String PERSONAL_EDIT_PAGE_URL = "WEB-INF/personal_edit.jsp";
-    private static final String PERSONAL_PAGE_URL = "WEB-INF/personal_page.jsp";
+    private static final String PERSONAL_PAGE_URL = "WEB-INF/user_about.jsp";
 
     @Override
     protected void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

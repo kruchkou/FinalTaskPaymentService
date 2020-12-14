@@ -1,13 +1,16 @@
 package by.epamtc.paymentservice.dao.impl;
 
-import by.epamtc.paymentservice.dao.connection.ConnectionPool;
-import by.epamtc.paymentservice.dao.connection.impl.ConnectionPoolImpl;
 import by.epamtc.paymentservice.bean.Organization;
 import by.epamtc.paymentservice.bean.Status;
-import by.epamtc.paymentservice.dao.exception.DAOException;
 import by.epamtc.paymentservice.dao.OrganizationDAO;
+import by.epamtc.paymentservice.dao.connection.ConnectionPool;
+import by.epamtc.paymentservice.dao.connection.impl.ConnectionPoolImpl;
+import by.epamtc.paymentservice.dao.exception.DAOException;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -447,8 +450,6 @@ public class OrganizationDAOImpl implements OrganizationDAO {
             ps.setInt(AddOrganizationIndex.ACCOUNT, accountID);
             ps.setInt(AddOrganizationIndex.STATUS, STATUS_OPENED);
             ps.execute();
-
-            connection.commit();
 
         } catch (SQLException e) {
             throw new DAOException(MESSAGE_ADD_ORGANIZATION_PROBLEM);

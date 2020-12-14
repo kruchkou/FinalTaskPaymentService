@@ -1,9 +1,9 @@
 package by.epamtc.paymentservice.service.impl;
 
 import by.epamtc.paymentservice.bean.Organization;
-import by.epamtc.paymentservice.dao.exception.DAOException;
 import by.epamtc.paymentservice.dao.DAOProvider;
 import by.epamtc.paymentservice.dao.OrganizationDAO;
+import by.epamtc.paymentservice.dao.exception.DAOException;
 import by.epamtc.paymentservice.service.OrganizationService;
 import by.epamtc.paymentservice.service.exception.ServiceException;
 
@@ -11,8 +11,8 @@ import java.util.List;
 
 public class OrganizationServiceImpl implements OrganizationService {
 
-    private final DAOProvider daoProvider = DAOProvider.getInstance();
-    private final OrganizationDAO organizationDAO = daoProvider.getOrganizationDAO();
+    private static final DAOProvider daoProvider = DAOProvider.getInstance();
+    private static final OrganizationDAO organizationDAO = daoProvider.getOrganizationDAO();
 
     @Override
     public List<Organization> getOrgList() throws ServiceException {

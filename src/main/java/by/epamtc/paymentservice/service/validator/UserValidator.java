@@ -9,8 +9,12 @@ import java.util.regex.Pattern;
 
 public class UserValidator {
 
+    private static final String REGEXP_PHONE_NUM = "regexp.phone_number";
+    private static final String REGEXP_USER_FIO = "regexp.user_fio";
+    private static final String REGEXP_LOGIN = "regexp.login";
+
     private static final UserValidator instance = new UserValidator();
-    private final RegexpPropertyUtil regexpPropertyUtil = RegexpPropertyUtil.getInstance();
+    private static final RegexpPropertyUtil regexpPropertyUtil = RegexpPropertyUtil.getInstance();
 
     private UserValidator() {
     }
@@ -20,34 +24,14 @@ public class UserValidator {
     }
 
     public boolean validate(SignUpData signUpData) {
-        String login = signUpData.getLogin();
-        String name = signUpData.getName();
-        String surname = signUpData.getSurname();
-        String patronymic = signUpData.getPatronymic();
-        String phoneNumber = signUpData.getPhoneNumber();
-
-        if (!validateLogin(login)) {
-            return false;
-        }
-        if (!validateFIO(name)) {
-            return false;
-        }
-        if (!validateFIO(surname)) {
-            return false;
-        }
-        if (!validateFIO(patronymic)) {
-            return false;
-        }
-        return validatePhoneNumber(phoneNumber);
+        return validateData(signUpData.getLogin(), signUpData.getName(), signUpData.getSurname(), signUpData.getPatronymic(), signUpData.getPhoneNumber());
     }
 
     public boolean validate(User user) {
-        String login = user.getLogin();
-        String name = user.getName();
-        String surname = user.getSurname();
-        String patronymic = user.getPatronymic();
-        String phoneNumber = user.getPhoneNumber();
+        return validateData(user.getLogin(), user.getName(), user.getSurname(), user.getPatronymic(), user.getPhoneNumber());
+    }
 
+    private boolean validateData(String login, String name, String surname, String patronymic, String phoneNumber) {
         if (!validateLogin(login)) {
             return false;
         }
@@ -64,28 +48,21 @@ public class UserValidator {
     }
 
     private boolean validateLogin(String login) {
-        final String REGEXP_LOGIN = "regexp.login";
-
-        Pattern pattern = Pattern.compile(regexpPropertyUtil.getProperty(REGEXP_LOGIN));
-        Matcher matcher = pattern.matcher(login);
-
-        return matcher.find();
+        return isMatchFounded(login, regexpPropertyUtil.getProperty(REGEXP_LOGIN));
     }
 
     private boolean validateFIO(String fio) {
-        final String REGEXP_USER_FIO = "regexp.user_fio";
-
-        Pattern pattern = Pattern.compile(regexpPropertyUtil.getProperty(REGEXP_USER_FIO));
-        Matcher matcher = pattern.matcher(fio);
-
-        return matcher.find();
+        return isMatchFounded(fio, regexpPropertyUtil.getProperty(REGEXP_USER_FIO));
     }
 
     private boolean validatePhoneNumber(String phoneNumber) {
-        final String REGEXP_PHONE_NUM = "regexp.phone_number";
+        return isMatchFounded(phoneNumber, regexpPropertyUtil.getProperty(REGEXP_PHONE_NUM));
+    }
 
-        Pattern pattern = Pattern.compile(regexpPropertyUtil.getProperty(REGEXP_PHONE_NUM));
-        Matcher matcher = pattern.matcher(phoneNumber);
+    private boolean isMatchFounded(String text, String regex) {
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(text);
 
         return matcher.find();
     }

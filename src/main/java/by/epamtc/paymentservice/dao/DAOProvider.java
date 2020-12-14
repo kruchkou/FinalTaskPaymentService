@@ -10,15 +10,15 @@ public class DAOProvider {
     /** Instance of the class */
     private static final DAOProvider instance = new DAOProvider();
     /** An object of {@link UserDAOImpl} */
-    private final UserDAO userDAO = UserDAOImpl.getInstance();
+    private static final UserDAO userDAO = UserDAOImpl.getInstance();
     /** An object of {@link CardDAOImpl} */
-    private final CardDAO cardDAO = CardDAOImpl.getInstance();
+    private static final CardDAO cardDAO = CardDAOImpl.getInstance();
     /** An object of {@link PaymentDAOImpl} */
-    private final PaymentDAO paymentDAO = PaymentDAOImpl.getInstance();
+    private static final PaymentDAO paymentDAO = PaymentDAOImpl.getInstance();
     /** An object of {@link OrganizationDAOImpl} */
-    private final OrganizationDAO organizationDAO = OrganizationDAOImpl.getInstance();
+    private static final OrganizationDAO organizationDAO = OrganizationDAOImpl.getInstance();
     /** An object of {@link AccountDAOImpl} */
-    private final AccountDAO accountDAO = AccountDAOImpl.getInstance();
+    private static final AccountDAO accountDAO = AccountDAOImpl.getInstance();
 
     /** Private constructor without parameters */
     private DAOProvider() {

@@ -1,30 +1,24 @@
 package by.epamtc.paymentservice.controller.command.impl.auth.impl;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-
+import by.epamtc.paymentservice.bean.User;
 import by.epamtc.paymentservice.controller.command.CommandProvider;
 import by.epamtc.paymentservice.controller.command.impl.auth.AuthCommand;
-import by.epamtc.paymentservice.bean.User;
-import by.epamtc.paymentservice.dao.exception.DAOException;
 import by.epamtc.paymentservice.service.ServiceProvider;
 import by.epamtc.paymentservice.service.UserService;
 import by.epamtc.paymentservice.service.exception.ServiceException;
 import org.apache.log4j.Logger;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import java.io.*;
+
 public class UploadUserImageCommand extends AuthCommand {
 
     private static final Logger logger = Logger.getLogger(UploadUserImageCommand.class);
 
-//    private static final String PROJECT_PATH = "/home/kruchkou/Документы/PaymentService/web/";
-private static final String PROJECT_PATH = "/opt/tomcat/webapps/web_war_exploded/";
+    private static final String PROJECT_PATH = "/opt/tomcat/webapps/paymentservice/";
     private static final String IMG_FOLDER_PATH = "img/users/";
     private static final String FILENAME_EXTENSION = ".jpg";
     private static final String ATTRIBUTE_PART = "file";
@@ -43,8 +37,8 @@ private static final String PROJECT_PATH = "/opt/tomcat/webapps/web_war_exploded
         final String IMAGE_LOCATION = IMG_FOLDER_PATH+user.getLogin()+FILENAME_EXTENSION;
 
         Part inputFile;
-        InputStream inputStream = null;
-        OutputStream outStream = null;
+        InputStream inputStream;
+        OutputStream outStream;
 
         try {
             inputFile = req.getPart(ATTRIBUTE_PART);

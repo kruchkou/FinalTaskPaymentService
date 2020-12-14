@@ -1,9 +1,9 @@
 package by.epamtc.paymentservice.service.impl;
 
 import by.epamtc.paymentservice.bean.Payment;
-import by.epamtc.paymentservice.dao.exception.DAOException;
 import by.epamtc.paymentservice.dao.DAOProvider;
 import by.epamtc.paymentservice.dao.PaymentDAO;
+import by.epamtc.paymentservice.dao.exception.DAOException;
 import by.epamtc.paymentservice.service.PaymentService;
 import by.epamtc.paymentservice.service.exception.ServiceException;
 import by.epamtc.paymentservice.service.validator.PaymentValidator;
@@ -13,9 +13,9 @@ import java.util.List;
 
 public class PaymentServiceImpl implements PaymentService {
 
-    private final PaymentValidator paymentValidator = PaymentValidator.getInstance();
-    private final DAOProvider daoProvider = DAOProvider.getInstance();
-    private final PaymentDAO paymentDAO = daoProvider.getPaymentDAO();
+    private static final PaymentValidator paymentValidator = PaymentValidator.getInstance();
+    private static final DAOProvider daoProvider = DAOProvider.getInstance();
+    private static final PaymentDAO paymentDAO = daoProvider.getPaymentDAO();
 
     @Override
     public List<Payment> getInPaymentListByAccountID(int accountID) throws ServiceException {

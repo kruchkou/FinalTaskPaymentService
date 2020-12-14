@@ -2,9 +2,9 @@ package by.epamtc.paymentservice.service.impl;
 
 import by.epamtc.paymentservice.bean.Account;
 import by.epamtc.paymentservice.bean.AccountInfo;
-import by.epamtc.paymentservice.dao.exception.DAOException;
 import by.epamtc.paymentservice.dao.AccountDAO;
 import by.epamtc.paymentservice.dao.DAOProvider;
+import by.epamtc.paymentservice.dao.exception.DAOException;
 import by.epamtc.paymentservice.service.AccountService;
 import by.epamtc.paymentservice.service.exception.ServiceException;
 
@@ -13,8 +13,8 @@ import java.util.List;
 
 public class AccountServiceImpl implements AccountService {
 
-    private final DAOProvider daoProvider = DAOProvider.getInstance();
-    private final AccountDAO accountDAO = daoProvider.getAccountDAO();
+    private static final DAOProvider daoProvider = DAOProvider.getInstance();
+    private static final AccountDAO accountDAO = daoProvider.getAccountDAO();
 
     @Override
     public void addAccount(int userID) throws ServiceException {

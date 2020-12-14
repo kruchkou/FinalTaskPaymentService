@@ -8,8 +8,12 @@ import java.util.regex.Pattern;
 
 public class CardValidator {
 
+    private static final String REGEXP_CARD_NUMBER = "regexp.card_number";
+    private static final String REGEXP_OWNER_NAME = "regexp.card_ownername";
+    private static final String REGEXP_CARD_CVV = "regexp.card_cvv";
+
     private static final CardValidator instance = new CardValidator();
-    private final RegexpPropertyUtil regexpPropertyUtil = RegexpPropertyUtil.getInstance();
+    private static final RegexpPropertyUtil regexpPropertyUtil = RegexpPropertyUtil.getInstance();
 
     private CardValidator() {
     }
@@ -33,29 +37,23 @@ public class CardValidator {
     }
 
     private boolean validateNumber(String number) {
-        final String REGEXP_CARD_NUMBER = "regexp.card_number";
-
-        Pattern pattern = Pattern.compile(regexpPropertyUtil.getProperty(REGEXP_CARD_NUMBER));
-        Matcher matcher = pattern.matcher(number);
-
-        return matcher.find();
+        return isMatchFounded(number,regexpPropertyUtil.getProperty(REGEXP_CARD_NUMBER));
     }
 
     private boolean validateOwnerName(String ownerName) {
-        final String REGEXP_OWNER_NAME = "regexp.card_ownername";
-
-        Pattern pattern = Pattern.compile(regexpPropertyUtil.getProperty(REGEXP_OWNER_NAME));
-        Matcher matcher = pattern.matcher(ownerName);
-
-        return matcher.find();
+        return isMatchFounded(ownerName,regexpPropertyUtil.getProperty(REGEXP_OWNER_NAME));
     }
 
     private boolean validateCvv(String cvv) {
-        final String REGEXP_CARD_CVV = "regexp.card_cvv";
+        return isMatchFounded(cvv, regexpPropertyUtil.getProperty(REGEXP_CARD_CVV));
+    }
 
-        Pattern pattern = Pattern.compile(regexpPropertyUtil.getProperty(REGEXP_CARD_CVV));
-        Matcher matcher = pattern.matcher(cvv);
+    private boolean isMatchFounded(String text, String regex) {
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(text);
 
         return matcher.find();
     }
+
 }

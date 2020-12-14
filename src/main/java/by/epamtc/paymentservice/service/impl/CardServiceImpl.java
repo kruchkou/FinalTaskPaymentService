@@ -1,9 +1,9 @@
 package by.epamtc.paymentservice.service.impl;
 
 import by.epamtc.paymentservice.bean.Card;
-import by.epamtc.paymentservice.dao.exception.DAOException;
 import by.epamtc.paymentservice.dao.CardDAO;
 import by.epamtc.paymentservice.dao.DAOProvider;
+import by.epamtc.paymentservice.dao.exception.DAOException;
 import by.epamtc.paymentservice.service.CardService;
 import by.epamtc.paymentservice.service.exception.ServiceException;
 import by.epamtc.paymentservice.service.validator.CardValidator;
@@ -12,9 +12,9 @@ import java.util.List;
 
 public class CardServiceImpl implements CardService {
 
-    private final DAOProvider daoProvider = DAOProvider.getInstance();
-    private final CardDAO cardDAO = daoProvider.getCardDAO();
-    private final CardValidator cardValidator = CardValidator.getInstance();
+    private static final DAOProvider daoProvider = DAOProvider.getInstance();
+    private static final CardDAO cardDAO = daoProvider.getCardDAO();
+    private static final CardValidator cardValidator = CardValidator.getInstance();
 
     @Override
     public List<Card> getCardListByAccountID(int accountID) throws ServiceException {

@@ -1,12 +1,12 @@
 package by.epamtc.paymentservice.service.impl;
 
 import by.epamtc.paymentservice.bean.SignInData;
-import by.epamtc.paymentservice.dao.ResultCode;
 import by.epamtc.paymentservice.bean.SignUpData;
 import by.epamtc.paymentservice.bean.User;
-import by.epamtc.paymentservice.dao.exception.DAOException;
 import by.epamtc.paymentservice.dao.DAOProvider;
+import by.epamtc.paymentservice.dao.ResultCode;
 import by.epamtc.paymentservice.dao.UserDAO;
+import by.epamtc.paymentservice.dao.exception.DAOException;
 import by.epamtc.paymentservice.service.UserService;
 import by.epamtc.paymentservice.service.exception.ServiceException;
 import by.epamtc.paymentservice.service.validator.UserValidator;
@@ -15,9 +15,9 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
-    private final UserValidator userValidator = UserValidator.getInstance();
-    private final DAOProvider daoProvider = DAOProvider.getInstance();
-    private final UserDAO userDAO = daoProvider.getUserDAO();
+    private static final UserValidator userValidator = UserValidator.getInstance();
+    private static final DAOProvider daoProvider = DAOProvider.getInstance();
+    private static final UserDAO userDAO = daoProvider.getUserDAO();
 
     @Override
     public User signIn(SignInData signInData) throws ServiceException {

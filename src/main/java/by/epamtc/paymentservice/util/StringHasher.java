@@ -4,7 +4,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class StringHasher {
 
-    private static StringHasher instance = new StringHasher();
+    private static final StringHasher instance = new StringHasher();
 
     private StringHasher() {
     }

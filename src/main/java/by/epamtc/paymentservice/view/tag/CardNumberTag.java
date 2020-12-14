@@ -7,6 +7,9 @@ import java.io.IOException;
 
 public class CardNumberTag extends TagSupport {
 
+    private static final String STRING_REPLACE_NUMS = "●●●● ●●●●";
+    private static final String MESSAGE_CANT_WRITE_EXCEPTION = "Can't write to JspWriter";
+
     private String cardNumber;
 
     public String getCardNumber() {
@@ -19,11 +22,12 @@ public class CardNumberTag extends TagSupport {
 
     @Override
     public int doStartTag() throws JspException {
-        final String STRING_REPLACE_NUMS = "●●●● ●●●●";
+
         JspWriter out = pageContext.getOut();
 
-        String FIRST_FOUR_NUMS = null;
-        String LAST_FOUR_NUMS = null;
+        String FIRST_FOUR_NUMS;
+        String LAST_FOUR_NUMS;
+
         try {
             if (cardNumber == null || cardNumber.length() != 16) {
                 out.write("---- ---- ---- ----");
@@ -34,7 +38,7 @@ public class CardNumberTag extends TagSupport {
                 out.write(FIRST_FOUR_NUMS + " " + STRING_REPLACE_NUMS + " " + LAST_FOUR_NUMS);
             }
         } catch (IOException e) {
-            throw new JspException("Can't write to JspWriter",e);
+            throw new JspException(MESSAGE_CANT_WRITE_EXCEPTION,e);
         }
         return SKIP_BODY;
     }
