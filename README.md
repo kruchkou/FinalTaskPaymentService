@@ -2,7 +2,7 @@ QUICKPAY. PAYMENT SERVICE.
 ===
 Final Project at EPAM. By Kruchkou.
 ---
-###QUICKPAY is a web application providing users ability to pay or make transfers instantly.
+### QUICKPAY is a web application providing users ability to pay or make transfers instantly.
 
 ---
 Main objects are accounts.
