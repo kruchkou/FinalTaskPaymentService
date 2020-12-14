@@ -21,7 +21,7 @@ Administrator can:
 
 ---
 
-###Technologies used:
+### Technologies used:
 * Java EE
 * MySQL
 * Bootstrap
